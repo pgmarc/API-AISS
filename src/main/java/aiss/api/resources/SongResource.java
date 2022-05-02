@@ -21,7 +21,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import aiss.model.Playlist;
 import aiss.model.Song;
-import aiss.model.repository.MapPlaylistRepository;
+import aiss.model.repository.MapApplicationRepository;
 import aiss.model.repository.PlaylistRepository;
 
 import java.net.URI;
@@ -39,7 +39,7 @@ public class SongResource {
 	PlaylistRepository repository;
 	
 	private SongResource(){
-		repository=MapPlaylistRepository.getInstance();
+		repository=MapApplicationRepository.getInstance();
 	}
 	
 	public static SongResource getInstance()
@@ -66,6 +66,7 @@ public class SongResource {
 		return result;
 	}
 	
+	// attr = []
 	
 	@GET
 	@Path("/{id}")

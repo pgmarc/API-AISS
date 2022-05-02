@@ -28,7 +28,7 @@ import aiss.api.resources.comparators.ComparatorNamePlaylist;
 import aiss.api.resources.comparators.ComparatorNamePlaylistReversed;
 import aiss.model.Playlist;
 import aiss.model.Song;
-import aiss.model.repository.MapPlaylistRepository;
+import aiss.model.repository.MapApplicationRepository;
 import aiss.model.repository.PlaylistRepository;
 
 @Path("/lists")
@@ -39,7 +39,7 @@ public class PlaylistResource {
 	PlaylistRepository repository;
 	
 	private PlaylistResource() {
-		repository=MapPlaylistRepository.getInstance();
+		repository=MapApplicationRepository.getInstance();
 
 	}
 	

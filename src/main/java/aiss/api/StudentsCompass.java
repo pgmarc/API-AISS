@@ -8,13 +8,13 @@ import aiss.api.resources.PlaylistResource;
 import aiss.api.resources.SongResource;
 
 
-public class MusicApplication extends Application {
+public class StudentsCompass extends Application {
 	private Set<Object> singletons = new HashSet<Object>();
 	private Set<Class<?>> classes = new HashSet<Class<?>>();
 
 	// Loads all resources that are implemented in the application
 	// so that they can be found by RESTEasy.
-	public MusicApplication() {
+	public StudentsCompass() {
 
 		singletons.add(PlaylistResource.getInstance());
 		singletons.add(SongResource.getInstance());
