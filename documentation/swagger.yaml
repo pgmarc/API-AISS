@@ -10,209 +10,162 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http//pingo
+  description: Production API server
+- url: "http://localhost:{port}"
+  description: Development server
+  variables:
+    port:
+      enum:
+      - "8089"
+      default: "8089"
 tags:
-  - name: accomodations
-    description: Everything about places where to live
-  - name: restaurants
-    description: Places where to eat and drink
-  - name: culture
-  - name: recreational
-    description: Places and events for entertainment
+- name: places
+  description: Interesting places
 paths:
-  /accomodations:
+  /places:
     get:
       tags:
-        - accomodations
-      summary: Returns all accomodations in the system.
+      - places
+      summary: Get all places
+      description: Get all places
+      operationId: getAllPlaces
       responses:
-        '200':
-          description: Successful
+        "200":
+          description: List of places
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Places'
+              examples:
+                Place:
+                  $ref: '#/components/examples/Place1'
+                Place1:
+                  $ref: '#/components/examples/Place2'
     post:
       tags:
-        - accomodations
+      - places
+      summary: Creates new places
+      description: Creates new places with the given payload
+      operationId: addPlaces
+      requestBody:
+        description: Payload of the place
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+        required: true
       responses:
-        '200':
-          description: Successful
-  /accomodations/{accId}:
-    put:
-      tags:
-        - accomodations
-      parameters:
-        - name: accId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful
-    delete:
-      tags:
-        - accomodations
-      parameters:
-        - name: accId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful
-  /restaurants:
+        "201":
+          description: Succesfully created place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+  /places/{placeId}:
     get:
       tags:
-        - restaurants
-      responses:
-        '200':
-          description: Successful
-    post:
-      tags:
-        - restaurants
-      responses:
-        '200':
-          description: Successful
-  /restaurants/{restId}:
-    put:
-      tags:
-        - restaurants
+      - places
+      summary: Get a place by id
+      description: Get a place by id
+      operationId: getAPlace
       parameters:
-        - name: restId
-          in: path
-          required: true
-          schema:
-            type: integer
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
       responses:
-        '200':
-          description: Successful
-    delete:
-      tags:
-        - restaurants
-      parameters:
-        - name: restId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful
-  /culture:
-    get:
-      tags:
-        - culture
-      responses:
-        '200':
-          description: Successful
-    post:
-      tags:
-        - culture
-      responses:
-        '200':
-          description: Successful
-  /culture/{cultureId}:
-    put:
-      tags:
-        - culture
-      responses:
-        '200':
-          description: Successful
-      parameters:
-        - name: cultureId
-          in: path
-          required: true
-          schema:
-            type: integer
-    delete:
-      tags:
-        - culture
-      parameters:
-        - name: cultureId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful
-  /recreational:
-    get:
-      tags:
-        - recreational
-      responses:
-        '200':
-          description: Successful
-    post:
-      tags:
-        - recreational
-      responses:
-        '200':
-          description: Successful
-  /recreational/{recId}:
-    put:
-      tags:
-        - recreational
-      parameters:
-        - name: recId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful
-    delete:
-      tags:
-        - recreational
-      parameters:
-        - name: recId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful
-    
+        "200":
+          description: Values retrieved of a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
 components:
   schemas:
-    Accomodation:
+    Coordinates:
+      required:
+      - latitude
+      - longitude
       type: object
       properties:
-        id:
-          type: integer
-    Restaurant:
+        latitude:
+          maximum: 90
+          minimum: -90
+          type: number
+          description: The latitude of the place
+          format: double
+        longitude:
+          maximum: 180
+          minimum: -180
+          type: number
+          description: The longitude of the place
+          format: double
+    Place:
+      required:
+      - address
+      - location
+      - name
       type: object
       properties:
-        id:
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        rating:
           type: integer
-    Culture:
-      type: object
-      properties:
-        id:
-          type: integer
-    Recreational:
-      type: object
-      properties:
-        id:
-          type: integer
+          format: int32
+        website:
+          type: string
+        location:
+          $ref: '#/components/schemas/Coordinates'
+    Places:
+      type: array
+      items:
+        $ref: '#/components/schemas/Place'
+  examples:
+    Place1:
+      summary: Gran ilustre place
+      description: Example the library gran ilustre
+      value:
+        name: La biblioteca del gran ilustre
+        email: ilustre@gmail.com
+        address: Gran ilustre s/n
+        rating: 5
+        web: granilustre.com
+        location:
+          latitude: 40.0
+          longitude: -65.4
+    Place2:
+      description: Example of a Place1
+      value:
+        name: La biblioteca del gran ilustre 1
+        email: ilustre@gmail.com
+        address: Gran ilustre s/n
+        rating: 5
+        web: granilustre.com
+        location:
+          latitude: 40.0
+          longitude: -65.4
   requestBodies:
-    Accomodation:
+    Coordinates:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Accomodation'
-    Restaurant:
+            $ref: '#/components/schemas/Coordinates'
+    Place:
+      description: Place to add
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Restaurant'
-    Recreational:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Recreational'
-    Culture:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Culture'
+            $ref: '#/components/schemas/Place'
