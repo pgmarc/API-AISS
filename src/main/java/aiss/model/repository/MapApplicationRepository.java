@@ -1,17 +1,20 @@
 package aiss.model.repository;
 
 import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import aiss.model.Playlist;
 import aiss.model.Song;
+import aiss.model.Event;
 
 
-public class MapApplicationRepository implements PlaylistRepository{
+public class MapApplicationRepository implements PlaylistRepository, EventsRepository{
 
 	Map<String, Playlist> playlistMap;
 	Map<String, Song> songMap;
+	Map<String, Event>eventsMap;
 	private static MapApplicationRepository instance=null;
 	private int index=0;			// Index to create playlists and songs' identifiers.
 	
@@ -30,6 +33,7 @@ public class MapApplicationRepository implements PlaylistRepository{
 		
 		playlistMap = new HashMap<String,Playlist>();
 		songMap = new HashMap<String,Song>();
+		eventsMap = new HashMap<String, Event>();
 		
 		// Create songs
 		Song rollingInTheDeep=new Song();
@@ -165,6 +169,40 @@ public class MapApplicationRepository implements PlaylistRepository{
 	@Override
 	public void deleteSong(String songId) {
 		songMap.remove(songId);
+	}
+
+	@Override
+	public void addEvent(Event event) {
+		String id = "event" + index++;	
+		event.setId(id);
+		eventsMap.put(id,event);
+		
+	}
+
+	@Override
+	public Collection<Event> getAllEvents() {
+		return eventsMap.values();
+	}
+
+	@Override
+	public Event getEvents(Integer eventId) {
+		return eventsMap.get(eventId);
+	}
+
+	@Override
+	public void updateEvent(Event event) {
+		Event e = eventsMap.get(event.getId());
+		e.setName(e.getName());
+		e.setAlbum(e.getDescription());
+		e.setArtist(e.getDate());
+		e.setYear(e.getPrice());
+		
+	}
+
+	@Override
+	public void deleteEvent(Integer eventId) {
+		eventsMap.remove(eventId);// TODO Auto-generated method stub
+		
 	}
 	
 }
