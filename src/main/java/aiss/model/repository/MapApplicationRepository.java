@@ -4,14 +4,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import aiss.model.Event;
 import aiss.model.Playlist;
 import aiss.model.Song;
 
 
-public class MapApplicationRepository implements PlaylistRepository{
+public class MapApplicationRepository implements PlaylistRepository, EventRepository{
 
 	Map<String, Playlist> playlistMap;
 	Map<String, Song> songMap;
+	Map<Integer, Event> eventMap;
 	private static MapApplicationRepository instance=null;
 	private int index=0;			// Index to create playlists and songs' identifiers.
 	
@@ -30,6 +32,7 @@ public class MapApplicationRepository implements PlaylistRepository{
 		
 		playlistMap = new HashMap<String,Playlist>();
 		songMap = new HashMap<String,Song>();
+		eventMap = new HashMap<Integer,Event>();
 		
 		// Create songs
 		Song rollingInTheDeep=new Song();
@@ -165,6 +168,38 @@ public class MapApplicationRepository implements PlaylistRepository{
 	@Override
 	public void deleteSong(String songId) {
 		songMap.remove(songId);
+	}
+
+	@Override
+	public void addEvent(Event e) {
+		Integer id = index++;	
+		e.setIndex(id);
+		eventMap.put(id,e);
+		
+	}
+
+	@Override
+	public Collection<Event> getAllEvents() {
+		return eventMap.values();
+	
+	}
+
+
+	@Override
+	public Event getEvent(Integer eventId) {
+		return eventMap.get(eventId);
+	}
+
+	@Override
+	public void updateEvent(Event e) {
+		eventMap.put(e.getIndex(),e);
+		
+	}
+
+	@Override
+	public void deleteEvent(Integer eventId) {
+		eventMap.remove(eventId);
+		
 	}
 	
 }
