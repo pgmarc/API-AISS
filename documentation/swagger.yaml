@@ -91,6 +91,70 @@ paths:
                 $ref: '#/components/schemas/Place'
 components:
   schemas:
+    Accomodations:
+      type: object
+      properties:
+        roomNumbers:
+          type: integer
+        area:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+    Reviews:
+      type: object
+      properties:
+        username:
+          type: string
+        description:
+          type: string
+        rating:
+          type: integer
+        date:
+          type: string
+          format: date-time
+    Events:
+      required:
+      - date
+      - email
+      - location
+      - name
+      - organizers
+      - price
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        website:
+          type: string
+        email:
+          type: string
+        types:
+          type: string
+          enum:
+          - music
+          - theater
+          - art
+          - cultural
+        transport:
+          type: string
+          enum:
+          - bus
+          - train
+          - bicycle
+          - underground
+        organizers:
+          type: string
     Coordinates:
       required:
       - latitude
@@ -124,11 +188,19 @@ components:
           type: string
         rating:
           type: integer
+          description: The average of all the reviews of the users
           format: int32
         website:
           type: string
+        details:
+          oneOf:
+          - $ref: '#/components/schemas/Accomodations'
         location:
           $ref: '#/components/schemas/Coordinates'
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reviews'
     Places:
       type: array
       items:
