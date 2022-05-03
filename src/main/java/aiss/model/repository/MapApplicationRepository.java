@@ -1,19 +1,29 @@
 package aiss.model.repository;
 
 import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import aiss.model.Event;
 import aiss.model.Playlist;
 import aiss.model.Song;
+import aiss.model.Event;
 
 
+<<<<<<< HEAD
 public class MapApplicationRepository implements PlaylistRepository, EventRepository{
 
 	Map<String, Playlist> playlistMap;
 	Map<String, Song> songMap;
 	Map<Integer, Event> eventMap;
+=======
+public class MapApplicationRepository implements PlaylistRepository, EventsRepository{
+
+	Map<String, Playlist> playlistMap;
+	Map<String, Song> songMap;
+	Map<String, Event>eventsMap;
+>>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
 	private static MapApplicationRepository instance=null;
 	private int index=0;			// Index to create playlists and songs' identifiers.
 	
@@ -32,7 +42,11 @@ public class MapApplicationRepository implements PlaylistRepository, EventReposi
 		
 		playlistMap = new HashMap<String,Playlist>();
 		songMap = new HashMap<String,Song>();
+<<<<<<< HEAD
 		eventMap = new HashMap<Integer,Event>();
+=======
+		eventsMap = new HashMap<String, Event>();
+>>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
 		
 		// Create songs
 		Song rollingInTheDeep=new Song();
@@ -171,15 +185,23 @@ public class MapApplicationRepository implements PlaylistRepository, EventReposi
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void addEvent(Event e) {
 		Integer id = index++;	
 		e.setIndex(id);
 		eventMap.put(id,e);
+=======
+	public void addEvent(Event event) {
+		String id = "event" + index++;	
+		event.setId(id);
+		eventsMap.put(id,event);
+>>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
 		
 	}
 
 	@Override
 	public Collection<Event> getAllEvents() {
+<<<<<<< HEAD
 		return eventMap.values();
 	
 	}
@@ -193,12 +215,33 @@ public class MapApplicationRepository implements PlaylistRepository, EventReposi
 	@Override
 	public void updateEvent(Event e) {
 		eventMap.put(e.getIndex(),e);
+=======
+		return eventsMap.values();
+	}
+
+	@Override
+	public Event getEvents(Integer eventId) {
+		return eventsMap.get(eventId);
+	}
+
+	@Override
+	public void updateEvent(Event event) {
+		Event e = eventsMap.get(event.getId());
+		e.setName(e.getName());
+		e.setAlbum(e.getDescription());
+		e.setArtist(e.getDate());
+		e.setYear(e.getPrice());
+>>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
 		
 	}
 
 	@Override
 	public void deleteEvent(Integer eventId) {
+<<<<<<< HEAD
 		eventMap.remove(eventId);
+=======
+		eventsMap.remove(eventId);// TODO Auto-generated method stub
+>>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
 		
 	}
 	
