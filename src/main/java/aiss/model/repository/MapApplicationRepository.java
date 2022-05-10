@@ -1,14 +1,16 @@
 package aiss.model.repository;
 
 import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import aiss.model.Coordinates;
 import aiss.model.Place;
+import aiss.model.Event;
 
-public class MapApplicationRepository implements PlaceRepository {
-	
+public class MapApplicationRepository implements PlaylistRepository, EventsRepository {
+
 	private Map<Integer, Place> placesMap;
 	private static MapApplicationRepository instance = null;
 	private Integer placeIndex = 0;
@@ -32,6 +34,7 @@ public class MapApplicationRepository implements PlaceRepository {
 		place1.setWebsite("https://goo.gl");
 		place1.setLocation(Coordinates.of(48.8466523,2.2582125));
 		addPlace(place1);
+
 		
 		Place place2 = new Place();
 		place2.setName("Demivee");
@@ -87,5 +90,4 @@ public class MapApplicationRepository implements PlaceRepository {
 	@Override
 	public void deletePlace(Integer placeId) {
 		placesMap.remove(placeId);
-	}
 }
