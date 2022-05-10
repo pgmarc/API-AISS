@@ -4,9 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.core.Application;
-import aiss.api.resources.PlaylistResource;
-import aiss.api.resources.SongResource;
 
+import aiss.api.resources.PlaceResource;
 
 public class StudentsCompass extends Application {
 	private Set<Object> singletons = new HashSet<Object>();
@@ -15,9 +14,7 @@ public class StudentsCompass extends Application {
 	// Loads all resources that are implemented in the application
 	// so that they can be found by RESTEasy.
 	public StudentsCompass() {
-
-		singletons.add(PlaylistResource.getInstance());
-		singletons.add(SongResource.getInstance());
+		singletons.add(PlaceResource.getInstance());
 	}
 
 	@Override
