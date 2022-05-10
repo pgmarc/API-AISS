@@ -11,5 +11,5 @@ public interface PlaceRepository {
 	public Collection<Place> getAllPlaces();
 	public Place getPlace(Integer placeId);
 	public void updatePlace(Place place);
-	public void deletePlace(Place placeId);
+	public void deletePlace(Integer placeId);
 }
