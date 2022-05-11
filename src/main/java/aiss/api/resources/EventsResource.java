@@ -47,22 +47,22 @@ import aiss.model.repository.EventsRepository;
 			return _instance; 
 		}
 		
-		@GET
-		@Produces("application/json")
-		public Collection<Event> getAll(@QueryParam("order") String order, @QueryParam("q") String query)
-		{
-			List<Event> result = new ArrayList<Event>();
-			for (Event event : repository.getAllEvents()) {
-				if (query == null || query.equalsIgnoreCase(event.getName()) 
-						|| query.equalsIgnoreCase(event.getDescription()) 
-						|| query.equalsIgnoreCase(event.getPrice()) 
-						|| query.equalsIgnoreCase(event.getDate())) {
-					result.add(event);
-				}
-				
-			}
-			return result;
-		}
+//		@GET
+//		@Produces("application/json")
+//		public Collection<Event> getAll(@QueryParam("order") String order, @QueryParam("q") String query)
+//		{
+//			List<Event> result = new ArrayList<Event>();
+//			for (Event event : repository.getAllEvents()) {
+//				if (query == null || query.equalsIgnoreCase(event.getName()) 
+//						|| query.equalsIgnoreCase(event.getDescription()) 
+//						|| query.equalsIgnoreCase(event.getPrice()) 
+//						|| query.equalsIgnoreCase(event.getDate())) {
+//					result.add(event);
+//				}
+//				
+//			}
+//			return result;
+//		}
 		
 		// attr = []
 		
@@ -78,56 +78,56 @@ import aiss.model.repository.EventsRepository;
 			return event;
 		}
 		
-		@POST
-		@Consumes("application/json")
-		@Produces("application/json")
-		public Response addEvent(@Context UriInfo uriInfo, Event event) {
-			
-			if (event.getName() == null || "".equals(event.getName()))
-				throw new BadRequestException("The name of the event must not be null");
-			
-			if (event.getId() !=null)
-				throw new BadRequestException("The event id must not been given as a parameter.");
-
-			repository.addEvent(event);
-
-			// Builds the response. Returns the song the has just been added.
-			UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
-			URI uri = ub.build(event.getId());
-			ResponseBuilder resp = Response.created(uri);
-			resp.entity(event);			
-			return resp.build();
-		}
+//		@POST
+//		@Consumes("application/json")
+//		@Produces("application/json")
+//		public Response addEvent(@Context UriInfo uriInfo, Event event) {
+//			
+//			if (event.getName() == null || "".equals(event.getName()))
+//				throw new BadRequestException("The name of the event must not be null");
+//			
+//			if (event.getId() !=null)
+//				throw new BadRequestException("The event id must not been given as a parameter.");
+//
+//			repository.addEvent(event);
+//
+//			// Builds the response. Returns the song the has just been added.
+//			UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+//			URI uri = ub.build(event.getId());
+//			ResponseBuilder resp = Response.created(uri);
+//			resp.entity(event);			
+//			return resp.build();
+//		}
 		
 		
-		@PUT
-		@Consumes("application/json")
-		public Response updateEvent(Event event) {
-			Event oldEvent = repository.getEvent(event.getId());
-			if (oldEvent == null) {
-				throw new NotFoundException("The song with id="+ song.getId() +" was not found");			
-			}
-			
-			// Update Album
-			if (event.getLocation()!=null)
-				oldEvent.setAlbum(event.getLocation());
-			
-			// Update artist
-			if (event.getName()!=null)
-				oldEvent.setArtist(event.getName());
-			
-			// Update title
-			if(event.getDate() != null) {
-				oldEvent.setTitle(event.getDate());
-			}
-			
-			// Update year
-			if(event.getPrice() != null) {
-				oldEvent.setYear(event.getPrice());
-			}
-			
-			return Response.noContent().build();
-		}
+//		@PUT
+//		@Consumes("application/json")
+//		public Response updateEvent(Event event) {
+//			Event oldEvent = repository.getEvent(event.getId());
+//			if (oldEvent == null) {
+//				throw new NotFoundException("The song with id="+ song.getId() +" was not found");			
+//			}
+//			
+//			// Update Album
+//			if (event.getLocation()!=null)
+//				oldEvent.setAlbum(event.getLocation());
+//			
+//			// Update artist
+//			if (event.getName()!=null)
+//				oldEvent.setArtist(event.getName());
+//			
+//			// Update title
+//			if(event.getDate() != null) {
+//				oldEvent.setTitle(event.getDate());
+//			}
+//			
+//			// Update year
+//			if(event.getPrice() != null) {
+//				oldEvent.setYear(event.getPrice());
+//			}
+//			
+//			return Response.noContent().build();
+//		}
 		
 		@DELETE
 		@Path("/{id}")
@@ -165,7 +165,7 @@ import aiss.model.repository.EventsRepository;
 				review.setUsername("Anonymous");
 			if(review.getDate()==null)
 				review.setDate(LocalDateTime.now());
-			repository.addReview(review);
+			repository.addReview(eventId,review);
 
 			// Builds the response. Returns the review that has just been added.
 			UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");

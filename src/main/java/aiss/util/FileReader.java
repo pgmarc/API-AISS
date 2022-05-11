@@ -32,13 +32,12 @@ public class FileReader {
 		String name = fields[0];
 		String email = fields[1]; 
 		String address = fields[2]; 
-		Integer rating = Integer.valueOf(fields[3]); 
 		String website = fields[4]; 
 		Double latitude = Double.valueOf(fields[5]); 
 		Double longitude = Double.valueOf(fields[6]);
 		
 		Coordinates coordinates = Coordinates.of(latitude, longitude);
-		return Place.create(name, email, address, rating, website, coordinates);
+		return Place.create(name, email, address, website, coordinates);
 	}
 	
 	public static void main(String[] args) {

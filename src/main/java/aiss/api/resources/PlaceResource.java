@@ -152,8 +152,6 @@ public class PlaceResource {
 					review.setDescription("");
 				if(review.getUsername()==null)
 					review.setUsername("Anonymous");
-				if(review.getDate()==null)
-					review.setDate(LocalDateTime.now());
 				placeRepository.addReview(placeId, review);
 
 				// Builds the response. Returns the song the has just been added.

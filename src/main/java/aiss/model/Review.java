@@ -8,17 +8,21 @@ public class Review {
 	private Integer id;
 	private String username;
 	private String description;
-	private Integer rating;
+	private Double rating;
 	private LocalDateTime date;
 	
 	
-	public Review(String username, String description, Integer rating) {
+	public Review(String username, String description, Double rating) {
 		super();
 		this.username = username;
 		this.description = description;
 		this.rating = rating;
 	}
 	
+	public Review() {
+		super();
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -31,10 +35,10 @@ public class Review {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getRating() {
+	public Double getRating() {
 		return rating;
 	}
-	public void setRating(Integer rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
 	public LocalDateTime getDate() {
@@ -69,7 +73,7 @@ public class Review {
 	@Override
 	public String toString() {
 		return "Review [id=" + id + ", username=" + username + ", description=" + description + ", rating=" + rating
-				+ ", date=" + date;
+				+ ", date=" + date + "]";
 	}
 	
 }

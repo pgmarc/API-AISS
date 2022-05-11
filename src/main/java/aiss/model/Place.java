@@ -1,6 +1,6 @@
 package aiss.model;
 
-import java.util.HashMap; 
+import java.util.HashMap;  
 import java.util.Map;
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id","name","email", "address", "rating", "website", "location", "reviews"})
+@JsonPropertyOrder({"id", "name", "email", "address", "website", "location", "reviews"})
 public class Place {
 	private Integer reviewIndex=0;
 	@JsonProperty("id")
@@ -24,7 +24,7 @@ public class Place {
 	@JsonProperty("location")
 	private Coordinates location;
 	@JsonProperty("reviews")
-	private Map<Integer,Review> reviews;
+	private Map<Integer,Review> reviews = new HashMap<Integer, Review>();
 	
 	public Place() {}
 
@@ -45,7 +45,7 @@ public class Place {
 		this.address = address;
 		this.website = website;
 		this.location = location;
-		reviews = new HashMap<Integer, Review>();
+
 	}
 
 	public static Place create(String name, String email, String address, String website, Coordinates location) {
@@ -137,11 +137,17 @@ public class Place {
 	}
 	
 	public Integer getNumReviews() {
-		return this.reviews.size();
+		Integer res;
+		if(!(this.reviews==(null))) res= this.reviews.size();
+		else res= 0;
+		return res;
 	}
 	
-	public Integer getRating() {
-		return this.reviews.values().stream().mapToInt(r->r.getRating()).sum()/getNumReviews();
+	public Double getRating() {
+		Double res;
+		if(!(this.reviews==(null))) res= this.reviews.values().stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
+		else res= 0.;
+		return Math.round(res*10.0)/10.0;
 	}
 
 	@Override
@@ -165,6 +171,6 @@ public class Place {
 	@Override
 	public String toString() {
 		return "Place [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address
-				+ ", website=" + website + ", location=" + location +"rating="+ getRating() + "]";
+				+ ", website=" + website + ", location=" + location + "]";
 	}
 }
