@@ -53,7 +53,6 @@ public class MapApplicationRepository implements PlaceRepository {
 		place4.setName("Twimm");
 		place4.setEmail("ccaddick3@taobao.com");
 		place4.setAddress("616 Talisman Terrace");
-		place4.setRating(1);
 		place4.setWebsite("http://quantcast.com");
 		place4.setLocation(Coordinates.of(52.1584604,20.9110916));
 		addPlace(place4);
@@ -62,7 +61,6 @@ public class MapApplicationRepository implements PlaceRepository {
 		place5.setName("Jazzy");
 		place5.setEmail("rnairne4@un.org");
 		place5.setAddress("09 Montana Place");
-		place5.setRating(4);
 		place5.setWebsite("https://reference.com");
 		place5.setLocation(Coordinates.of(-42.7700601,-65.0306302));
 		addPlace(place5);

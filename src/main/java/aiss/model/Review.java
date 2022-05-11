@@ -11,7 +11,6 @@ public class Review {
 	private Integer rating;
 	private LocalDateTime date;
 	
-	
 	public Review(String username, String description, Integer rating) {
 		super();
 		this.username = username;
@@ -71,5 +70,4 @@ public class Review {
 		return "Review [id=" + id + ", username=" + username + ", description=" + description + ", rating=" + rating
 				+ ", date=" + date;
 	}
-	
 }

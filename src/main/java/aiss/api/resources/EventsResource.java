@@ -37,7 +37,8 @@ import aiss.model.repository.EventsRepository;
 		EventsRepository repository;
 		
 		private EventsResource(){
-			repository=MapApplicationRepository.getInstance();
+			//TODO Create MapEventRepository class file
+			//repository=MapApplicationRepository.getInstance();
 		}
 		
 		public static EventsResource getInstance()
@@ -49,22 +50,11 @@ import aiss.model.repository.EventsRepository;
 		
 		@GET
 		@Produces("application/json")
-		public Collection<Event> getAll(@QueryParam("order") String order, @QueryParam("q") String query)
-		{
+		public Collection<Event> getAll(@QueryParam("order") String order,
+				@QueryParam("q") String query) {
 			List<Event> result = new ArrayList<Event>();
-			for (Event event : repository.getAllEvents()) {
-				if (query == null || query.equalsIgnoreCase(event.getName()) 
-						|| query.equalsIgnoreCase(event.getDescription()) 
-						|| query.equalsIgnoreCase(event.getPrice()) 
-						|| query.equalsIgnoreCase(event.getDate())) {
-					result.add(event);
-				}
-				
-			}
 			return result;
 		}
-		
-		// attr = []
 		
 		@GET
 		@Path("/{id}")
@@ -82,51 +72,16 @@ import aiss.model.repository.EventsRepository;
 		@Consumes("application/json")
 		@Produces("application/json")
 		public Response addEvent(@Context UriInfo uriInfo, Event event) {
-			
-			if (event.getName() == null || "".equals(event.getName()))
-				throw new BadRequestException("The name of the event must not be null");
-			
-			if (event.getId() !=null)
-				throw new BadRequestException("The event id must not been given as a parameter.");
-
-			repository.addEvent(event);
-
-			// Builds the response. Returns the song the has just been added.
-			UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
-			URI uri = ub.build(event.getId());
-			ResponseBuilder resp = Response.created(uri);
-			resp.entity(event);			
-			return resp.build();
+			//TODO ADD EVENT
+			return Response.ok().build();
 		}
-		
 		
 		@PUT
 		@Consumes("application/json")
 		public Response updateEvent(Event event) {
-			Event oldEvent = repository.getEvent(event.getId());
-			if (oldEvent == null) {
-				throw new NotFoundException("The song with id="+ song.getId() +" was not found");			
-			}
+			//TODO Update Event
 			
-			// Update Album
-			if (event.getLocation()!=null)
-				oldEvent.setAlbum(event.getLocation());
-			
-			// Update artist
-			if (event.getName()!=null)
-				oldEvent.setArtist(event.getName());
-			
-			// Update title
-			if(event.getDate() != null) {
-				oldEvent.setTitle(event.getDate());
-			}
-			
-			// Update year
-			if(event.getPrice() != null) {
-				oldEvent.setYear(event.getPrice());
-			}
-			
-			return Response.noContent().build();
+			return Response.ok().build();
 		}
 		
 		@DELETE
