@@ -1,6 +1,7 @@
 package aiss.api.resources;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.model.Event;
+import aiss.model.Review;
 import aiss.model.repository.MapApplicationRepository;
 import aiss.model.repository.EventsRepository;
 
@@ -139,7 +141,54 @@ import aiss.model.repository.EventsRepository;
 			return Response.noContent().build();
 		}
 		
-	}
+	//REVIEWS
+		@POST
+		@Path("/{id}/reviews")
+		@Consumes("application/json")
+		@Produces("application/json")
+		public Response addReview(@PathParam("id") Integer eventId, @Context UriInfo uriInfo, Review review) {
+			
+			Event event = repository.getEvents(eventId);
+			if(event.equals(null)) {
+				throw new NotFoundException("The event with id: " + eventId + " was not found.");
+			}
+			if (review.getRating() == null)
+				throw new BadRequestException("The rating must not be null");
+			else if(review.getRating()<0||review.getRating()>5)
+				throw new BadRequestException("The rating must be a value between 0 and 5");
+			
+			if (review.getId() !=null)
+				throw new BadRequestException("The review id must not been given as a parameter.");
+			if (review.getDescription()==null)
+				review.setDescription("");
+			if(review.getUsername()==null)
+				review.setUsername("Anonymous");
+			if(review.getDate()==null)
+				review.setDate(LocalDateTime.now());
+			repository.addReview(review);
 
-
+			// Builds the response. Returns the review that has just been added.
+			UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+			URI uri = ub.build(review.getId());
+			ResponseBuilder resp = Response.created(uri);
+			resp.entity(review);			
+			return resp.build();
+		}
+		
+		@GET
+		@Path("/{id}/reviews/{reviewId}")
+		@Produces("application/json")
+		public Review getReview(@PathParam("id") Integer eventId,@PathParam("reviewId") Integer reviewId)
+		{
+			Review review = repository.getReview(eventId,reviewId);
+			Event event = repository.getEvents(eventId);
+			
+			if(event.equals(null)) {
+				throw new NotFoundException("The event with id: " + eventId + " was not found.");
+			}
+			if(review.equals(null)) {
+				throw new NotFoundException("The review with id: " + reviewId + " was not found in the event.");
+			}
+			return review;
+		}
 }

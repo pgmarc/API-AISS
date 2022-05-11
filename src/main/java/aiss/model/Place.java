@@ -1,15 +1,18 @@
 package aiss.model;
 
+import java.util.HashMap; 
+import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id","name","email", "address", "rating", "website", "location"})
+@JsonPropertyOrder({"id","name","email", "address", "rating", "website", "location", "reviews"})
 public class Place {
-	
+
 	private static Integer index = 0;
+	private Integer reviewIndex=0;
 	@JsonProperty("id")
 	private Integer id;
 	@JsonProperty("name")
@@ -18,12 +21,12 @@ public class Place {
 	private String email;
 	@JsonProperty("address")
 	private String address;
-	@JsonProperty("rating")
-	private Integer rating;
 	@JsonProperty("website")
 	private String website;
 	@JsonProperty("location")
 	private Coordinates location;
+	@JsonProperty("reviews")
+	private Map<Integer,Review> reviews;
 	
 	public Place() {}
 
@@ -38,19 +41,19 @@ public class Place {
 		this.location = location;
 	}
 	
-	public Place(String name, String email, String address, Integer rating, String website, Coordinates location) {
+	public Place(String name, String email, String address, String website, Coordinates location) {
 		super();
 		this.id = index++;
 		this.name = name;
 		this.email = email;
 		this.address = address;
-		this.rating = rating;
 		this.website = website;
 		this.location = location;
+		reviews = new HashMap<Integer, Review>();
 	}
 
-	public static Place create(String name, String email, String address, Integer rating, String website, Coordinates location) {
-		return new Place(name, email, address, rating, website, location);
+	public static Place create(String name, String email, String address, String website, Coordinates location) {
+		return new Place(name, email, address, website, location);
 	}
 
 	public static Place create( String name, String address, Coordinates location) {
@@ -97,16 +100,6 @@ public class Place {
 		this.address = address;
 	}
 
-	@JsonProperty("rating")
-	public Integer getRating() {
-		return rating;
-	}
-	
-	@JsonProperty("rating")
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-
 	@JsonProperty("website")
 	public String getWebsite() {
 		return website;
@@ -127,8 +120,32 @@ public class Place {
 		this.location = location;
 	}
 	
+	@JsonProperty("reviews")
+	public Map<Integer,Review> getReviews() {
+		return reviews;
+	}
+	
+	@JsonProperty("reviews")
+	public void setReviews(Map<Integer,Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 	public static Double getDistance(Coordinates source, Coordinates target) {
 		return GeographicalDistance.geographicalDistance(source, target);
+	}
+	
+	public void addReview(Review review) {
+		review.setId(reviewIndex);
+		this.reviews.put(reviewIndex, review);
+		reviewIndex++;
+	}
+	
+	public Integer getNumReviews() {
+		return this.reviews.size();
+	}
+	
+	public Integer getRating() {
+		return this.reviews.values().stream().mapToInt(r->r.getRating()).sum()/getNumReviews();
 	}
 
 	@Override
@@ -151,7 +168,7 @@ public class Place {
 
 	@Override
 	public String toString() {
-		return "Place [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + ", rating=" + rating
-				+ ", website=" + website + ", location=" + location + "]";
+		return "Place [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address
+				+ ", website=" + website + ", location=" + location +"rating="+ getRating() + "]";
 	}
 }

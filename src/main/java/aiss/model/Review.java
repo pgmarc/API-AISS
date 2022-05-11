@@ -4,12 +4,20 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Review {
-
+	
+	private Integer id;
 	private String username;
 	private String description;
 	private Integer rating;
 	private LocalDateTime date;
 	
+	
+	public Review(String username, String description, Integer rating) {
+		super();
+		this.username = username;
+		this.description = description;
+		this.rating = rating;
+	}
 	
 	public String getUsername() {
 		return username;
@@ -35,9 +43,16 @@ public class Review {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(username);
+		return Objects.hash(date, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -48,6 +63,13 @@ public class Review {
 		if (getClass() != obj.getClass())
 			return false;
 		Review other = (Review) obj;
-		return Objects.equals(username, other.username);
+		return Objects.equals(date, other.date) && Objects.equals(username, other.username);
 	}
+	
+	@Override
+	public String toString() {
+		return "Review [id=" + id + ", username=" + username + ", description=" + description + ", rating=" + rating
+				+ ", date=" + date;
+	}
+	
 }
