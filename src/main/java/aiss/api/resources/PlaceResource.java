@@ -68,9 +68,8 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getPlacesAround(@PathParam("id") Integer placeId,
 			@QueryParam("minRadius") Double minRadius, @QueryParam("maxRadius") Double maxRadius) {
-		Place place = placeRepository.getPlace(placeId);
-		List<Place> places = MapApplicationRepository.getPlacesOnRadius(place, minRadius, maxRadius);
-		return Response.status(Status.OK).entity(places).build();
+		List<Place> placesInArea = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
+		return Response.status(Status.OK).entity(placesInArea).build();
 	}
 	
 	@POST

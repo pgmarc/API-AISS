@@ -37,7 +37,8 @@ import aiss.model.repository.EventsRepository;
 		EventsRepository repository;
 		
 		private EventsResource(){
-			repository=MapApplicationRepository.getInstance();
+			//TODO Create MapEventRepository class file
+			//repository=MapApplicationRepository.getInstance();
 		}
 		
 		public static EventsResource getInstance()
@@ -47,6 +48,7 @@ import aiss.model.repository.EventsRepository;
 			return _instance; 
 		}
 		
+<<<<<<< HEAD
 //		@GET
 //		@Produces("application/json")
 //		public Collection<Event> getAll(@QueryParam("order") String order, @QueryParam("q") String query)
@@ -63,8 +65,15 @@ import aiss.model.repository.EventsRepository;
 //			}
 //			return result;
 //		}
-		
-		// attr = []
+=======
+		@GET
+		@Produces("application/json")
+		public Collection<Event> getAll(@QueryParam("order") String order,
+				@QueryParam("q") String query) {
+			List<Event> result = new ArrayList<Event>();
+			return result;
+		}
+>>>>>>> branch 'main' of https://github.com/pgmarc/API-AISS.git
 		
 		@GET
 		@Path("/{id}")
@@ -78,6 +87,7 @@ import aiss.model.repository.EventsRepository;
 			return event;
 		}
 		
+<<<<<<< HEAD
 //		@POST
 //		@Consumes("application/json")
 //		@Produces("application/json")
@@ -98,7 +108,17 @@ import aiss.model.repository.EventsRepository;
 //			resp.entity(event);			
 //			return resp.build();
 //		}
+=======
+		@POST
+		@Consumes("application/json")
+		@Produces("application/json")
+		public Response addEvent(@Context UriInfo uriInfo, Event event) {
+			//TODO ADD EVENT
+			return Response.ok().build();
+		}
+>>>>>>> branch 'main' of https://github.com/pgmarc/API-AISS.git
 		
+<<<<<<< HEAD
 		
 //		@PUT
 //		@Consumes("application/json")
@@ -128,6 +148,15 @@ import aiss.model.repository.EventsRepository;
 //			
 //			return Response.noContent().build();
 //		}
+=======
+		@PUT
+		@Consumes("application/json")
+		public Response updateEvent(Event event) {
+			//TODO Update Event
+			
+			return Response.ok().build();
+		}
+>>>>>>> branch 'main' of https://github.com/pgmarc/API-AISS.git
 		
 		@DELETE
 		@Path("/{id}")
