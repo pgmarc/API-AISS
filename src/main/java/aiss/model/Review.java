@@ -11,12 +11,8 @@ public class Review {
 	private Double rating;
 	private LocalDateTime date;
 	
-<<<<<<< HEAD
 	
 	public Review(String username, String description, Double rating) {
-=======
-	public Review(String username, String description, Integer rating) {
->>>>>>> branch 'main' of https://github.com/pgmarc/API-AISS.git
 		super();
 		this.username = username;
 		this.description = description;

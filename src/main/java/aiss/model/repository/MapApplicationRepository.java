@@ -1,10 +1,10 @@
 package aiss.model.repository;
 
-<<<<<<< HEAD
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-=======
->>>>>>> branch 'main' of https://github.com/pgmarc/API-AISS.git
+
+
 import java.util.Collection;
 
 import java.util.HashMap;
@@ -55,13 +55,13 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 		place3.setLocation(Coordinates.of(42.8043197,132.8288963));
 		addPlace(place3);
 		
-<<<<<<< HEAD
+
 		Review review1 = new Review("Zarzu","Todo perfecto",4.5);
 		
 		addReview(place1.getId(),review1);
 		addReview(place2.getId(),review1);
 		addReview(place3.getId(),review1);
-=======
+
 		Place place4 = new Place();
 		place4.setName("Twimm");
 		place4.setEmail("ccaddick3@taobao.com");
@@ -78,7 +78,6 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 		place5.setLocation(Coordinates.of(-42.7700601,-65.0306302));
 		addPlace(place5);
 		
->>>>>>> branch 'main' of https://github.com/pgmarc/API-AISS.git
 	}
 	
 	public static MapApplicationRepository getInstance() {
