@@ -131,8 +131,8 @@ public class Event {
 		return this.reviews.size();
 	}
 	
-	public Integer getRating() {
-		return this.reviews.values().stream().mapToInt(r->r.getRating()).sum()/getNumReviews();
+	public Double getRating() {
+		return this.reviews.values().stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
 	}
 	
 	@Override
