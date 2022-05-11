@@ -19,6 +19,7 @@ public class MapApplicationRepository implements PlaceRepository {
 	private Integer placeIndex = 0;
 	
 	public void init() {
+		
 		this.placesMap = new HashMap<Integer, Place>();
 		/*Twimm,ccaddick3@taobao.com,616 Talisman Terrace,1,http://quantcast.com,52.1584604,20.9110916
 		Jazzy,rnairne4@un.org,09 Montana Place,4,https://reference.com,-42.7700601,-65.0306302
