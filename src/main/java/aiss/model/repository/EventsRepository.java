@@ -12,9 +12,4 @@ public interface EventsRepository {
 	public Event getEvents(Integer eventId);
 	public void updateEvent(Event event);
 	public void deleteEvent(Integer eventId);
-
-
-	
-	
-
 }

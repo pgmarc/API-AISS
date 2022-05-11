@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"id","name","email", "address", "rating", "website", "location"})
 public class Place {
 	
-	private static Integer index = 0;
 	@JsonProperty("id")
 	private Integer id;
 	@JsonProperty("name")
@@ -32,23 +31,19 @@ public class Place {
 			@JsonProperty("address") String address,
 			@JsonProperty("location") Coordinates location) {
 		super();
-		this.id = index;
 		this.name = name;
 		this.address = address;
 		this.location = location;
-		index++;
 	}
 	
 	public Place(String name, String email, String address, Integer rating, String website, Coordinates location) {
 		super();
-		this.id = index;
 		this.name = name;
 		this.email = email;
 		this.address = address;
 		this.rating = rating;
 		this.website = website;
 		this.location = location;
-		index++;
 	}
 
 	public static Place create(String name, String email, String address, Integer rating, String website, Coordinates location) {
@@ -127,6 +122,10 @@ public class Place {
 	@JsonProperty("location")
 	public void setLocation(Coordinates location) {
 		this.location = location;
+	}
+	
+	public static Double getDistance(Coordinates source, Coordinates target) {
+		return GeographicalDistance.geographicalDistance(source, target);
 	}
 
 	@Override

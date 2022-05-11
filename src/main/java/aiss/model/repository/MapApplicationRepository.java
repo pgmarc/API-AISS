@@ -1,23 +1,22 @@
 package aiss.model.repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 
 import aiss.model.Coordinates;
 import aiss.model.Place;
-import aiss.model.Event;
 
-public class MapApplicationRepository implements PlaylistRepository, EventsRepository {
+public class MapApplicationRepository implements PlaceRepository {
 
 	private Map<Integer, Place> placesMap;
 	private static MapApplicationRepository instance = null;
 	private Integer placeIndex = 0;
-	
-	public static void main(String[] args) {
-		System.out.println(getInstance().placesMap.get(2));
-	}
 	
 	public void init() {
 		this.placesMap = new HashMap<Integer, Place>();
@@ -35,7 +34,6 @@ public class MapApplicationRepository implements PlaylistRepository, EventsRepos
 		place1.setLocation(Coordinates.of(48.8466523,2.2582125));
 		addPlace(place1);
 
-		
 		Place place2 = new Place();
 		place2.setName("Demivee");
 		place2.setEmail("dcoughlin1@hhs.gov");
@@ -90,4 +88,26 @@ public class MapApplicationRepository implements PlaylistRepository, EventsRepos
 	@Override
 	public void deletePlace(Integer placeId) {
 		placesMap.remove(placeId);
+	}
+	
+	private static List<Place> placesWithoutPlace(Place place) {
+		List<Place> places = new ArrayList<Place>(instance.placesMap.values());
+		places.remove(place);
+		return places;
+	}
+	
+	public static List<Place> getPlacesOnRadius(Place place, Double minRadius, Double maxRadius) {
+		List<Place> placesOnThreshold = new ArrayList<Place>();
+		List<Place> places = placesWithoutPlace(place);
+		Double minimunRadius = Optional.ofNullable(minRadius).orElse(0.0);
+		Double maximunRadius = Optional.ofNullable(maxRadius).orElse(Double.MAX_VALUE);
+		for (Place placeNearby: places) {
+			Coordinates currentLocation = placeNearby.getLocation();
+			Double distanceToTarget = Place.getDistance(place.getLocation(), currentLocation);
+			if (minimunRadius <= distanceToTarget && distanceToTarget <= maximunRadius) {
+				placesOnThreshold.add(placeNearby);
+			}
+		}
+		return placesOnThreshold;
+	}
 }

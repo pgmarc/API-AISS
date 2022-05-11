@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -57,6 +58,16 @@ public class PlaceResource {
 	public Response getPlace(@PathParam("id") Integer placeId) {
 		Place place = placeRepository.getPlace(placeId);
 		return Response.status(Status.OK).entity(place).build();
+	}
+	
+	@GET
+	@Path("/{id}/around")
+	@Produces("application/json")
+	public Response getPlacesAround(@PathParam("id") Integer placeId,
+			@QueryParam("minRadius") Double minRadius, @QueryParam("maxRadius") Double maxRadius) {
+		Place place = placeRepository.getPlace(placeId);
+		List<Place> places = MapApplicationRepository.getPlacesOnRadius(place, minRadius, maxRadius);
+		return Response.status(Status.OK).entity(places).build();
 	}
 	
 	@POST
