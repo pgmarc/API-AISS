@@ -1,6 +1,7 @@
 package aiss.api.resources;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.model.Place;
+import aiss.model.Review;
 import aiss.model.repository.MapApplicationRepository;
 import aiss.model.repository.PlaceRepository;
 
@@ -130,6 +132,39 @@ public class PlaceResource {
 		
 		return Response.noContent().build();
 	}
+	
+	//REVIEWS
+			@POST
+			@Path("/reviews")
+			@Consumes("application/json")
+			@Produces("application/json")
+			public Response addReview(@PathParam("id") Integer placeId, @Context UriInfo uriInfo, Review review) {
+				Place place = placeRepository.getPlace(placeId);
+				if(place.equals(null)) {
+					throw new NotFoundException("The place with id: " + placeId + " was not found.");
+				}
+				if (review.getRating() == null)
+					throw new BadRequestException("The rating must not be null");
+				else if(review.getRating()<0||review.getRating()>5)
+					throw new BadRequestException("The rating must be a value between 0 and 5");
+				
+				if (review.getId() !=null)
+					throw new BadRequestException("The review id must not been given as a parameter.");
+				if (review.getDescription()==null)
+					review.setDescription("");
+				if(review.getUsername()==null)
+					review.setUsername("Anonymous");
+				if(review.getDate()==null)
+					review.setDate(LocalDateTime.now());
+				placeRepository.addReview(placeId, review);
+
+				// Builds the response. Returns the song the has just been added.
+				UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+				URI uri = ub.build(review.getId());
+				ResponseBuilder resp = Response.created(uri);
+				resp.entity(review);			
+				return resp.build();
+			}
 	
 	public static void main(String[] args) {
 		System.out.println(getInstance().placeRepository.getAllPlaces());

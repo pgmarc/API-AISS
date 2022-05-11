@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import aiss.model.Coordinates;
 import aiss.model.Place;
+import aiss.model.Review;
 
 public class MapApplicationRepository implements PlaceRepository {
 
@@ -30,7 +31,6 @@ public class MapApplicationRepository implements PlaceRepository {
 		place1.setName("Quatz");
 		place1.setEmail("wzaniolini0@amazonaws.com");
 		place1.setAddress("6086 Morrow Park");
-		place1.setRating(4);
 		place1.setWebsite("https://goo.gl");
 		place1.setLocation(Coordinates.of(48.8466523,2.2582125));
 		addPlace(place1);
@@ -39,7 +39,6 @@ public class MapApplicationRepository implements PlaceRepository {
 		place2.setName("Demivee");
 		place2.setEmail("dcoughlin1@hhs.gov");
 		place2.setAddress("7347 Graceland Road");
-		place2.setRating(3);
 		place2.setWebsite(",http://deliciousdays.com");
 		place2.setLocation(Coordinates.of(11.5399857,-85.6986957));
 		addPlace(place2);
@@ -48,7 +47,6 @@ public class MapApplicationRepository implements PlaceRepository {
 		place3.setName("Aimbu");
 		place3.setEmail("ocrigane2@alexa.com");
 		place3.setAddress("36581 Hauk Point");
-		place3.setRating(0);
 		place3.setWebsite("https://sourceforge.netm");
 		place3.setLocation(Coordinates.of(42.8043197,132.8288963));
 		addPlace(place3);
@@ -110,5 +108,10 @@ public class MapApplicationRepository implements PlaceRepository {
 			}
 		}
 		return placesOnThreshold;
+	}
+
+	@Override
+	public void addReview(Integer placeId, Review review) {
+		placesMap.get(placeId).getReviews().put(review.getId(), review);
 	}
 }
