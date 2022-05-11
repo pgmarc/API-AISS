@@ -12,4 +12,5 @@ public interface PlaceRepository {
 	public Place getPlace(Integer placeId);
 	public void updatePlace(Place place);
 	public void deletePlace(Integer placeId);
+	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius, Double maxRadius);
 }

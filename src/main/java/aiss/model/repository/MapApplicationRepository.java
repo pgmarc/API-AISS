@@ -1,13 +1,12 @@
 package aiss.model.repository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 import aiss.model.Coordinates;
 import aiss.model.Place;
@@ -21,11 +20,10 @@ public class MapApplicationRepository implements PlaceRepository {
 	public void init() {
 		
 		this.placesMap = new HashMap<Integer, Place>();
-		/*Twimm,ccaddick3@taobao.com,616 Talisman Terrace,1,http://quantcast.com,52.1584604,20.9110916
-		Jazzy,rnairne4@un.org,09 Montana Place,4,https://reference.com,-42.7700601,-65.0306302
+		/*
 		Voomm,fsnoday5@51.la,102 Elka Terrace,0,http://wisc.edu,62.2666019,27.1252002
 		Babbleset,csarch6@globo.com,1827 Manufacturers Road,1,http://diigo.com,38.1748383,20.5829927*/
-		
+				
 		Place place1 = new Place();
 		place1.setName("Quatz");
 		place1.setEmail("wzaniolini0@amazonaws.com");
@@ -52,6 +50,25 @@ public class MapApplicationRepository implements PlaceRepository {
 		place3.setWebsite("https://sourceforge.netm");
 		place3.setLocation(Coordinates.of(42.8043197,132.8288963));
 		addPlace(place3);
+		
+		Place place4 = new Place();
+		place4.setName("Twimm");
+		place4.setEmail("ccaddick3@taobao.com");
+		place4.setAddress("616 Talisman Terrace");
+		place4.setRating(1);
+		place4.setWebsite("http://quantcast.com");
+		place4.setLocation(Coordinates.of(52.1584604,20.9110916));
+		addPlace(place4);
+		
+		Place place5 = new Place();
+		place5.setName("Jazzy");
+		place5.setEmail("rnairne4@un.org");
+		place5.setAddress("09 Montana Place");
+		place5.setRating(4);
+		place5.setWebsite("https://reference.com");
+		place5.setLocation(Coordinates.of(-42.7700601,-65.0306302));
+		addPlace(place5);
+		
 	}
 	
 	public static MapApplicationRepository getInstance() {
@@ -91,24 +108,21 @@ public class MapApplicationRepository implements PlaceRepository {
 		placesMap.remove(placeId);
 	}
 	
-	private static List<Place> placesWithoutPlace(Place place) {
-		List<Place> places = new ArrayList<Place>(instance.placesMap.values());
-		places.remove(place);
-		return places;
-	}
-	
-	public static List<Place> getPlacesOnRadius(Place place, Double minRadius, Double maxRadius) {
-		List<Place> placesOnThreshold = new ArrayList<Place>();
-		List<Place> places = placesWithoutPlace(place);
+	@Override
+	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius, Double maxRadius) {
+		List<Place> places = this.placesWithoutPlace(placeId);
+		Coordinates currentLocation = this.getPlace(placeId).getLocation();
 		Double minimunRadius = Optional.ofNullable(minRadius).orElse(0.0);
 		Double maximunRadius = Optional.ofNullable(maxRadius).orElse(Double.MAX_VALUE);
-		for (Place placeNearby: places) {
-			Coordinates currentLocation = placeNearby.getLocation();
-			Double distanceToTarget = Place.getDistance(place.getLocation(), currentLocation);
-			if (minimunRadius <= distanceToTarget && distanceToTarget <= maximunRadius) {
-				placesOnThreshold.add(placeNearby);
-			}
-		}
-		return placesOnThreshold;
+		return places.stream()
+				.filter(place -> 
+				minimunRadius <= Place.getDistance(currentLocation, place.getLocation())
+				&& Place.getDistance(currentLocation, place.getLocation()) <= maximunRadius)
+				.collect(Collectors.toList());
+	}
+	
+	private List<Place> placesWithoutPlace(Integer placeId) {
+		return this.placesMap.entrySet().stream().filter(place -> place.getKey() != placeId)
+				.map(place -> place.getValue()).collect(Collectors.toList());
 	}
 }

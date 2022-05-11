@@ -17,8 +17,7 @@ public class FileReader {
 	public static Map<Integer, Place> readPlacesFromCSV(String filepath) {
 		Map<Integer,Place> places = new HashMap<Integer,Place>(); 
 		try {
-			places = Files.
-					lines(Paths.get(filepath), Charset.defaultCharset())
+			places = Files.lines(Paths.get(filepath), Charset.defaultCharset())
 					.skip(1).limit(50).map(FileReader::createPlace)
 					.collect(Collectors.toMap(Place::getId, Function.identity()));
 		} catch (IOException e) {

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"id","name","email", "address", "rating", "website", "location"})
 public class Place {
 	
+	private static Integer index = 0;
 	@JsonProperty("id")
 	private Integer id;
 	@JsonProperty("name")
@@ -31,6 +32,7 @@ public class Place {
 			@JsonProperty("address") String address,
 			@JsonProperty("location") Coordinates location) {
 		super();
+		this.id = index++;
 		this.name = name;
 		this.address = address;
 		this.location = location;
@@ -38,6 +40,7 @@ public class Place {
 	
 	public Place(String name, String email, String address, Integer rating, String website, Coordinates location) {
 		super();
+		this.id = index++;
 		this.name = name;
 		this.email = email;
 		this.address = address;
