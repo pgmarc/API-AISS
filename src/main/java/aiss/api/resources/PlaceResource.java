@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
+import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapApplicationRepository;
@@ -110,9 +111,6 @@ public class PlaceResource {
 		if (place.getName() != null)
 			oldPlace.setName(place.getName());
 		
-		if (place.getRating() != null)
-			oldPlace.setRating(place.getRating());
-		
 		if (place.getWebsite() != null)
 			oldPlace.setWebsite(place.getWebsite());
 		
@@ -164,6 +162,23 @@ public class PlaceResource {
 				ResponseBuilder resp = Response.created(uri);
 				resp.entity(review);			
 				return resp.build();
+			}
+			
+			@GET
+			@Path("/{id}/reviews/{reviewId}")
+			@Produces("application/json")
+			public Review getReview(@PathParam("id") Integer placeId,@PathParam("reviewId") Integer reviewId)
+			{
+				Review review = placeRepository.getReview(placeId,reviewId);
+				Place place = placeRepository.getPlace(placeId);
+				
+				if(place.equals(null)) {
+					throw new NotFoundException("The place with id: " + placeId + " was not found.");
+				}
+				if(review.equals(null)) {
+					throw new NotFoundException("The review with id: " + reviewId + " was not found in the place.");
+				}
+				return review;
 			}
 	
 	public static void main(String[] args) {

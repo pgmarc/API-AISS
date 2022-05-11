@@ -14,4 +14,5 @@ public interface EventsRepository {
 	public void updateEvent(Event event);
 	public void deleteEvent(Integer eventId);
 	public void addReview(Review review);
+	public Review getReview(Integer eventId, Integer reviewId);
 }

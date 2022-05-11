@@ -174,6 +174,21 @@ import aiss.model.repository.EventsRepository;
 			resp.entity(review);			
 			return resp.build();
 		}
-
-
+		
+		@GET
+		@Path("/{id}/reviews/{reviewId}")
+		@Produces("application/json")
+		public Review getReview(@PathParam("id") Integer eventId,@PathParam("reviewId") Integer reviewId)
+		{
+			Review review = repository.getReview(eventId,reviewId);
+			Event event = repository.getEvents(eventId);
+			
+			if(event.equals(null)) {
+				throw new NotFoundException("The event with id: " + eventId + " was not found.");
+			}
+			if(review.equals(null)) {
+				throw new NotFoundException("The review with id: " + reviewId + " was not found in the event.");
+			}
+			return review;
+		}
 }

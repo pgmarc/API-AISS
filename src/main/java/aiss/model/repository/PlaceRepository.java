@@ -14,4 +14,5 @@ public interface PlaceRepository {
 	public void updatePlace(Place place);
 	public void deletePlace(Integer placeId);
 	public void addReview(Integer placeId, Review review);
+	public Review getReview(Integer placeId, Integer reviewId);
 }

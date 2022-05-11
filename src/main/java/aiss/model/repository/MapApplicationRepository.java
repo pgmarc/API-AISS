@@ -114,4 +114,9 @@ public class MapApplicationRepository implements PlaceRepository {
 	public void addReview(Integer placeId, Review review) {
 		placesMap.get(placeId).getReviews().put(review.getId(), review);
 	}
+
+	@Override
+	public Review getReview(Integer placeId, Integer reviewId) {
+		return placesMap.get(placeId).getReviews().get(reviewId);
+	}
 }
