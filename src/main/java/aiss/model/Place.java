@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
-@JsonPropertyOrder({"id", "email", "name", "address", "website", "location", "reviews"})
+@JsonPropertyOrder({"id","location", "email", "name", "address", "website", "reviews"})
 public class Place {
 
 	private static Integer index = 0;
@@ -143,7 +143,6 @@ public class Place {
 		List<Review> reviews = List.copyOf(this.reviews.values());
 		return reviews;
 	}
-	
 	
 	@JsonProperty("accomodation")
 	public Accomodation getAccomodation() {

@@ -25,6 +25,4 @@ public interface PlaceRepository {
 	public void addAccomodation(Integer placeId, Accomodation accomodation);
 	public void updateAccomodation(Integer placeId, Accomodation accomodation);
 	public void deleteAccomodation(Integer placeId);
-
-	
 }

@@ -1,6 +1,6 @@
 package aiss.model;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -28,7 +28,8 @@ public class Review {
 	private LocalDateTime date;
 	
 	@JsonCreator
-	public Review(String username, String description, Double rating) {
+	public Review(@JsonProperty("username") String username,
+			@JsonProperty("description") String description,@JsonProperty("rating") Double rating) {
 		super();
 		this.username = username;
 		this.description = description;

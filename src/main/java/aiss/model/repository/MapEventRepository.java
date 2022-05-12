@@ -43,7 +43,6 @@ public class MapEventRepository implements EventRepository {
 		return instance;
 	}
 	
-
 	@Override
 	public void addEvent(Event event) {
 		event.setId(eventIndex);
