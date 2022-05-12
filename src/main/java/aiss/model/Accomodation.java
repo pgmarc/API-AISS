@@ -7,42 +7,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Accomodation {
 	
-	@JsonProperty("roomsNumber")
-	private Integer roomsNumber;
+	public enum AccomodationType {RESIDENCE, FLAT}
 	
-	@JsonProperty("area")
-	private Double area;
+	@JsonProperty("numberOfRooms")
+	private Integer numberOfRooms;
 	
 	@JsonProperty("payments")
 	private List<AccomodationPayment> payments;
 	
+	@JsonProperty("type")
+	private AccomodationType type;
 	
 	public Accomodation() {}
 
-	public Accomodation(Integer id, Integer roomsNumber, Double area, Double price, List<AccomodationPayment> payments) {
-		this.roomsNumber = roomsNumber;
-		this.area = area;
+	public Accomodation(Integer id, Integer roomsNumber, Double price, List<AccomodationPayment> payments, AccomodationType type) {
+		this.numberOfRooms = roomsNumber;
 		this.payments = payments;
-	}
+		this.type = type;
+		}
 
-	@JsonProperty("roomsNumber")
-	public Integer getRoomsNumber() {
-		return roomsNumber;
+	@JsonProperty("numberOfRooms")
+	public Integer getNumberOfRooms() {
+		return numberOfRooms;
 	}
 	
-	@JsonProperty("roomsNumber")
-	public void setRoomsNumber(Integer roomsNumber) {
-		this.roomsNumber = roomsNumber;
-	}
-	
-	@JsonProperty("area")
-	public Double getArea() {
-		return area;
-	}
-
-	@JsonProperty("area")
-	public void setArea(Double area) {
-		this.area = area;
+	@JsonProperty("numberOfRooms")
+	public void setNumberOfRooms(Integer numberOfRooms) {
+		this.numberOfRooms = numberOfRooms;
 	}
 
 	@JsonProperty("payments")
@@ -67,9 +58,20 @@ public class Accomodation {
 		this.payments.remove(index);
 	}
 	
+	
+	@JsonProperty("type")
+	public AccomodationType getType() {
+		return this.type;
+	}
+	
+	@JsonProperty("type")
+	public void setType(AccomodationType type) {
+		this.type = type;
+	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(area, payments, roomsNumber);
+		return Objects.hash(payments, numberOfRooms, type);
 	}
 
 	@Override
@@ -81,13 +83,13 @@ public class Accomodation {
 		if (getClass() != obj.getClass())
 			return false;
 		Accomodation other = (Accomodation) obj;
-		return Objects.equals(area, other.area) && payments == other.payments
-				&& Objects.equals(roomsNumber, other.roomsNumber);
+		return Objects.equals(type, other.type) && payments == other.payments
+				&& Objects.equals(numberOfRooms, other.numberOfRooms);
 	}
 
 	@Override
 	public String toString() {
-		return "Accomodation [roomsNumber=" + roomsNumber + ", area=" + area
+		return "Accomodation [roomsNumber=" + numberOfRooms
 				+ ", payments=" + payments + "]";
 	}
 }
