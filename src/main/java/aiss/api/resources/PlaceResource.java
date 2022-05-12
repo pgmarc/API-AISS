@@ -1,6 +1,7 @@
 package aiss.api.resources;
 
-import java.net.URI; 
+import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +133,7 @@ public class PlaceResource {
 	@GET
 	@Path("/{id}/reviews/{reviewId}")
 	@Produces("application/json")
-	public Review getReview(@PathParam("id") Integer placeId,
+	public Response getReview(@PathParam("id") Integer placeId,
 			@PathParam("reviewId") Integer reviewId) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -144,7 +145,7 @@ public class PlaceResource {
 		if(review.equals(null)) {
 			throw new NotFoundException("The review with id: " + reviewId + " was not found in the place.");
 		}
-		return review;
+		return Response.status(Status.OK).entity(review).build();
 	}
 	
 	
@@ -205,8 +206,7 @@ public class PlaceResource {
 		if (review.getRating() != null)
 			oldReview.setRating(review.getRating());
 		
-		if (review.getDate() != null)
-			oldReview.setDate(review.getDate());
+		oldReview.setDate(LocalDateTime.now());
 		
 		placeRepository.updateReview(placeId, oldReview);
 		

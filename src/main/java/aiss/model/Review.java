@@ -1,16 +1,33 @@
 package aiss.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime; 
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({"id","username","description","date","rating"})
 public class Review {
 	
+
+	@JsonProperty("id")
 	private Integer id;
+	
+	@JsonProperty("username")
 	private String username;
+	
+	@JsonProperty("description")
 	private String description;
+	
+	@JsonProperty("rating")
 	private Double rating;
+
 	private LocalDateTime date;
 	
+	@JsonCreator
 	public Review(String username, String description, Double rating) {
 		super();
 		this.username = username;
@@ -46,8 +63,15 @@ public class Review {
 		this.rating = rating;
 	}
 	
-	public LocalDateTime getDate() {
-		return date;
+	@JsonProperty("date")
+	public String getDate() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+		return date.format(format);
+	}
+	
+	@JsonIgnore
+	public LocalDateTime getCompleteDate() {
+		return this.date;
 	}
 	
 	public void setDate(LocalDateTime date) {
@@ -82,6 +106,6 @@ public class Review {
 	@Override
 	public String toString() {
 		return "Review [id=" + id + ", username=" + username + ", description=" + description + ", rating=" + rating
-				+ ", date=" + date + "]";
+				+ ", date=" + getDate() + "]";
 	}
 }

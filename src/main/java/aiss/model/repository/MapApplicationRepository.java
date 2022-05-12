@@ -1,6 +1,7 @@
 package aiss.model.repository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -166,9 +167,14 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 	@Override
 	public void addReview(Integer placeId, Review review) {
 		review.setDate(LocalDateTime.now());
-		placesMap.get(placeId).getReviews().add(review);
+		placesMap.get(placeId).addReview(review);
 	}
 
+	@Override
+	public List<Review> getAllReviews(Integer placeId) {
+		return placesMap.get(placeId).getReviews();
+	}
+	
 	@Override
 	public Review getReview(Integer placeId, Integer reviewId) {
 		return placesMap.get(placeId).getReviews().get(reviewId);
@@ -187,8 +193,5 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 		placesMap.get(placeId).getReviews().remove(reviewToDelete);
 	}
 
-	@Override
-	public List<Review> getAllReviews(Integer placeId) {
-		return placesMap.get(placeId).getReviews();
-	}
+
 }
