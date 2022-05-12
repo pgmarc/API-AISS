@@ -49,7 +49,7 @@ public class Place {
 		this.address = address;
 		this.website = website;
 		this.location = location;
-		reviews = new HashMap<Integer, Review>();
+		this.reviews = new HashMap<Integer, Review>();
 	}
 
 	public static Place create(String name, String email, String address, String website, Coordinates location) {

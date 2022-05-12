@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
-import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapApplicationRepository;
@@ -142,7 +141,7 @@ public class PlaceResource {
 				}
 				if (review.getRating() == null)
 					throw new BadRequestException("The rating must not be null");
-				else if(review.getRating()<0||review.getRating()>5)
+				else if(review.getRating() < 0 || review.getRating() > 5)
 					throw new BadRequestException("The rating must be a value between 0 and 5");
 				
 				if (review.getId() !=null)
