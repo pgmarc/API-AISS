@@ -1,23 +1,18 @@
-ppackage aiss.model;
+package aiss.model;
 
-import java.time.LocalDateTime;
-<<<<<<< HEAD
+import java.time.LocalDateTime; 
+
 import java.time.format.DateTimeFormatter;
-=======
+
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
+
 import java.util.Objects;
 
-
 public class Event {
-<<<<<<< HEAD
-	private Integer id;
-=======
+	
 	private Integer reviewIndex=0;
-	private static Integer index = 0;
-	private final Integer id;
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
+	private Integer id;
 	private String name;
 	private String description;
 	private LocalDateTime date;
@@ -25,18 +20,15 @@ public class Event {
 	private String website;
 	private Integer price;
 	private String organizators;
-<<<<<<< HEAD
-	private String type;
-	private String transport;
-=======
+	private Types type;
+	private Transport transport;
 	private List<Review> reviews= new ArrayList<Review>();
-	private enum types {
+	private enum Types {
 		music,theater, art, cultural;
 	};
-	private enum transport {
+	private enum Transport {
 		bus,train, bicycle, underground;
 	};
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
 	
 	public Event(String name, Integer price , LocalDateTime date, String contactEmail, String organizators) {
 		super();
@@ -47,14 +39,8 @@ public class Event {
 		this.organizators = organizators;
 	}
 	
-<<<<<<< HEAD
-	
-	public Event( String name, String description, Integer price , LocalDateTime date, String website, String contactEmail, String type, 
-			String transport,String organizators) {
-=======
-	private Event(String name, String description, Integer price , LocalDateTime date, Coordinates location, String website, String email, types type, 
-			transport transport,String organizators) {
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
+	public Event(String name, String description, Integer price , LocalDateTime date, 
+			String website, String contactEmail, Types type, Transport transport,String organizators) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -67,39 +53,39 @@ public class Event {
 		this.organizators = organizators;
 	}
 
-<<<<<<< HEAD
-
-	public static Event createEvent(String name, Integer price, LocalDateTime date, String contactEmail, String organizators) {
+	public static Event createEvent(String name, Integer price, LocalDateTime date, String contactEmail,
+			String organizators) {
 		return new Event(name, price, date, contactEmail,organizators);
 	}
 
-	public static Event createEvent( String name, String description, Integer price, LocalDateTime date, String website,  String contactEmail, String type, String transport, String organizators) {
+	public static Event createEvent( String name, String description, Integer price,
+										LocalDateTime date, String website,  
+										String contactEmail, Types type, Transport transport, 
+										String organizators) {
 		return new Event(name, description,price,date,website,contactEmail,type,transport,organizators);
 	}
-
-
 
 	public Integer getId() {
 		return id;
 	}
 
 
-	public String getType() {
+	public Types getType() {
 		return type;
 	}
 
 
-	public void setType(String type) {
+	public void setType(Types type) {
 		this.type = type;
 	}
 
 
-	public String getTransport() {
+	public Transport getTransport() {
 		return transport;
 	}
 
 
-	public void setTransport(String transport) {
+	public void setTransport(Transport transport) {
 		this.transport = transport;
 	}
 
@@ -108,17 +94,6 @@ public class Event {
 		this.id = id;
 	}
 
-
-=======
-	public Integer getIndex() {
-		return index;
-	}
-
-	public void setIndex(Integer index) {
-		Event.index = index;
-	}
-	
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
 	public String getName() {
 		return name;
 	}
@@ -135,22 +110,14 @@ public class Event {
 		this.description = description;
 	}
 
-<<<<<<< HEAD
-
 	public String getDate() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		return date.format(f);
-=======
-	public LocalDateTime getDate() {
-		return date;
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
 	}
 
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-
-<<<<<<< HEAD
 
 	public String getContactEmail() {
 		return contactEmail;
@@ -159,16 +126,8 @@ public class Event {
 
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
-=======
-	public String getEmail() {
-		return email;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
-	}
-
+	
 	public String getWebsite() {
 		return website;
 	}
@@ -193,21 +152,14 @@ public class Event {
 		this.organizators = organizators;
 	}
 
-<<<<<<< HEAD
-
-	@Override
-	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date=" + date
-				+ ", contactEmail=" + contactEmail + ", website=" + website + ", price=" + price + ", organizators="
-				+ organizators + "]";
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
-
-=======
-	public Coordinates getLocation() {
-		return location;
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
-	
+
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
 		this.reviews.add(reviewIndex, review);
@@ -222,7 +174,7 @@ public class Event {
 		return this.reviews.stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
 	}
 	
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(date, name, organizators, website);
@@ -241,21 +193,10 @@ public class Event {
 				&& Objects.equals(organizators, other.organizators) && Objects.equals(website, other.website);
 	}
 
-<<<<<<< HEAD
-
-	
-
-
-	
-	
-	
-
-=======
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date=" + date + ", email="
-				+ email + ", website=" + website + ", location=" + location + ", price=" + price + ", organizators="
+				+ contactEmail + ", website=" + website + "price=" + price + ", organizators="
 				+ organizators + "]";
 	}
->>>>>>> 6753d1ca96351d63fde0704f75faf442da5e6127
 }

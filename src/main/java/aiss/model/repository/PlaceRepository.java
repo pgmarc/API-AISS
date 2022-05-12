@@ -15,9 +15,9 @@ public interface PlaceRepository {
 	public void updatePlace(Place place);
 	public void deletePlace(Integer placeId);
 	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius, Double maxRadius);
-	public void addReview(Integer placeId, Review review);
+	public Collection<Review> getAllReviews(Integer placeId);
 	public Review getReview(Integer placeId, Integer reviewId);
-	public List<Review> getAllReviews(Integer placeId);
+	public void addReview(Integer placeId, Review review);
 	public void updateReview(Integer placeId, Review review);
 	public void deleteReview(Integer placeId, Integer reviewId);
 }

@@ -14,10 +14,10 @@ import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
 
-public class MapApplicationRepository implements PlaceRepository, EventsRepository {
+public class MapPlaceRepository implements PlaceRepository{
 
 	private Map<Integer, Place> placesMap;
-	private static MapApplicationRepository instance = null;
+	private static MapPlaceRepository instance = null;
 	private Integer placeIndex = 0;
 	
 	public void init() {
@@ -76,10 +76,10 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 		
 	}
 	
-	public static MapApplicationRepository getInstance() {
+	public static MapPlaceRepository getInstance() {
 		
 		if (instance == null) {
-			instance = new MapApplicationRepository();
+			instance = new MapPlaceRepository();
 			instance.init();
 		}
 		return instance;
@@ -131,36 +131,6 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 	private List<Place> placesWithoutPlace(Integer placeId) {
 		return this.placesMap.entrySet().stream().filter(place -> place.getKey() != placeId)
 				.map(place -> place.getValue()).collect(Collectors.toList());
-	}
-	//EVENTS
-	@Override
-	public void addEvent(Event event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Collection<Event> getAllEvents() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Event getEvents(Integer eventId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateEvent(Event event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteEvent(Integer eventId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	//REVIEWS

@@ -26,7 +26,7 @@ import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.model.Place;
 import aiss.model.Review;
-import aiss.model.repository.MapApplicationRepository;
+import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
 
 @Path("/places")
@@ -37,7 +37,7 @@ public class PlaceResource {
 	private PlaceRepository placeRepository;
 	
 	private PlaceResource() {
-		this.placeRepository = MapApplicationRepository.getInstance();
+		this.placeRepository = MapPlaceRepository.getInstance();
 	}
 	
 	public static PlaceResource getInstance() {

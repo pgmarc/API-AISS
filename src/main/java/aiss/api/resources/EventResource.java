@@ -1,6 +1,7 @@
 package aiss.api.resources;
 
-import java.net.URI; 
+import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,7 @@ import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.model.Event;
 import aiss.model.Review;
-import aiss.model.repository.EventsRepository;
-import aiss.model.repository.MapApplicationRepository;
+import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
 
 
@@ -35,7 +35,7 @@ public class EventResource {
 	
 	// Singleton	
 	private static EventResource eventResource = null;
-	private EventsRepository eventRepository;
+	private EventRepository eventRepository;
 	
 	private EventResource() {
 		this.eventRepository = MapEventRepository.getInstance();
@@ -211,9 +211,7 @@ public class EventResource {
 		if (review.getRating() != null)
 			oldReview.setRating(review.getRating());
 		
-		if (review.getDate() != null)
-			oldReview.setDate(review.getDate());
-		
+		oldReview.setDate(LocalDateTime.now());
 		eventRepository.updateReview(eventId, oldReview);
 		
 		return Response.status(Status.NO_CONTENT).entity(oldReview).build();
