@@ -1,64 +1,85 @@
-package aiss.model;
+ppackage aiss.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+
 public class Event {
-	private static Integer index = 0;
-	private final Integer id;
+	private Integer id;
 	private String name;
 	private String description;
 	private LocalDateTime date;
-	private String email;
+	private String contactEmail;
 	private String website;
-	private final Coordinates location;
 	private Integer price;
 	private String organizators;
-	private enum types {
-		music,theater, art, cultural;
-	};
-	private enum transport {
-		bus,train, bicycle, underground;
-	};
+	private String type;
+	private String transport;
 	
-	private Event(String name, Integer price , LocalDateTime date, Coordinates location, String email, String organizators) {
+	public Event(String name, Integer price , LocalDateTime date, String contactEmail, String organizators) {
 		super();
-		this.id = index;
 		this.name = name;
 		this.price = price;
 		this.date = date;
-		this.location = location;
-		this.email = email;
+		this.contactEmail = contactEmail;
 		this.organizators = organizators;
-		index++;
 	}
 	
 	
-	private Event(String name, String description, Integer price , LocalDateTime date, Coordinates location, String website, String email, types type, 
-			transport transport,String organizators) {
+	public Event( String name, String description, Integer price , LocalDateTime date, String website, String contactEmail, String type, 
+			String transport,String organizators) {
 		super();
-		this.id = index;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.date = date;
-		this.location = location;
 		this.website = website;
-		this.email = email;
+		this.contactEmail = contactEmail;
+		this.type = type;
+		this.transport= transport;
 		this.organizators = organizators;
-		index++;
 	}
 
 
-	public Integer getIndex() {
-		return index;
+	public static Event createEvent(String name, Integer price, LocalDateTime date, String contactEmail, String organizators) {
+		return new Event(name, price, date, contactEmail,organizators);
+	}
+
+	public static Event createEvent( String name, String description, Integer price, LocalDateTime date, String website,  String contactEmail, String type, String transport, String organizators) {
+		return new Event(name, description,price,date,website,contactEmail,type,transport,organizators);
 	}
 
 
-	public void setIndex(Integer index) {
-		Event.index = index;
+
+	public Integer getId() {
+		return id;
 	}
-	
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	public String getTransport() {
+		return transport;
+	}
+
+
+	public void setTransport(String transport) {
+		this.transport = transport;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 
 	public String getName() {
@@ -81,8 +102,9 @@ public class Event {
 	}
 
 
-	public LocalDateTime getDate() {
-		return date;
+	public String getDate() {
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+		return date.format(f);
 	}
 
 
@@ -91,13 +113,13 @@ public class Event {
 	}
 
 
-	public String getEmail() {
-		return email;
+	public String getContactEmail() {
+		return contactEmail;
 	}
 
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
 	}
 
 
@@ -131,13 +153,17 @@ public class Event {
 	}
 
 
-	public Coordinates getLocation() {
-		return location;
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date=" + date
+				+ ", contactEmail=" + contactEmail + ", website=" + website + ", price=" + price + ", organizators="
+				+ organizators + "]";
 	}
-	
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, description, email, id, location, name, organizators, price, website);
+		return Objects.hash(date, name, organizators, website);
 	}
 
 
@@ -150,23 +176,14 @@ public class Event {
 		if (getClass() != obj.getClass())
 			return false;
 		Event other = (Event) obj;
-		return Objects.equals(date, other.date) && Objects.equals(description, other.description)
-				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
-				&& Objects.equals(location, other.location) && Objects.equals(name, other.name)
-				&& Objects.equals(organizators, other.organizators) && Objects.equals(price, other.price)
-				&& Objects.equals(website, other.website);
+		return Objects.equals(date, other.date) && Objects.equals(name, other.name)
+				&& Objects.equals(organizators, other.organizators) && Objects.equals(website, other.website);
 	}
 
 
-	@Override
-	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date=" + date + ", email="
-				+ email + ", website=" + website + ", location=" + location + ", price=" + price + ", organizators="
-				+ organizators + "]";
-	}
 	
-	
-	
+
+
 	
 	
 	
