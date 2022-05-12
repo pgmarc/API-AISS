@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id", "name", "email", "address", "website", "location", "reviews"})
+@JsonPropertyOrder({"id", "name", "email", "address", "website", "location", "accomodation" ,"reviews"})
 public class Place {
 
 	private static Integer index = 0;
@@ -27,6 +27,8 @@ public class Place {
 	private Coordinates location;
 	@JsonProperty("reviews")
 	private List<Review> reviews = new ArrayList<Review>();
+	@JsonProperty("accomodation")
+	private Accomodation accomodation = null;
 	
 	public Place() {}
 
@@ -50,6 +52,17 @@ public class Place {
 		this.website = website;
 		this.location = location;
 	}
+	
+	public Place(String name, String email, String address, String website, Coordinates location, Accomodation accomodation) {
+		super();
+		this.id = index++;
+		this.name = name;
+		this.email = email;
+		this.address = address;
+		this.website = website;
+		this.location = location;
+		this.accomodation = accomodation;
+	}
 
 	public static Place create(String name, String email, String address, String website, Coordinates location) {
 		return new Place(name, email, address, website, location);
@@ -57,6 +70,10 @@ public class Place {
 
 	public static Place create( String name, String address, Coordinates location) {
 		return new Place(name, address, location);
+	}
+	
+	public static Place create(String name, String email, String address, String website, Coordinates location, Accomodation accomodation) {
+		return new Place(name, email, address, website, location, accomodation);
 	}
 
 	@JsonProperty("id")
@@ -129,6 +146,16 @@ public class Place {
 		this.reviews = reviews;
 	}
 	
+	@JsonProperty("accomodation")
+	public Accomodation getAccomodation() {
+		return this.accomodation;
+	}
+	
+	@JsonProperty("accomodation")
+	public void setAccomodation(Accomodation accomodation) {
+		this.accomodation = accomodation;
+	}
+	
 	public static Double getDistance(Coordinates source, Coordinates target) {
 		return GeographicalDistance.geographicalDistance(source, target);
 	}
@@ -155,7 +182,7 @@ public class Place {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, id, location, name);
+		return Objects.hash(address, id, location, name, accomodation);
 	}
 
 	@Override
@@ -174,6 +201,6 @@ public class Place {
 	@Override
 	public String toString() {
 		return "Place [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address
-				+ ", website=" + website + ", location=" + location + "]";
+				+ ", website=" + website + ", location=" + location + ", accomodation=" + accomodation + "]";
 	}
 }
