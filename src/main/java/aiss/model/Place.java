@@ -1,14 +1,15 @@
 package aiss.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id", "name", "email", "address", "website", "location", "reviews"})
+@JsonPropertyOrder({"id", "email", "name", "address", "website", "location", "reviews"})
 public class Place {
 
 	private static Integer index = 0;
@@ -26,7 +27,7 @@ public class Place {
 	@JsonProperty("location")
 	private Coordinates location;
 	@JsonProperty("reviews")
-	private List<Review> reviews = new ArrayList<Review>();
+	private Map<Integer, Review> reviews = new HashMap<Integer, Review>();
 	
 	public Place() {}
 
@@ -121,13 +122,10 @@ public class Place {
 	
 	@JsonProperty("reviews")
 	public List<Review> getReviews() {
+		List<Review> reviews = List.copyOf(this.reviews.values());
 		return reviews;
 	}
 	
-	@JsonProperty("reviews")
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
 	
 	public static Double getDistance(Coordinates source, Coordinates target) {
 		return GeographicalDistance.geographicalDistance(source, target);
@@ -135,22 +133,23 @@ public class Place {
 	
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
-		this.reviews.add(reviewIndex, review);
+		this.reviews.put(reviewIndex, review);
 		reviewIndex++;
 	}
 	
 	public Integer getNumReviews() {
-		Integer res;
-		if(!(this.reviews==(null))) res= this.reviews.size();
-		else res= 0;
-		return res;
+		return this.reviews.size();
 	}
 	
 	public Double getRating() {
-		Double res;
-		if(!(this.reviews==(null))) res= this.reviews.stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
-		else res= 0.;
-		return Math.round(res*10.0)/10.0;
+		Double rating = null;
+		if(!this.reviews.isEmpty()) { 
+			rating = this.reviews.values().stream()
+			.mapToDouble(r->r.getRating()).sum()/getNumReviews();
+			rating = Math.round(rating * 10.0) /10.0;
+		}
+		
+		return rating;
 	}
 
 	@Override

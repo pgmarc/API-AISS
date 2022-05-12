@@ -117,7 +117,7 @@ public class MapPlaceRepository implements PlaceRepository{
 	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius,
 			Double maxRadius) {
 		
-		List<Place> places = this.placesWithoutPlace(placeId);
+		List<Place> places = this.placesWithoutLocation(placeId);
 		Coordinates currentLocation = this.getPlace(placeId).getLocation();
 		Double minimunRadius = Optional.ofNullable(minRadius).orElse(0.0);
 		Double maximunRadius = Optional.ofNullable(maxRadius).orElse(Double.MAX_VALUE);
@@ -128,7 +128,7 @@ public class MapPlaceRepository implements PlaceRepository{
 				.collect(Collectors.toList());
 	}
 	
-	private List<Place> placesWithoutPlace(Integer placeId) {
+	private List<Place> placesWithoutLocation(Integer placeId) {
 		return this.placesMap.entrySet().stream().filter(place -> place.getKey() != placeId)
 				.map(place -> place.getValue()).collect(Collectors.toList());
 	}
@@ -159,7 +159,7 @@ public class MapPlaceRepository implements PlaceRepository{
 
 	@Override
 	public void deleteReview(Integer placeId, Integer reviewId) {
-		Review reviewToDelete= placesMap.get(placeId).getReviews().get(reviewId);
+		Review reviewToDelete = placesMap.get(placeId).getReviews().get(reviewId);
 		placesMap.get(placeId).getReviews().remove(reviewToDelete);
 	}
 
