@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import aiss.model.Accomodation;
 import aiss.model.Coordinates;
 import aiss.model.Event;
 import aiss.model.Place;
@@ -161,6 +162,27 @@ public class MapPlaceRepository implements PlaceRepository{
 	public void deleteReview(Integer placeId, Integer reviewId) {
 		Review reviewToDelete= placesMap.get(placeId).getReviews().get(reviewId);
 		placesMap.get(placeId).getReviews().remove(reviewToDelete);
+	}
+
+	@Override
+	public Accomodation getAccomodation(Integer placeId) {
+		return placesMap.get(placeId).getAccomodation();
+	}
+
+	@Override
+	public void addAccomodation(Integer placeId, Accomodation accomodation) {
+		placesMap.get(placeId).setAccomodation(accomodation);
+		
+	}
+
+	@Override
+	public void updateAccomodation(Integer placeId, Accomodation accomodation) {
+		placesMap.get(placeId).setAccomodation(accomodation);
+	}
+
+	@Override
+	public void deleteAccomodation(Integer placeId) {
+		placesMap.get(placeId).setAccomodation(null);
 	}
 
 

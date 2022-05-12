@@ -8,6 +8,7 @@ public class AccomodationPayment {
 	
 	private enum PaymentPeriod {YEARLY, MONTHLY}
 	private enum MealService {ALL_MEALS,TWO_MEALS,SELF_CATERING}
+	private enum RoomType {INDIVIDUAL, DOUBLE, NUMEROUS}
 	
 	@JsonProperty("description")
 	private String description;
