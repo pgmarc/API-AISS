@@ -1,5 +1,10 @@
 package aiss.model.repository;
 
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+
 import java.util.Collection;
 
 import java.util.HashMap;
@@ -9,10 +14,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import aiss.model.Coordinates;
+import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
 
-public class MapApplicationRepository implements PlaceRepository {
+public class MapApplicationRepository implements PlaceRepository, EventsRepository {
 
 	private Map<Integer, Place> placesMap;
 	private static MapApplicationRepository instance = null;
@@ -49,6 +55,13 @@ public class MapApplicationRepository implements PlaceRepository {
 		place3.setLocation(Coordinates.of(42.8043197,132.8288963));
 		addPlace(place3);
 		
+
+		Review review1 = new Review("Zarzu","Todo perfecto",4.5);
+		
+		addReview(place1.getId(),review1);
+		addReview(place2.getId(),review1);
+		addReview(place3.getId(),review1);
+
 		Place place4 = new Place();
 		place4.setName("Twimm");
 		place4.setEmail("ccaddick3@taobao.com");
@@ -121,14 +134,65 @@ public class MapApplicationRepository implements PlaceRepository {
 		return this.placesMap.entrySet().stream().filter(place -> place.getKey() != placeId)
 				.map(place -> place.getValue()).collect(Collectors.toList());
 	}
+	//EVENTS
+		@Override
+		public void addEvent(Event event) {
+			// TODO Auto-generated method stub
+			
+		}
 
-	@Override
-	public void addReview(Integer placeId, Review review) {
-		placesMap.get(placeId).getReviews().put(review.getId(), review);
-	}
+		@Override
+		public Collection<Event> getAllEvents() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
-	@Override
-	public Review getReview(Integer placeId, Integer reviewId) {
-		return placesMap.get(placeId).getReviews().get(reviewId);
-	}
+		@Override
+		public Event getEvents(Integer eventId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void updateEvent(Event event) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void deleteEvent(Integer eventId) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		//REVIEWS
+		@Override
+		public void addReview(Integer placeId, Review review) {
+			review.setDate(LocalDateTime.now());
+			placesMap.get(placeId).addReview(review);
+		}
+
+		@Override
+		public Review getReview(Integer placeId, Integer reviewId) {
+			return placesMap.get(placeId).getReviews().get(reviewId);
+		}
+
+		@Override
+		public void updateReview(Integer placeId, Review review) {
+			placesMap.get(placeId).getReviews().put(review.getId(), review);
+		}
+
+		@Override
+		public void deleteReview(Integer placeId, Integer reviewId) {
+			placesMap.get(placeId).getReviews().remove(reviewId);
+			
+		}
+
 }
+	
+	
+	
+	
+	
+	

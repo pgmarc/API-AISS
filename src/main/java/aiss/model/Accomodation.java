@@ -1,15 +1,11 @@
 package aiss.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class Accomodation {
-	private enum PaymentType {YEARLY,MONTHLY};
-	
-	@JsonProperty("id")
-	private Integer id;
 	
 	@JsonProperty("roomsNumber")
 	private Integer roomsNumber;
@@ -17,31 +13,16 @@ public class Accomodation {
 	@JsonProperty("area")
 	private Double area;
 	
-	@JsonProperty("price")
-	private Double price;
-	
-	@JsonProperty("payment")
-	private PaymentType payment;
+	@JsonProperty("payments")
+	private List<AccomodationPayment> payments;
 	
 	
 	public Accomodation() {}
 
-	public Accomodation(Integer id, Integer roomsNumber, Double area, Double price, PaymentType payment) {
-		this.id = id;
+	public Accomodation(Integer id, Integer roomsNumber, Double area, Double price, List<AccomodationPayment> payments) {
 		this.roomsNumber = roomsNumber;
 		this.area = area;
-		this.price = price;
-		this.payment = payment;
-	}
-
-	@JsonProperty("id")
-	public Integer getId() {
-		return id;
-	}
-
-	@JsonProperty("id")
-	public void setId(Integer id) {
-		this.id = id;
+		this.payments = payments;
 	}
 
 	@JsonProperty("roomsNumber")
@@ -64,29 +45,32 @@ public class Accomodation {
 		this.area = area;
 	}
 
-	@JsonProperty("price")
-	public Double getPrice() {
-		return price;
-	}
-
-	@JsonProperty("price")
-	public void setPrice(Double price) {
-		this.price = price;
+	@JsonProperty("payments")
+	public List<AccomodationPayment> getPayments() {
+		return payments;
 	}
 
 	@JsonProperty("payment")
-	public PaymentType getPayment() {
-		return payment;
+	public void setPayments(List<AccomodationPayment> payments) {
+		this.payments = payments;
 	}
-
-	@JsonProperty("payment")
-	public void setPayment(PaymentType payment) {
-		this.payment = payment;
+	
+	public void getPayment(Integer index) {
+		this.payments.get(index);
 	}
+	
+	public void addPayment(AccomodationPayment payment) {
+		this.payments.add(payment);
+	}
+	
+	public void removePayment(int index) {
+		this.payments.remove(index);
+	}
+	
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(area, payment, price, roomsNumber);
+		return Objects.hash(area, payments, roomsNumber);
 	}
 
 	@Override
@@ -98,13 +82,13 @@ public class Accomodation {
 		if (getClass() != obj.getClass())
 			return false;
 		Accomodation other = (Accomodation) obj;
-		return Objects.equals(area, other.area) && payment == other.payment && Objects.equals(price, other.price)
+		return Objects.equals(area, other.area) && payments == other.payments
 				&& Objects.equals(roomsNumber, other.roomsNumber);
 	}
 
 	@Override
 	public String toString() {
-		return "Accomodation [id=" + id + ", roomsNumber=" + roomsNumber + ", area=" + area + ", price=" + price
-				+ ", payment=" + payment + "]";
+		return "Accomodation [roomsNumber=" + roomsNumber + ", area=" + area
+				+ ", payments=" + payments + "]";
 	}
 }
