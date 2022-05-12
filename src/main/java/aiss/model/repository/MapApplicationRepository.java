@@ -1,248 +1,194 @@
 package aiss.model.repository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import aiss.model.Coordinates;
 import aiss.model.Event;
-import aiss.model.Playlist;
-import aiss.model.Song;
-import aiss.model.Event;
+import aiss.model.Place;
+import aiss.model.Review;
 
+public class MapApplicationRepository implements PlaceRepository, EventsRepository {
 
-<<<<<<< HEAD
-public class MapApplicationRepository implements PlaylistRepository, EventRepository{
-
-	Map<String, Playlist> playlistMap;
-	Map<String, Song> songMap;
-	Map<Integer, Event> eventMap;
-=======
-public class MapApplicationRepository implements PlaylistRepository, EventsRepository{
-
-	Map<String, Playlist> playlistMap;
-	Map<String, Song> songMap;
-	Map<String, Event>eventsMap;
->>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
-	private static MapApplicationRepository instance=null;
-	private int index=0;			// Index to create playlists and songs' identifiers.
-	
-	
-	public static MapApplicationRepository getInstance() {
-		
-		if (instance==null) {
-			instance = new MapApplicationRepository();
-			instance.init();
-		}
-		
-		return instance;
-	}
+	private Map<Integer, Place> placesMap;
+	private static MapApplicationRepository instance = null;
+	private Integer placeIndex = 0;
 	
 	public void init() {
 		
-		playlistMap = new HashMap<String,Playlist>();
-		songMap = new HashMap<String,Song>();
-<<<<<<< HEAD
-		eventMap = new HashMap<Integer,Event>();
-=======
-		eventsMap = new HashMap<String, Event>();
->>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
+		this.placesMap = new HashMap<Integer, Place>();
+		/*
+		Voomm,fsnoday5@51.la,102 Elka Terrace,0,http://wisc.edu,62.2666019,27.1252002
+		Babbleset,csarch6@globo.com,1827 Manufacturers Road,1,http://diigo.com,38.1748383,20.5829927*/
+				
+		Place place1 = new Place();
+		place1.setName("Quatz");
+		place1.setEmail("wzaniolini0@amazonaws.com");
+		place1.setAddress("6086 Morrow Park");
+		place1.setWebsite("https://goo.gl");
+		place1.setLocation(Coordinates.of(48.8466523,2.2582125));
+		addPlace(place1);
+
+		Place place2 = new Place();
+		place2.setName("Demivee");
+		place2.setEmail("dcoughlin1@hhs.gov");
+		place2.setAddress("7347 Graceland Road");
+		place2.setWebsite(",http://deliciousdays.com");
+		place2.setLocation(Coordinates.of(11.5399857,-85.6986957));
+		addPlace(place2);
 		
-		// Create songs
-		Song rollingInTheDeep=new Song();
-		rollingInTheDeep.setTitle("Rolling in the Deep");
-		rollingInTheDeep.setArtist("Adele");
-		rollingInTheDeep.setYear("2011");
-		rollingInTheDeep.setAlbum("21");
-		addSong(rollingInTheDeep);
+		Place place3 = new Place();
+		place3.setName("Aimbu");
+		place3.setEmail("ocrigane2@alexa.com");
+		place3.setAddress("36581 Hauk Point");
+		place3.setWebsite("https://sourceforge.netm");
+		place3.setLocation(Coordinates.of(42.8043197,132.8288963));
+		addPlace(place3);
 		
-		Song one=new Song();
-		one.setTitle("One");
-		one.setArtist("U2");
-		one.setYear("1992");
-		one.setAlbum("Achtung Baby");
-		addSong(one);
+
+		Review review1 = new Review("Zarzu","Todo perfecto",4.5);
 		
-		Song losingMyReligion=new Song();
-		losingMyReligion.setTitle("Losing my Religion");
-		losingMyReligion.setArtist("REM");
-		losingMyReligion.setYear("1991");
-		losingMyReligion.setAlbum("Out of Time");
-		addSong(losingMyReligion);
+		addReview(place1.getId(),review1);
+		addReview(place2.getId(),review1);
+		addReview(place3.getId(),review1);
+
+		Place place4 = new Place();
+		place4.setName("Twimm");
+		place4.setEmail("ccaddick3@taobao.com");
+		place4.setAddress("616 Talisman Terrace");
+		place4.setWebsite("http://quantcast.com");
+		place4.setLocation(Coordinates.of(52.1584604,20.9110916));
+		addPlace(place4);
 		
-		Song smellLikeTeenSpirit=new Song();
-		smellLikeTeenSpirit.setTitle("Smell Like Teen Spirit");
-		smellLikeTeenSpirit.setArtist("Nirvana");
-		smellLikeTeenSpirit.setAlbum("Nevermind");
-		smellLikeTeenSpirit.setYear("1991");
-		addSong(smellLikeTeenSpirit);
+		Place place5 = new Place();
+		place5.setName("Jazzy");
+		place5.setEmail("rnairne4@un.org");
+		place5.setAddress("09 Montana Place");
+		place5.setWebsite("https://reference.com");
+		place5.setLocation(Coordinates.of(-42.7700601,-65.0306302));
+		addPlace(place5);
 		
-		Song gotye=new Song();
-		gotye.setTitle("Someone that I used to know");
-		gotye.setArtist("Gotye");
-		gotye.setYear("2011");
-		gotye.setAlbum("Making Mirrors");
-		addSong(gotye);
-		
-		// Create playlists
-		Playlist japlaylist=new Playlist();
-		japlaylist.setName("AISSPlayList");
-		japlaylist.setDescription("AISS PlayList");
-		addPlaylist(japlaylist);
-		
-		Playlist playlist = new Playlist();
-		playlist.setName("Favourites");
-		playlist.setDescription("A sample playlist");
-		addPlaylist(playlist);
-		
-		// Add songs to playlists
-		addSong(japlaylist.getId(), rollingInTheDeep.getId());
-		addSong(japlaylist.getId(), one.getId());
-		addSong(japlaylist.getId(), smellLikeTeenSpirit.getId());
-		addSong(japlaylist.getId(), losingMyReligion.getId());
-		
-		addSong(playlist.getId(), losingMyReligion.getId());
-		addSong(playlist.getId(), gotye.getId());
 	}
 	
-	// Playlist related operations
-	@Override
-	public void addPlaylist(Playlist p) {
-		String id = "p" + index++;	
-		p.setId(id);
-		playlistMap.put(id,p);
+	public static MapApplicationRepository getInstance() {
+		
+		if (instance == null) {
+			instance = new MapApplicationRepository();
+			instance.init();
+		}
+		return instance;
 	}
 	
 	@Override
-	public Collection<Playlist> getAllPlaylists() {
-			return playlistMap.values();
+	public void addPlace(Place place) {
+		place.setId(placeIndex);
+		placesMap.put(place.getId(), place);
+		placeIndex++;
 	}
 
 	@Override
-	public Playlist getPlaylist(String id) {
-		return playlistMap.get(id);
+	public Collection<Place> getAllPlaces() {
+		return placesMap.values();
+	}
+
+	@Override
+	public Place getPlace(Integer placeId) {
+		return placesMap.get(placeId);
+	}
+
+	@Override
+	public void updatePlace(Place place) {
+		placesMap.put(place.getId(), place);
+		
+	}
+
+	@Override
+	public void deletePlace(Integer placeId) {
+		placesMap.remove(placeId);
 	}
 	
 	@Override
-	public void updatePlaylist(Playlist p) {
-		playlistMap.put(p.getId(),p);
-	}
-
-	@Override
-	public void deletePlaylist(String id) {	
-		playlistMap.remove(id);
-	}
-	
-
-	@Override
-	public void addSong(String playlistId, String songId) {
-		Playlist playlist = getPlaylist(playlistId);
-		playlist.addSong(songMap.get(songId));
-	}
-
-	@Override
-	public Collection<Song> getAll(String playlistId) {
-		return getPlaylist(playlistId).getSongs();
-	}
-
-	@Override
-	public void removeSong(String playlistId, String songId) {
-		getPlaylist(playlistId).deleteSong(songId);
-	}
-
-	
-	// Song related operations
-	
-	@Override
-	public void addSong(Song s) {
-		String id = "s" + index++;
-		s.setId(id);
-		songMap.put(id, s);
+	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius,
+			Double maxRadius) {
+		
+		List<Place> places = this.placesWithoutPlace(placeId);
+		Coordinates currentLocation = this.getPlace(placeId).getLocation();
+		Double minimunRadius = Optional.ofNullable(minRadius).orElse(0.0);
+		Double maximunRadius = Optional.ofNullable(maxRadius).orElse(Double.MAX_VALUE);
+		return places.stream()
+				.filter(place -> 
+				minimunRadius <= Place.getDistance(currentLocation, place.getLocation())
+				&& Place.getDistance(currentLocation, place.getLocation()) <= maximunRadius)
+				.collect(Collectors.toList());
 	}
 	
-	@Override
-	public Collection<Song> getAllSongs() {
-			return songMap.values();
+	private List<Place> placesWithoutPlace(Integer placeId) {
+		return this.placesMap.entrySet().stream().filter(place -> place.getKey() != placeId)
+				.map(place -> place.getValue()).collect(Collectors.toList());
 	}
-
+	//EVENTS
 	@Override
-	public Song getSong(String songId) {
-		return songMap.get(songId);
-	}
-
-	@Override
-	public void updateSong(Song s) {
-		Song song = songMap.get(s.getId());
-		song.setTitle(s.getTitle());
-		song.setAlbum(s.getAlbum());
-		song.setArtist(s.getArtist());
-		song.setYear(s.getYear());
-	}
-
-	@Override
-	public void deleteSong(String songId) {
-		songMap.remove(songId);
-	}
-
-	@Override
-<<<<<<< HEAD
-	public void addEvent(Event e) {
-		Integer id = index++;	
-		e.setIndex(id);
-		eventMap.put(id,e);
-=======
 	public void addEvent(Event event) {
-		String id = "event" + index++;	
-		event.setId(id);
-		eventsMap.put(id,event);
->>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Collection<Event> getAllEvents() {
-<<<<<<< HEAD
-		return eventMap.values();
-	
-	}
-
-
-	@Override
-	public Event getEvent(Integer eventId) {
-		return eventMap.get(eventId);
-	}
-
-	@Override
-	public void updateEvent(Event e) {
-		eventMap.put(e.getIndex(),e);
-=======
-		return eventsMap.values();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Event getEvents(Integer eventId) {
-		return eventsMap.get(eventId);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void updateEvent(Event event) {
-		Event e = eventsMap.get(event.getId());
-		e.setName(e.getName());
-		e.setAlbum(e.getDescription());
-		e.setArtist(e.getDate());
-		e.setYear(e.getPrice());
->>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void deleteEvent(Integer eventId) {
-<<<<<<< HEAD
-		eventMap.remove(eventId);
-=======
-		eventsMap.remove(eventId);// TODO Auto-generated method stub
->>>>>>> ad1a52eebfc0339091be284fa47f6e5e45ade2dd
+		// TODO Auto-generated method stub
 		
 	}
-	
+
+	//REVIEWS
+	@Override
+	public void addReview(Integer placeId, Review review) {
+		review.setDate(LocalDateTime.now());
+		placesMap.get(placeId).getReviews().add(review);
+	}
+
+	@Override
+	public Review getReview(Integer placeId, Integer reviewId) {
+		return placesMap.get(placeId).getReviews().get(reviewId);
+	}
+
+	@SuppressWarnings("unlikely-arg-type")
+	@Override
+	public void updateReview(Integer placeId, Review review) {
+		placesMap.get(placeId).getReviews().remove(review.getId());
+		placesMap.get(placeId).getReviews().add(review.getId(), review);
+	}
+
+	@Override
+	public void deleteReview(Integer placeId, Integer reviewId) {
+		Review reviewToDelete= placesMap.get(placeId).getReviews().get(reviewId);
+		placesMap.get(placeId).getReviews().remove(reviewToDelete);
+	}
+
+	@Override
+	public List<Review> getAllReviews(Integer placeId) {
+		return placesMap.get(placeId).getReviews();
+	}
 }

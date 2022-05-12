@@ -2,26 +2,49 @@ package aiss.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"latitude","longitude"})
 public class Coordinates {
 	
-	private final Double latitude;
-	private final Double longitude;
+	@JsonProperty("latitude")
+	private Double latitude;
+	@JsonProperty("latitude")
+	private Double longitude;
 	
-	private Coordinates(Double latitude, Double longitude) {
+	public Coordinates() {}
+	
+	public Coordinates(Double latitude, Double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 	
-	public static Coordinates of(Double latitude, Double longitude) {
+	@JsonCreator
+	public static Coordinates of(@JsonProperty("latitude") Double latitude,
+			@JsonProperty("latitude") Double longitude) {
 		return new Coordinates(latitude, longitude);
 	}
 
+	@JsonProperty("latitude")
 	public Double getLatitude() {
 		return latitude;
 	}
 
+	@JsonProperty("latitude")
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	
+	@JsonProperty("longitude")
 	public Double getLongitude() {
 		return longitude;
+	}
+
+	@JsonProperty("longitude")
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
 	@Override
@@ -43,9 +66,7 @@ public class Coordinates {
 		if (getClass() != obj.getClass())
 			return false;
 		Coordinates other = (Coordinates) obj;
-		return Objects.equals(latitude, other.latitude) && Objects.equals(longitude, other.longitude);
+		return Objects.equals(latitude, other.latitude) 
+				&& Objects.equals(longitude, other.longitude);
 	}
-	
-	
-
 }
