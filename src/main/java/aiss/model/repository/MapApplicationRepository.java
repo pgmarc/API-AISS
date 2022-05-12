@@ -178,6 +178,17 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 			return placesMap.get(placeId).getReviews().get(reviewId);
 		}
 
+		@Override
+		public void updateReview(Integer placeId, Review review) {
+			placesMap.get(placeId).getReviews().put(review.getId(), review);
+		}
+
+		@Override
+		public void deleteReview(Integer placeId, Integer reviewId) {
+			placesMap.get(placeId).getReviews().remove(reviewId);
+			
+		}
+
 }
 	
 	

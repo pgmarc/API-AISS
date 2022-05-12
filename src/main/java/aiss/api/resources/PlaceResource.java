@@ -1,6 +1,6 @@
 package aiss.api.resources;
 
-import java.net.URI;
+import java.net.URI; 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
-import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapApplicationRepository;
@@ -177,7 +176,53 @@ public class PlaceResource {
 				}
 				return review;
 			}
-	
+			
+			@PUT
+			@Path("/{id}/reviews/{reviewId}")
+			@Consumes("application/json")
+			public Response updateReview(@PathParam("id") Integer placeId,@PathParam("reviewId") Integer reviewId, Review review) {
+				Place place = placeRepository.getPlace(placeId);
+				if (place == null)
+					throw new NotFoundException("The place with id="+ placeId +" was not found");			
+				Review oldReview = placeRepository.getReview(placeId, reviewId);
+				if (oldReview == null)
+					throw new NotFoundException("The review with id="+ reviewId +" was not found in that place");
+				if (review.getUsername() != null)
+					oldReview.setUsername(review.getUsername());
+				
+				if (review.getDescription() != null)
+					oldReview.setDescription(review.getDescription());
+				
+				if (review.getRating() != null)
+					oldReview.setRating(review.getRating());
+				
+				if (review.getDate() != null)
+					oldReview.setDate(review.getDate());
+				
+				placeRepository.updateReview(placeId, oldReview);
+				
+				return Response.status(Status.NO_CONTENT).entity(oldReview).build();
+			}
+			
+			@DELETE
+			@Path("/{id}/reviews/{reviewId}")
+			public Response deleteReview(@PathParam("id") Integer placeId,@PathParam("reviewId") Integer reviewId) {
+				Place place = placeRepository.getPlace(placeId);
+				
+				if (place == null)
+					throw new NotFoundException("The place with id=" + placeId + " was not found");
+				else {
+					Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
+					if(reviewToBeDeleted==null)
+						throw new NotFoundException("The review with id=" + reviewId + " was not found in that place");
+					
+					else {
+						placeRepository.deleteReview(placeId, reviewId);
+					}
+				}		
+				return Response.noContent().build();
+			}
+			
 	public static void main(String[] args) {
 		System.out.println(getInstance().placeRepository.getAllPlaces());
 	}

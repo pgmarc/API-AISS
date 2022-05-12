@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
@@ -37,8 +38,7 @@ import aiss.model.repository.EventsRepository;
 		EventsRepository repository;
 		
 		private EventsResource(){
-			//TODO Create MapEventRepository class file
-			//repository=MapApplicationRepository.getInstance();
+			repository=MapApplicationRepository.getInstance();
 		}
 		
 		public static EventsResource getInstance()
@@ -218,5 +218,51 @@ import aiss.model.repository.EventsRepository;
 				throw new NotFoundException("The review with id: " + reviewId + " was not found in the event.");
 			}
 			return review;
+		}
+		
+		@PUT
+		@Path("/{id}/reviews/{reviewId}")
+		@Consumes("application/json")
+		public Response updateReview(@PathParam("id") Integer eventId,@PathParam("reviewId") Integer reviewId, Review review) {
+			Event event = repository.getEvents(eventId);
+			if (event == null)
+				throw new NotFoundException("The event with id="+ eventId +" was not found");			
+			Review oldReview = repository.getReview(eventId, reviewId);
+			if (oldReview == null)
+				throw new NotFoundException("The review with id="+ reviewId +" was not found in that event");
+			if (review.getUsername() != null)
+				oldReview.setUsername(review.getUsername());
+			
+			if (review.getDescription() != null)
+				oldReview.setDescription(review.getDescription());
+			
+			if (review.getRating() != null)
+				oldReview.setRating(review.getRating());
+			
+			if (review.getDate() != null)
+				oldReview.setDate(review.getDate());
+			
+			repository.updateReview(eventId, oldReview);
+			
+			return Response.status(Status.NO_CONTENT).entity(oldReview).build();
+		}
+		
+		@DELETE
+		@Path("/{id}/reviews/{reviewId}")
+		public Response deleteReview(@PathParam("id") Integer eventId,@PathParam("reviewId") Integer reviewId) {
+			Event event = repository.getEvents(eventId);
+			
+			if (event == null)
+				throw new NotFoundException("The event with id=" + eventId + " was not found");
+			else {
+				Review reviewToBeDeleted= repository.getReview(eventId, reviewId);
+				if(reviewToBeDeleted==null)
+					throw new NotFoundException("The review with id=" + reviewId + " was not found in that event");
+				
+				else {
+					repository.deleteReview(eventId, reviewId);
+				}
+			}		
+			return Response.noContent().build();
 		}
 }
