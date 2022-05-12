@@ -78,13 +78,13 @@ public class EventResource {
 			throw new BadRequestException("The email of contact of an event must not be null");
 		if (event.getOrganizators() == null || "".equals(event.getOrganizators()))
 			throw new BadRequestException("The organizatos of an event must not be null");
-		if (event.getIndex() !=null)
+		if (event.getId() !=null)
 			throw new BadRequestException("The event id must not been given as a parameter.");
 
 		eventRepository.addEvent(event);
 		// Builds the response. Returns the event the has just been added.
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getEvent");
-		URI uri = ub.build(event.getIndex());
+		URI uri = ub.build(event.getId());
 		ResponseBuilder response = Response.created(uri);
 		response.entity(event);			
 		return response.build();
@@ -96,7 +96,7 @@ public class EventResource {
 	public Response updateevent(@PathParam("id") Integer eventId,Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
 		if (oldEvent == null)
-			throw new NotFoundException("The event with id="+ event.getIndex() +" was not found");			
+			throw new NotFoundException("The event with id="+ event.getId() +" was not found");			
 		
 		if (event.getName() != null)
 			oldEvent.setName(event.getName());

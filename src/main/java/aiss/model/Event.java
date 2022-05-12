@@ -24,10 +24,10 @@ public class Event {
 	private Transport transport;
 	private List<Review> reviews= new ArrayList<Review>();
 	private enum Types {
-		music,theater, art, cultural;
+		MUSIC,THEATRE, ART, CULTURAL;
 	};
 	private enum Transport {
-		bus,train, bicycle, underground;
+		BUS,TRAIN, BICYCLE, UNDERGROUND;
 	};
 	
 	public Event(String name, Integer price , LocalDateTime date, String contactEmail, String organizators) {
@@ -110,7 +110,11 @@ public class Event {
 		this.description = description;
 	}
 
-	public String getDate() {
+	public LocalDateTime getDate() {
+		return date;
+	}
+	
+	public String getDateFormatted() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		return date.format(f);
 	}
