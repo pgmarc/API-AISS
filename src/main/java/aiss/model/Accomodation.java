@@ -67,7 +67,6 @@ public class Accomodation {
 		this.payments.remove(index);
 	}
 	
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(area, payments, roomsNumber);

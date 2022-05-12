@@ -68,12 +68,11 @@ public class AccomodationPayment {
 		this.mealService = mealService;
 	}
 	
-	
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(description, mealService, paymentPeriod, price);
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -86,10 +85,10 @@ public class AccomodationPayment {
 		return Objects.equals(description, other.description) && mealService == other.mealService
 				&& paymentPeriod == other.paymentPeriod && Objects.equals(price, other.price);
 	}
+	
 	@Override
 	public String toString() {
 		return "AccomodationPayment [description=" + description + ", price=" + price + ", paymentPeriod="
 				+ paymentPeriod + ", mealService=" + mealService + "]";
 	}
-	
 }

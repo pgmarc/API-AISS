@@ -1,12 +1,7 @@
 package aiss.model.repository;
 
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-
 import java.util.Collection;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +113,9 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 	}
 	
 	@Override
-	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius, Double maxRadius) {
+	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius,
+			Double maxRadius) {
+		
 		List<Place> places = this.placesWithoutPlace(placeId);
 		Coordinates currentLocation = this.getPlace(placeId).getLocation();
 		Double minimunRadius = Optional.ofNullable(minRadius).orElse(0.0);
@@ -135,64 +132,55 @@ public class MapApplicationRepository implements PlaceRepository, EventsReposito
 				.map(place -> place.getValue()).collect(Collectors.toList());
 	}
 	//EVENTS
-		@Override
-		public void addEvent(Event event) {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void addEvent(Event event) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		@Override
-		public Collection<Event> getAllEvents() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	@Override
+	public Collection<Event> getAllEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		@Override
-		public Event getEvents(Integer eventId) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	@Override
+	public Event getEvents(Integer eventId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		@Override
-		public void updateEvent(Event event) {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void updateEvent(Event event) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		@Override
-		public void deleteEvent(Integer eventId) {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void deleteEvent(Integer eventId) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	//REVIEWS
+	@Override
+	public void addReview(Integer placeId, Review review) {
+		review.setDate(LocalDateTime.now());
+		placesMap.get(placeId).addReview(review);
+	}
 
-		//REVIEWS
-		@Override
-		public void addReview(Integer placeId, Review review) {
-			review.setDate(LocalDateTime.now());
-			placesMap.get(placeId).addReview(review);
-		}
+	@Override
+	public Review getReview(Integer placeId, Integer reviewId) {
+		return placesMap.get(placeId).getReviews().get(reviewId);
+	}
 
-		@Override
-		public Review getReview(Integer placeId, Integer reviewId) {
-			return placesMap.get(placeId).getReviews().get(reviewId);
-		}
+	@Override
+	public void updateReview(Integer placeId, Review review) {
+		placesMap.get(placeId).getReviews().put(review.getId(), review);
+	}
 
-		@Override
-		public void updateReview(Integer placeId, Review review) {
-			placesMap.get(placeId).getReviews().put(review.getId(), review);
-		}
-
-		@Override
-		public void deleteReview(Integer placeId, Integer reviewId) {
-			placesMap.get(placeId).getReviews().remove(reviewId);
-			
-		}
-
+	@Override
+	public void deleteReview(Integer placeId, Integer reviewId) {
+		placesMap.get(placeId).getReviews().remove(reviewId);
+	}
 }
-	
-	
-	
-	
-	
-	

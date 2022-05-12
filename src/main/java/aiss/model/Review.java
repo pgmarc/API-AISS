@@ -11,7 +11,6 @@ public class Review {
 	private Double rating;
 	private LocalDateTime date;
 	
-	
 	public Review(String username, String description, Double rating) {
 		super();
 		this.username = username;
@@ -26,30 +25,39 @@ public class Review {
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public Double getRating() {
 		return rating;
 	}
+	
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
+	
 	public LocalDateTime getDate() {
 		return date;
 	}
+	
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
+	
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -58,6 +66,7 @@ public class Review {
 	public int hashCode() {
 		return Objects.hash(date, username);
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

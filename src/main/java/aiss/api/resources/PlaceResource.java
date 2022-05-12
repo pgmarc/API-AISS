@@ -1,7 +1,6 @@
 package aiss.api.resources;
 
 import java.net.URI; 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,100 +129,112 @@ public class PlaceResource {
 	}
 	
 	//REVIEWS
-			@POST
-			@Path("/reviews")
-			@Consumes("application/json")
-			@Produces("application/json")
-			public Response addReview(@PathParam("id") Integer placeId, @Context UriInfo uriInfo, Review review) {
-				Place place = placeRepository.getPlace(placeId);
-				if(place.equals(null)) {
-					throw new NotFoundException("The place with id: " + placeId + " was not found.");
-				}
-				if (review.getRating() == null)
-					throw new BadRequestException("The rating must not be null");
-				else if(review.getRating() < 0 || review.getRating() > 5)
-					throw new BadRequestException("The rating must be a value between 0 and 5");
-				
-				if (review.getId() !=null)
-					throw new BadRequestException("The review id must not been given as a parameter.");
-				if (review.getDescription()==null)
-					review.setDescription("");
-				if(review.getUsername()==null)
-					review.setUsername("Anonymous");
-				placeRepository.addReview(placeId, review);
+	@GET
+	@Path("/{id}/reviews/{reviewId}")
+	@Produces("application/json")
+	public Review getReview(@PathParam("id") Integer placeId,
+			@PathParam("reviewId") Integer reviewId) {
+		
+		Place place = placeRepository.getPlace(placeId);
+		Review review = placeRepository.getReview(placeId,reviewId);
+		
+		if(place.equals(null)) {
+			throw new NotFoundException("The place with id: " + placeId + " was not found.");
+		}
+		if(review.equals(null)) {
+			throw new NotFoundException("The review with id: " + reviewId + " was not found in the place.");
+		}
+		return review;
+	}
+	
+	
+	@POST
+	@Path("/{id}/reviews")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response addReview(@PathParam("id") Integer placeId, @Context UriInfo uriInfo,
+			Review review) {
+		
+		Place place = placeRepository.getPlace(placeId);
+		
+		if(place.equals(null))
+			throw new NotFoundException("The place with id: " + placeId + " was not found.");
+		
+		if (review.getId() !=null)
+			throw new BadRequestException("The review id must not been given as a parameter.");
+		
+		if (review.getUsername()==null) review.setUsername("Anonymous");
 
-				// Builds the response. Returns the song the has just been added.
-				UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
-				URI uri = ub.build(review.getId());
-				ResponseBuilder resp = Response.created(uri);
-				resp.entity(review);			
-				return resp.build();
-			}
-			
-			@GET
-			@Path("/{id}/reviews/{reviewId}")
-			@Produces("application/json")
-			public Review getReview(@PathParam("id") Integer placeId,@PathParam("reviewId") Integer reviewId)
-			{
-				Review review = placeRepository.getReview(placeId,reviewId);
-				Place place = placeRepository.getPlace(placeId);
-				
-				if(place.equals(null)) {
-					throw new NotFoundException("The place with id: " + placeId + " was not found.");
-				}
-				if(review.equals(null)) {
-					throw new NotFoundException("The review with id: " + reviewId + " was not found in the place.");
-				}
-				return review;
-			}
-			
-			@PUT
-			@Path("/{id}/reviews/{reviewId}")
-			@Consumes("application/json")
-			public Response updateReview(@PathParam("id") Integer placeId,@PathParam("reviewId") Integer reviewId, Review review) {
-				Place place = placeRepository.getPlace(placeId);
-				if (place == null)
-					throw new NotFoundException("The place with id="+ placeId +" was not found");			
-				Review oldReview = placeRepository.getReview(placeId, reviewId);
-				if (oldReview == null)
-					throw new NotFoundException("The review with id="+ reviewId +" was not found in that place");
-				if (review.getUsername() != null)
-					oldReview.setUsername(review.getUsername());
-				
-				if (review.getDescription() != null)
-					oldReview.setDescription(review.getDescription());
-				
-				if (review.getRating() != null)
-					oldReview.setRating(review.getRating());
-				
-				if (review.getDate() != null)
-					oldReview.setDate(review.getDate());
-				
-				placeRepository.updateReview(placeId, oldReview);
-				
-				return Response.status(Status.NO_CONTENT).entity(oldReview).build();
-			}
-			
-			@DELETE
-			@Path("/{id}/reviews/{reviewId}")
-			public Response deleteReview(@PathParam("id") Integer placeId,@PathParam("reviewId") Integer reviewId) {
-				Place place = placeRepository.getPlace(placeId);
-				
-				if (place == null)
-					throw new NotFoundException("The place with id=" + placeId + " was not found");
-				else {
-					Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
-					if(reviewToBeDeleted==null)
-						throw new NotFoundException("The review with id=" + reviewId + " was not found in that place");
-					
-					else {
-						placeRepository.deleteReview(placeId, reviewId);
-					}
-				}		
-				return Response.noContent().build();
-			}
-			
-	public static void main(String[] args) {
-		System.out.println(getInstance().placeRepository.getAllPlaces());
+		if (review.getDescription()==null) review.setDescription("");
+		
+		if (review.getRating() == null)
+			throw new BadRequestException("The rating must not be null");
+		
+		if (review.getRating() < 0 || review.getRating() > 5)
+			throw new BadRequestException("The rating must be a value between 0 and 5");
+		
+		placeRepository.addReview(placeId, review);
+
+		// Builds the response. Returns the song the has just been added.
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getReview");
+		URI uri = ub.build(place.getId(), review.getId());
+		ResponseBuilder resp = Response.created(uri);
+		resp.entity(review);			
+		return resp.build();
+	}
+	
+	@PUT
+	@Path("/{id}/reviews/{reviewId}")
+	@Consumes("application/json")
+	public Response updateReview(@PathParam("id") Integer placeId,
+			@PathParam("reviewId") Integer reviewId, Review review) {
+		
+		Place place = placeRepository.getPlace(placeId);
+		
+		if (place == null)
+			throw new NotFoundException("The place with id="+ placeId +" was not found");		
+		
+		Review oldReview = placeRepository.getReview(placeId, reviewId);
+		
+		if (oldReview == null)
+			throw new NotFoundException("The review with id="+ reviewId +
+					" was not found in that place");
+		
+		if (review.getUsername() != null)
+			oldReview.setUsername(review.getUsername());
+		
+		if (review.getDescription() != null)
+			oldReview.setDescription(review.getDescription());
+		
+		if (review.getRating() != null)
+			oldReview.setRating(review.getRating());
+		
+		if (review.getDate() != null)
+			oldReview.setDate(review.getDate());
+		
+		placeRepository.updateReview(placeId, oldReview);
+		
+		return Response.status(Status.NO_CONTENT).entity(oldReview).build();
+	}
+	
+	@DELETE
+	@Path("/{id}/reviews/{reviewId}")
+	public Response deleteReview(@PathParam("id") Integer placeId,
+			@PathParam("reviewId") Integer reviewId) {
+		
+		Place place = placeRepository.getPlace(placeId);
+		
+		if (place == null)
+			throw new NotFoundException("The place with id=" + placeId + " was not found");
+
+		Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
+		
+		if(reviewToBeDeleted==null)
+			throw new NotFoundException("The review with id=" + reviewId +
+					" was not found in that place");
+	
+		placeRepository.deleteReview(placeId, reviewId);
+		
+		return Response.noContent().build();
 	}
 }
