@@ -1,8 +1,8 @@
 package aiss.model;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Event {
@@ -17,7 +17,7 @@ public class Event {
 	private final Coordinates location;
 	private Integer price;
 	private String organizators;
-	private Map<Integer,Review> reviews;
+	private List<Review> reviews= new ArrayList<Review>();
 	private enum types {
 		music,theater, art, cultural;
 	};
@@ -49,7 +49,6 @@ public class Event {
 		this.website = website;
 		this.email = email;
 		this.organizators = organizators;
-		this.reviews= new HashMap<Integer, Review>();
 		index++;
 	}
 
@@ -123,7 +122,7 @@ public class Event {
 	
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
-		this.reviews.put(reviewIndex, review);
+		this.reviews.add(reviewIndex, review);
 		reviewIndex++;
 	}
 	
@@ -132,7 +131,7 @@ public class Event {
 	}
 	
 	public Double getRating() {
-		return this.reviews.values().stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
+		return this.reviews.stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package aiss.model;
 
-import java.util.HashMap;  
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,7 +26,7 @@ public class Place {
 	@JsonProperty("location")
 	private Coordinates location;
 	@JsonProperty("reviews")
-	private Map<Integer,Review> reviews = new HashMap<Integer, Review>();
+	private List<Review> reviews = new ArrayList<Review>();
 	
 	public Place() {}
 
@@ -49,7 +49,6 @@ public class Place {
 		this.address = address;
 		this.website = website;
 		this.location = location;
-		this.reviews = new HashMap<Integer, Review>();
 	}
 
 	public static Place create(String name, String email, String address, String website, Coordinates location) {
@@ -121,12 +120,12 @@ public class Place {
 	}
 	
 	@JsonProperty("reviews")
-	public Map<Integer,Review> getReviews() {
+	public List<Review> getReviews() {
 		return reviews;
 	}
 	
 	@JsonProperty("reviews")
-	public void setReviews(Map<Integer,Review> reviews) {
+	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
 	
@@ -136,7 +135,7 @@ public class Place {
 	
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
-		this.reviews.put(reviewIndex, review);
+		this.reviews.add(reviewIndex, review);
 		reviewIndex++;
 	}
 	
@@ -149,7 +148,7 @@ public class Place {
 	
 	public Double getRating() {
 		Double res;
-		if(!(this.reviews==(null))) res= this.reviews.values().stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
+		if(!(this.reviews==(null))) res= this.reviews.stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
 		else res= 0.;
 		return Math.round(res*10.0)/10.0;
 	}
