@@ -1,5 +1,6 @@
 package aiss.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +141,10 @@ public class Place {
 	
 	@JsonProperty("reviews")
 	public List<Review> getReviews() {
-		List<Review> reviews = List.copyOf(this.reviews.values());
+		List<Review> reviews = new ArrayList<Review>();
+		if (!this.reviews.isEmpty()) {
+			reviews.addAll(this.reviews.values());
+		}
 		return reviews;
 	}
 	
