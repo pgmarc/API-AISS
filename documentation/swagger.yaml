@@ -13,7 +13,7 @@ info:
 servers:
 - url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
   description: SwaggerHub API Auto Mocking
-- url: http//student-compass-350106.appspot.com/api
+- url: http://student-compass-350106.appspot.com/api
   description: Production API server
 - url: "http://localhost:{port}/api"
   description: Development server
