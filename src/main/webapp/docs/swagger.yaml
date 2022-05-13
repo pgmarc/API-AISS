@@ -1,0 +1,243 @@
+openapi: 3.0.0
+info:
+  title: Students Compass
+  description: |
+    Great API for students looking for a place to stay and spend your spare time on.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: studentscompass007@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
+  - url: 'https://student-compass-350106.appspot.com/api'
+    description: Production API server
+  - url: 'http://localhost:{port}/api'
+    description: Development server
+    variables:
+      port:
+        enum:
+          - '8089'
+        default: '8089'
+tags:
+  - name: places
+    description: Interesting places
+paths:
+  /places:
+    get:
+      tags:
+        - places
+      summary: Get all places
+      description: Get all places
+      operationId: getAllPlaces
+      responses:
+        '200':
+          description: List of places
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Places'
+              examples:
+                Place:
+                  $ref: '#/components/examples/Place1'
+                Place1: 
+                  $ref: '#/components/examples/Place2'  
+    post:
+      tags: 
+        - places
+      summary: Creates new places
+      description: Creates new places with the given payload
+      operationId: addPlaces
+      requestBody:
+        description: Payload of the place
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+      responses:
+        '201':
+          description: Succesfully created place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+  /places/{placeId}:
+    get:
+      tags: 
+        - places
+      summary: Get a place by id
+      description: Get a place by id
+      operationId: getAPlace
+      parameters: 
+        - name: placeId
+          in: path
+          description: Id of the place
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Values retrieved of a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+components:
+  schemas:
+    Accomodations:
+      type: object
+      properties:
+        roomNumbers:
+          type: integer
+        area:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+    Reviews:
+      type: object
+      properties:
+        username:
+          type: string
+        description:
+          type: string
+        rating:
+          type: integer
+        date:
+          type: string
+          format: date-time
+    Events:
+      type: object
+      required: 
+        - name
+        - location
+        - email
+        - date
+        - organizers
+        - price
+      properties:
+        name: 
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        website:
+          type: string
+        email:
+          type: string
+        types:
+          type: string
+          enum:
+            - music
+            - theater
+            - art
+            - cultural
+        transport:
+          type: string
+          enum: 
+            - bus
+            - train
+            - bicycle
+            - underground
+        organizers:
+          type: string
+    Coordinates:
+      type: object
+      required: 
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          description: The latitude of the place
+          type: number
+          format: double
+          minimum: -90
+          maximum: 90
+        longitude:
+          description: The longitude of the place
+          type: number
+          format: double
+          minimum: -180
+          maximum: 180
+    Place:
+      type: object
+      required: 
+        - name
+        - address
+        - location
+      properties:
+        name: 
+          type: string
+        email: 
+          type: string
+        address:
+          type: string
+        rating:
+          description: The average of all the reviews of the users
+          type: integer
+          format: int32
+        website:
+          type: string
+        details:
+          oneOf:
+            - $ref: '#/components/schemas/Accomodations'
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reviews'
+    Places:
+      type: array
+      items:
+        $ref: '#/components/schemas/Place'
+        
+  examples:
+    Place1:
+      summary: Gran ilustre place
+      description: Example the library gran ilustre
+      value: 
+        name: La biblioteca del gran ilustre
+        email: ilustre@gmail.com
+        address: Gran ilustre s/n
+        rating: 5
+        web: granilustre.com
+        location:
+          latitude: 40.0
+          longitude: -65.4
+    Place2:
+      description: Example of a Place1
+      value: 
+        name: La biblioteca del gran ilustre 1
+        email: ilustre@gmail.com
+        address: Gran ilustre s/n
+        rating: 5
+        web: granilustre.com
+        location:
+          latitude: 40.0
+          longitude: -65.4
+  requestBodies:
+    Coordinates:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Coordinates'
+    Place:
+      description: Place to add
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Place'

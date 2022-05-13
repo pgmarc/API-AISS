@@ -76,11 +76,17 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response addPlace(@Context UriInfo uriInfo, Place place) {
 		
+		if (place.getId() !=null)
+			throw new BadRequestException("The place id must not been given as a parameter.");
+
+		if (place.getName() == null || "".equals(place.getName()))
+			throw new BadRequestException("The place must hava a name to identify it");
+		
 		if (place.getAddress() == null || "".equals(place.getAddress()))
 			throw new BadRequestException("The address of a place must not be null");
 		
-		if (place.getId() !=null)
-			throw new BadRequestException("The place id must not been given as a parameter.");
+		if (place.getLocation() == null)
+			throw new BadRequestException("The place must have coordinates");
 
 		placeRepository.addPlace(place);
 
@@ -111,6 +117,16 @@ public class PlaceResource {
 		
 		if (place.getWebsite() != null)
 			oldPlace.setWebsite(place.getWebsite());
+		
+		if (place.getReviews() != null)
+			throw new BadRequestException("Reviews must not be initialized"
+					+ " when creating a place (Not the right operation)");
+		
+		// TODO Check if the client is initializing events array
+		
+		if (place.getAccomodation() != null)
+			throw new BadRequestException("Accomodation must not be initialized"
+					+ " when creating a place (Not the right operation)");
 		
 		placeRepository.updatePlace(oldPlace);
 		
