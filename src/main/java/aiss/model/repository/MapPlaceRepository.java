@@ -143,7 +143,7 @@ public class MapPlaceRepository implements PlaceRepository{
 
 	@Override
 	public List<Review> getAllReviews(Integer placeId) {
-		return placesMap.get(placeId).getReviews();
+		return placesMap.get(placeId).getReviews().values().stream().collect(Collectors.toList());
 	}
 	
 	@Override
@@ -151,17 +151,14 @@ public class MapPlaceRepository implements PlaceRepository{
 		return placesMap.get(placeId).getReviews().get(reviewId);
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void updateReview(Integer placeId, Review review) {
-		placesMap.get(placeId).getReviews().remove(review.getId());
-		placesMap.get(placeId).getReviews().add(review.getId(), review);
+		placesMap.get(placeId).getReviews().put(review.getId(), review);
 	}
 
 	@Override
 	public void deleteReview(Integer placeId, Integer reviewId) {
-		Review reviewToDelete = placesMap.get(placeId).getReviews().get(reviewId);
-		placesMap.get(placeId).getReviews().remove(reviewToDelete);
+		placesMap.get(placeId).getReviews().remove(reviewId);
 	}
 
 	@Override
@@ -184,6 +181,4 @@ public class MapPlaceRepository implements PlaceRepository{
 	public void deleteAccomodation(Integer placeId) {
 		placesMap.get(placeId).setAccomodation(null);
 	}
-
-
 }
