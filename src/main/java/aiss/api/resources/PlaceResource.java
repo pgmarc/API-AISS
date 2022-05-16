@@ -25,12 +25,12 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
-import com.google.appengine.api.mail.MailService.Message;
 
 import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
+import aiss.util.PlacesUtil;
 
 @Path("/places")
 public class PlaceResource {
@@ -52,8 +52,15 @@ public class PlaceResource {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAll() {
+	public Response getAllPlaces(@QueryParam("offset") Integer offset,
+			@QueryParam("limit") Integer limit) {
+		
+		if (limit < 0 | offset < 0) {
+			throw new BadRequestException("Invalid values for limit or offset");
+		}
+		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
+		places = PlacesUtil.getPagination(places, limit, offset);
 		return Response.status(Status.OK).entity(places).build();
 	}
 	
@@ -65,16 +72,16 @@ public class PlaceResource {
 		if (place == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		else {
-			return Response.status(Status.OK).entity(place).build();
-		}
+		
+		return Response.status(Status.OK).entity(place).build();
 	}
 	
 	@GET
 	@Path("/{id}/around")
 	@Produces("application/json")
 	public Response getPlacesAround(@PathParam("id") Integer placeId,
-			@QueryParam("minRadius") Double minRadius, @QueryParam("maxRadius") Double maxRadius) {
+			@QueryParam("minRadius") Double minRadius,
+			@QueryParam("maxRadius") Double maxRadius) {
 		List<Place> placesInArea = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
 		return Response.status(Status.OK).entity(placesInArea).build();
 	}
@@ -147,8 +154,8 @@ public class PlaceResource {
 		Place placeToBeRemoved = placeRepository.getPlace(placeId);
 		if (placeToBeRemoved == null)
 			throw new NotFoundException("The place with id=" + placeId + " was not found");
-		else
-			placeRepository.deletePlace(placeId);
+		
+		placeRepository.deletePlace(placeId);
 		
 		return Response.noContent().build();
 	}
@@ -160,15 +167,13 @@ public class PlaceResource {
 	public Response getAllReviews(@PathParam("id") Integer placeId) {
 		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
-		if(place==null) {
+		if (place == null)
 			return Response.status(Status.NOT_FOUND).build();
-		}
-		else if(reviews==null || reviews.isEmpty()) {
+		
+		if(reviews==null || reviews.isEmpty())
 			return Response.status(Status.NOT_FOUND).build();
-		}
-		else{
-			return Response.status(Status.OK).entity(reviews).build();
-		}
+
+		return Response.status(Status.OK).entity(reviews).build();
 	}
 
 	@GET
@@ -178,13 +183,11 @@ public class PlaceResource {
 			@PathParam("reviewId") Integer reviewId) {
 		Place place = placeRepository.getPlace(placeId);
 		Review review = placeRepository.getReview(placeId, reviewId);
-		if(place==null||review==null) {
+		if (place == null || review == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		else {
-			return Response.status(Status.OK).entity(review).build();
-		}
 		
+		return Response.status(Status.OK).entity(review).build();
 	}
 	
 	
@@ -228,26 +231,24 @@ public class PlaceResource {
 		Place place = placeRepository.getPlace(placeId);
 		Review oldReview = placeRepository.getReview(placeId, reviewId);
 		
-		if (place == null||oldReview == null) {
+		if (place == null || oldReview == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		
-		else {
-			if (review.getUsername() != null)
-				oldReview.setUsername(review.getUsername());
-		
-			if (review.getDescription() != null)
-				oldReview.setDescription(review.getDescription());
-		
-			if (review.getRating() != null)
-				oldReview.setRating(review.getRating());
-		
-			oldReview.setDate(LocalDateTime.now());
-		
-			placeRepository.updateReview(placeId, oldReview);
-		
-			return Response.status(Status.NO_CONTENT).entity(oldReview).build();
-		}
+		if (review.getUsername() != null)
+			oldReview.setUsername(review.getUsername());
+	
+		if (review.getDescription() != null)
+			oldReview.setDescription(review.getDescription());
+	
+		if (review.getRating() != null)
+			oldReview.setRating(review.getRating());
+	
+		oldReview.setDate(LocalDateTime.now());
+	
+		placeRepository.updateReview(placeId, oldReview);
+	
+		return Response.status(Status.NO_CONTENT).entity(oldReview).build();
 	}
 	
 	@DELETE
@@ -263,13 +264,12 @@ public class PlaceResource {
 		
 		Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
 		
-		if(reviewToBeDeleted==null) {
+		if(reviewToBeDeleted == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		else {
+		
 		placeRepository.deleteReview(placeId, reviewId);
 		return Response.noContent().build();
-		}
 	}
 }
 

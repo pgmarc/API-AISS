@@ -29,11 +29,6 @@ public class MapPlaceRepository implements PlaceRepository{
 		/*
 		Voomm,fsnoday5@51.la,102 Elka Terrace,0,http://wisc.edu,62.2666019,27.1252002
 		Babbleset,csarch6@globo.com,1827 Manufacturers Road,1,http://diigo.com,38.1748383,20.5829927*/
-		List<Place> places = FileReader.readPlacesFromCSV("files/places.csv");
-		for (Place place: places) {
-			addPlace(place);
-		}
-		InputStream a = ServletContext.class.getResourceAsStream("resources/places.csv");
 		
 		Place place1 = new Place();
 		place1.setName("Quatz");
@@ -47,7 +42,7 @@ public class MapPlaceRepository implements PlaceRepository{
 		place2.setName("Demivee");
 		place2.setEmail("dcoughlin1@hhs.gov");
 		place2.setAddress("7347 Graceland Road");
-		place2.setWebsite(",http://deliciousdays.com");
+		place2.setWebsite("http://deliciousdays.com");
 		place2.setLocation(Coordinates.of(11.5399857,-85.6986957));
 		addPlace(place2);
 		
