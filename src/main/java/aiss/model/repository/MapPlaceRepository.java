@@ -1,7 +1,7 @@
 package aiss.model.repository;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
+
 import aiss.model.Accomodation;
 import aiss.model.Coordinates;
-import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
+import aiss.util.FileReader;
 
 public class MapPlaceRepository implements PlaceRepository{
 
@@ -27,7 +29,12 @@ public class MapPlaceRepository implements PlaceRepository{
 		/*
 		Voomm,fsnoday5@51.la,102 Elka Terrace,0,http://wisc.edu,62.2666019,27.1252002
 		Babbleset,csarch6@globo.com,1827 Manufacturers Road,1,http://diigo.com,38.1748383,20.5829927*/
-				
+		List<Place> places = FileReader.readPlacesFromCSV("files/places.csv");
+		for (Place place: places) {
+			addPlace(place);
+		}
+		InputStream a = ServletContext.class.getResourceAsStream("resources/places.csv");
+		
 		Place place1 = new Place();
 		place1.setName("Quatz");
 		place1.setEmail("wzaniolini0@amazonaws.com");

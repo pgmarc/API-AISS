@@ -1,12 +1,12 @@
 package aiss.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import aiss.model.Coordinates;
@@ -14,15 +14,16 @@ import aiss.model.Place;
 
 public class FileReader {
 
-	public static Map<Integer, Place> readPlacesFromCSV(String filepath) {
-		Map<Integer,Place> places = new HashMap<Integer,Place>(); 
-		try {
-			places = Files.lines(Paths.get(filepath), Charset.defaultCharset())
-					.skip(1).limit(50).map(FileReader::createPlace)
-					.collect(Collectors.toMap(Place::getId, Function.identity()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static List<Place> readPlacesFromCSV(String filepath) {
+		List<Place> places = new ArrayList<Place>();
+		InputStream i= FileReader.class.getResourceAsStream("places.csv");
+			try {
+				return Files.lines(Paths.get(filepath), Charset.defaultCharset())
+						.skip(1).limit(50).map(FileReader::createPlace)
+						.collect(Collectors.toList());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		return places;
 	}
 	
@@ -37,10 +38,5 @@ public class FileReader {
 		
 		Coordinates coordinates = Coordinates.of(latitude, longitude);
 		return Place.create(name, email, address, website, coordinates);
-	}
-	
-	public static void main(String[] args) {
-		Map<Integer, Place> p = readPlacesFromCSV("files/places.csv");
-		System.out.println(p.values());
 	}
 }
