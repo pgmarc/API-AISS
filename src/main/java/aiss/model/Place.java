@@ -1,10 +1,12 @@
 package aiss.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -136,12 +138,8 @@ public class Place {
 	}
 	
 	@JsonProperty("reviews")
-	public List<Review> getReviews() {
-		List<Review> reviews = new ArrayList<Review>();
-		if (!this.reviews.isEmpty()) {
-			reviews.addAll(this.reviews.values());
-		}
-		return reviews;
+	public Map<Integer,Review> getReviews() {
+		return this.reviews;
 	}
 	
 	@JsonProperty("accomodation")

@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  title: Students Compass
+  description: |
+    Great API for students looking for a place to stay and spend your spare time on.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: studentscompass007@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://student-compass-350106.appspot.com/api
+  description: Production API server
+- url: "http://localhost:{port}/api"
+  description: Development server
+  variables:
+    port:
+      enum:
+      - "8089"
+      default: "8089"
+tags:
+- name: places
+  description: Interesting places
+paths:
+  /places:
+    get:
+      tags:
+      - places
+      summary: Get all places
+      description: Get all places
+      operationId: getAllPlaces
+      responses:
+        "200":
+          description: List of places
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Places'
+              examples:
+                Place:
+                  $ref: '#/components/examples/Place1'
+                Place1:
+                  $ref: '#/components/examples/Place2'
+    post:
+      tags:
+      - places
+      summary: Creates new places
+      description: Creates new places with the given payload
+      operationId: addPlaces
+      requestBody:
+        description: Payload of the place
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+  /places/{placeId}:
+    get:
+      tags:
+      - places
+      summary: Get a place by id
+      description: Get a place by id
+      operationId: getAPlace
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Values retrieved of a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+              examples:
+                Place1:
+                  $ref: '#/components/examples/Place1'
+                Place2:
+                  $ref: '#/components/examples/Place2'
+                Estanislao:
+                  $ref: '#/components/examples/Accomodation1'
+components:
+  schemas:
+    Accomodations:
+      type: object
+      nullable: true
+      required:
+        - numberOfRooms
+        - type
+        - payments
+      properties:
+        numberOfRooms:
+          type: integer
+        type:
+          type: string
+          enum:
+            - RESIDENCE
+            - FLAT
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccomodationPayments'
+    AccomodationPayments:
+      type: object
+      required:
+       - description
+       - price
+       - paymentPeriod
+       - mealService
+      properties:
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+          example: 499.90
+        paymentPeriod:
+          type: string
+          enum:
+            - YEARLY
+            - MONTHLY
+        mealService:
+          type: string
+          enum:
+            - ALL_MEALS
+            - TWO_MEALS
+            - SELF_CATERING
+    Reviews:
+      type: object
+      properties:
+        username:
+          type: string
+        description:
+          type: string
+        rating:
+          type: integer
+        date:
+          type: string
+          format: date-time
+    Events:
+      required:
+      - date
+      - email
+      - location
+      - name
+      - organizers
+      - price
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        website:
+          type: string
+        email:
+          type: string
+        types:
+          type: string
+          enum:
+          - music
+          - theater
+          - art
+          - cultural
+        transport:
+          type: string
+          enum:
+          - bus
+          - train
+          - bicycle
+          - underground
+        organizers:
+          type: string
+    Coordinates:
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        latitude:
+          maximum: 90
+          minimum: -90
+          type: number
+          description: The latitude of the place
+          format: double
+        longitude:
+          maximum: 180
+          minimum: -180
+          type: number
+          description: The longitude of the place
+          format: double
+    Place:
+      required:
+      - address
+      - location
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        rating:
+          type: integer
+          description: The average of all the reviews of the users
+          format: int32
+        website:
+          type: string
+        accomodation:
+          $ref: '#/components/schemas/Accomodations'
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reviews'
+    Places:
+      type: array
+      items:
+        $ref: '#/components/schemas/Place'
+  examples:
+    Place1:
+      summary: Gran ilustre place
+      description: Example the library gran ilustre
+      value:
+        name: La biblioteca del gran ilustre
+        email: ilustre@gmail.com
+        address: Gran ilustre s/n
+        rating: 5
+        web: granilustre.com
+        location:
+          latitude: 40.0
+          longitude: -65.4
+    Place2:
+      description: Example of a Place1
+      value:
+        name: La biblioteca del gran ilustre 1
+        email: ilustre@gmail.com
+        address: Gran ilustre s/n
+        rating: 5
+        web: granilustre.com
+        location:
+          latitude: 40.0
+          longitude: -65.4
+    Accomodation1:
+      description: Example of a Place with Accomodation
+      value:
+        name: Estanislao del Campo
+        email: estanislao@micampusliving.com
+        address: Ctra. Su Eminencia 2A
+        website: https://micampusresidencias.com/micampus-estanislao/
+        rating: 4.0
+        location:
+          latitude: 60.2
+          longitude: -20.9
+        reviews:
+          - username: theLegend27
+            description: Muy buen sitio y bien mantenido, pero las comidas se podrían mejorar.
+            rating: 4.0
+        accomodation:
+          numberOfRooms: 500
+          payments: 
+            - description: Habitación individual con cocina compartida
+              price: 499.0
+              paymentPeriod: YEARLY
+              mealService: TWO_MEALS
+              roomType: INDIVIDUAL
+            - description: Habitación compartida
+              price: 299.0
+              paymentPeriod: MONTHLY
+              mealService: ALL_MEALS
+              roomType: DOUBLE
+          type: RESIDENCE
+  requestBodies:
+    Coordinates:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Coordinates'
+    Place:
+      description: Place to add
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Place'
