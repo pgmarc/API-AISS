@@ -96,6 +96,60 @@ paths:
                   $ref: '#/components/examples/Place2'
                 Estanislao:
                   $ref: '#/components/examples/Accomodation1'
+  /places/{placeId}/reviews:
+    get:
+      tags:
+      - reviews
+      summary: Get all reviews from a place by id
+      description: Get all reviews from a place by id
+      operationId: getAllReviews
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: List of all the reviews from a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reviews'
+    post:
+      tags:
+      - reviews
+      summary: Creates new reviews
+      description: Creates new reviews with the given payload to the place
+      operationId: addReviews
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'    
 components:
   schemas:
     Accomodations:
@@ -142,11 +196,14 @@ components:
             - ALL_MEALS
             - TWO_MEALS
             - SELF_CATERING
-    Reviews:
+    Review:
+      required:
+       - Rating
       type: object
       properties:
         username:
           type: string
+          description: Name of the author of the review
         description:
           type: string
         rating:
@@ -244,6 +301,10 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Place'
+    Reviews:
+      type: array
+      items:
+        $ref: '#/components/schemas/Review'
   examples:
     Place1:
       summary: Gran ilustre place
