@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,7 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
-
+import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
@@ -55,9 +56,11 @@ public class PlaceResource {
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit) {
 		
-		if (limit < 0 | offset < 0) {
+		offset = Optional.ofNullable(offset).orElse(0);
+		limit = Optional.ofNullable(limit).orElse(10);
+		
+		if (limit <= 0 | offset < 0)
 			throw new BadRequestException("Invalid values for limit or offset");
-		}
 		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		places = PlacesUtil.getPagination(places, limit, offset);
@@ -69,9 +72,8 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getPlace(@PathParam("id") Integer placeId) {
 		Place place = placeRepository.getPlace(placeId);
-		if (place == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		if (place == null)
+			throw new EntityNotFoundException("Place with id=" + placeId + " not found");
 		
 		return Response.status(Status.OK).entity(place).build();
 	}

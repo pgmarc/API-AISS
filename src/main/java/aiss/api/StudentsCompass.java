@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import aiss.api.resources.PlaceResource;
+import aiss.exceptions.EntityNotFoundExceptionMapper;
 
 public class StudentsCompass extends Application {
 	private Set<Object> singletons = new HashSet<Object>();
@@ -15,6 +16,7 @@ public class StudentsCompass extends Application {
 	// so that they can be found by RESTEasy.
 	public StudentsCompass() {
 		singletons.add(PlaceResource.getInstance());
+		singletons.add(new EntityNotFoundExceptionMapper());
 	}
 
 	@Override

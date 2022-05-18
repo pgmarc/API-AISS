@@ -3,7 +3,8 @@ package aiss.model;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 
 public class Accomodation {
 	

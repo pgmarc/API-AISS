@@ -1,6 +1,5 @@
 package aiss.model.repository;
 
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,13 +8,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletContext;
 
 import aiss.model.Accomodation;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.Review;
-import aiss.util.FileReader;
 
 public class MapPlaceRepository implements PlaceRepository{
 
