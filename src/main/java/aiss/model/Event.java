@@ -9,19 +9,30 @@ import java.util.List;
 
 import java.util.Objects;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class Event {
 	
 	private Integer reviewIndex=0;
+	@JsonProperty("id")
 	private Integer id;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("description")
 	private String description;
+	@JsonProperty("date")
 	private LocalDateTime date;
+	@JsonProperty("contactEmail")
 	private String contactEmail;
+	@JsonProperty("website")
 	private String website;
+	@JsonProperty("price")
 	private Integer price;
+	@JsonProperty("organizators")
 	private String organizators;
 	private Types type;
 	private Transport transport;
+	@JsonProperty("reviews")
 	private List<Review> reviews= new ArrayList<Review>();
 	private enum Types {
 		MUSIC,THEATRE, ART, CULTURAL;
@@ -64,7 +75,7 @@ public class Event {
 										String organizators) {
 		return new Event(name, description,price,date,website,contactEmail,type,transport,organizators);
 	}
-
+	@JsonProperty("id")
 	public Integer getId() {
 		return id;
 	}
@@ -89,27 +100,27 @@ public class Event {
 		this.transport = transport;
 	}
 
-
+	@JsonProperty("id")
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
-
+	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	@JsonProperty("description")
 	public String getDescription() {
 		return description;
 	}
-
+	@JsonProperty("description")
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	@JsonProperty("date")
 	public LocalDateTime getDate() {
 		return date;
 	}
@@ -118,48 +129,48 @@ public class Event {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		return date.format(f);
 	}
-
+	@JsonProperty("date")
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-
+	@JsonProperty("contactEmail")
 	public String getContactEmail() {
 		return contactEmail;
 	}
 
-
+	@JsonProperty("contactEmail")
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
 	}
-	
+	@JsonProperty("website")
 	public String getWebsite() {
 		return website;
 	}
-
+	@JsonProperty("website")
 	public void setWebsite(String website) {
 		this.website = website;
 	}
-
+	@JsonProperty("price")
 	public Integer getPrice() {
 		return price;
 	}
-
+	@JsonProperty("price")
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
-
+	@JsonProperty("organizators")
 	public String getOrganizators() {
 		return organizators;
 	}
-
+	@JsonProperty("organizators")
 	public void setOrganizators(String organizators) {
 		this.organizators = organizators;
 	}
-
+	@JsonProperty("reviews")
 	public List<Review> getReviews() {
 		return reviews;
 	}
-
+	@JsonProperty("reviews")
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}

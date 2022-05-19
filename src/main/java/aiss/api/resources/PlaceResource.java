@@ -96,7 +96,7 @@ public class PlaceResource {
 		if (place.getId() !=null)
 			throw new BadRequestException("The place id must not been given as a parameter.");
 
-		if (place.getName() == null || "".equals(place.getName()))
+		if (place.getName() == null || ""==place.getName())
 			throw new BadRequestException("The place must hava a name to identify it");
 		
 		if (place.getAddress() == null || "".equals(place.getAddress()))
@@ -170,11 +170,11 @@ public class PlaceResource {
 		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
 		if (place == null)
-			return Response.status(Status.NOT_FOUND).build();
+			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");	
 		
 		if(reviews==null || reviews.isEmpty())
-			return Response.status(Status.NOT_FOUND).build();
-
+			throw new EntityNotFoundException("This place has no reviews yet");
+		
 		return Response.status(Status.OK).entity(reviews).build();
 	}
 
@@ -185,10 +185,13 @@ public class PlaceResource {
 			@PathParam("reviewId") Integer reviewId) {
 		Place place = placeRepository.getPlace(placeId);
 		Review review = placeRepository.getReview(placeId, reviewId);
-		if (place == null || review == null) {
-			return Response.status(Status.NOT_FOUND).build();
+		if (place == null) {
+			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
 		}
 		
+		if (review == null) {
+			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
+		}
 		return Response.status(Status.OK).entity(review).build();
 	}
 	
@@ -201,18 +204,20 @@ public class PlaceResource {
 			Review review) {
 		
 		Place place = placeRepository.getPlace(placeId);
-		if(place.equals(null))
-			return Response.status(Status.NOT_FOUND).build();
+		if(place==null)
+			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
+		if (review.getId()!=null) 
+			throw new BadRequestException("The review id must not be included as a parameter");
 		
 		if (review.getUsername()==null) review.setUsername("Anonymous");
 
 		if (review.getDescription()==null) review.setDescription("");
 		
 		if (review.getRating() == null)
-			return Response.status(Status.BAD_REQUEST).build();
+			throw new BadRequestException("The review rating must be included as a parameter");
 		
 		if (review.getRating() < 0 || review.getRating() > 5)
-			return Response.status(Status.BAD_REQUEST).build();
+			throw new BadRequestException("The review rating must be between 0 and 5");
 		
 		placeRepository.addReview(placeId, review); 
 
@@ -233,8 +238,12 @@ public class PlaceResource {
 		Place place = placeRepository.getPlace(placeId);
 		Review oldReview = placeRepository.getReview(placeId, reviewId);
 		
-		if (place == null || oldReview == null) {
-			return Response.status(Status.NOT_FOUND).build();
+		if (place == null) {
+			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
+		}
+		
+		if (oldReview == null) {
+			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
 		}
 		
 		if (review.getUsername() != null)
@@ -261,13 +270,13 @@ public class PlaceResource {
 		Place place = placeRepository.getPlace(placeId);
 		
 		if (place == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
 		}
 		
 		Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
 		
 		if(reviewToBeDeleted == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
 		}
 		
 		placeRepository.deleteReview(placeId, reviewId);
