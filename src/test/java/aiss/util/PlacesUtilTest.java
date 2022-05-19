@@ -1,7 +1,6 @@
 package aiss.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +13,6 @@ import org.junit.Test;
 import aiss.model.Accomodation;
 import aiss.model.Coordinates;
 import aiss.model.Place;
-import aiss.model.Accomodation.AccomodationType;
 import aiss.model.repository.MapPlaceRepository;
 
 public class PlacesUtilTest {
@@ -121,5 +119,4 @@ public class PlacesUtilTest {
 						.compare(p1.getAccomodation(), p2.getAccomodation()));
 		assertEquals(expectedSorting, placesToSort);
 	}
-	
 }

@@ -9,13 +9,9 @@ import java.util.stream.Collectors;
 
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import aiss.model.Accomodation;
-import aiss.model.Accomodation.AccomodationType;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
 
@@ -37,8 +33,16 @@ public class PlacesUtil {
 				.compare(p1.getAccomodation(), p2.getAccomodation()))
 			);
 	
-	public static List<Place> getPagination(List<Place> places, 
-			Integer limit, Integer offset) {
+	public static Comparator<Place> parseSort(String sort) {
+		return Arrays.stream(sort.replace(" ", "").split(","))
+			.filter(s->!s.isEmpty())
+			.map(s->sorts.get(s))
+			.filter(c->c!=null)
+			.reduce((c1,c2)->c1.thenComparing(c2))
+			.orElse((p1,p2)->0);
+	}
+	
+	public static List<Place> getPagination(List<Place> places, Integer limit, Integer offset) {
 		return places.stream().skip(offset).limit(limit).collect(Collectors.toList());
 		
  	}
@@ -91,13 +95,4 @@ public class PlacesUtil {
 				.filter(place -> 
 				categoriesToFilter.contains(place.getCategory())).collect(Collectors.toList());
 	}
-	public static Comparator<Place> parseSort(String sort) {
-		return Arrays.stream(sort.replace(" ", "").split(","))
-			.filter(s->!s.isEmpty())
-			.map(s->sorts.get(s))
-			.filter(c->c!=null)
-			.reduce((c1,c2)->c1.thenComparing(c2))
-			.orElse((p1,p2)->0);
-	}
-	
 }
