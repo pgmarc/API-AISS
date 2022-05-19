@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,6 +30,7 @@ import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Place;
+import aiss.model.PlaceCategory;
 import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
@@ -54,15 +57,23 @@ public class PlaceResource {
 	@GET
 	@Produces("application/json")
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
-			@QueryParam("limit") Integer limit) {
+			@QueryParam("limit") Integer limit,
+			@QueryParam("categories") String categories) {
 		
+		//TODO Valores por defecto offset = 0 limit 10
 		offset = Optional.ofNullable(offset).orElse(0);
 		limit = Optional.ofNullable(limit).orElse(10);
 		
 		if (limit <= 0 | offset < 0)
-			throw new BadRequestException("Invalid values for limit or offset");
+			throw new BadRequestException("Invalid values for limit, offset. "
+					+ "limit must be positive and greater than zero a and offset must be postive");
 		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
+		
+		if (categories != null) {
+			places = PlacesUtil.filterPlacesByCategory(places, categories);
+		}
+		
 		places = PlacesUtil.getPagination(places, limit, offset);
 		return Response.status(Status.OK).entity(places).build();
 	}
@@ -92,7 +103,7 @@ public class PlaceResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addPlace(@Context UriInfo uriInfo, Place place) {
-		
+
 		if (place.getId() !=null)
 			throw new BadRequestException("The place id must not been given as a parameter.");
 
@@ -121,13 +132,17 @@ public class PlaceResource {
 	public Response updatePlace(@PathParam("id") Integer placeId,Place place) {
 		Place oldPlace = placeRepository.getPlace(placeId);
 		if (oldPlace == null)
-			throw new NotFoundException("The place with id="+ place.getId() +" was not found");			
+			throw new EntityNotFoundException("The place with id=" 
+						+ place.getId() +" was not found");			
 		
 		if (place.getAddress() != null)
 			oldPlace.setAddress(place.getAddress());
 		
 		if (place.getEmail() != null)
 			oldPlace.setEmail(place.getEmail());
+		
+		if (place.getCategory() != null)
+			oldPlace.setCategory(place.getCategory());
 		
 		if (place.getName() != null)
 			oldPlace.setName(place.getName());

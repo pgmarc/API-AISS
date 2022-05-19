@@ -1,17 +1,21 @@
 package aiss.model;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+import aiss.util.PlacesUtil;
 
 
-
-@JsonPropertyOrder({"id","location", "email", "name", "address", "website", "reviews"})
+@JsonPropertyOrder({"id", "name", "address", "category", "email", "website",
+	"rating", "reviews", "location", "accomodation"})
 public class Place {
 
 	private Integer reviewIndex = 0;
@@ -31,17 +35,18 @@ public class Place {
 	private Map<Integer, Review> reviews = new HashMap<Integer, Review>();
 	@JsonProperty("accomodation")
 	private Accomodation accomodation = null;
+	@JsonProperty("category")
+	private PlaceCategory category;
+	
 	
 	public Place() {}
 
-	@JsonCreator
-	public Place(@JsonProperty("name") String name,
-			@JsonProperty("address") String address,
-			@JsonProperty("location") Coordinates location) {
+	private Place(String name, String address, PlaceCategory category, Coordinates location) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.location = location;
+		this.category = category;
 	}
 	
 	public Place(String name, String email, String address, String website, Coordinates location) {
@@ -63,18 +68,18 @@ public class Place {
 		this.accomodation = accomodation;
 	}
 
-	public static Place create(String name, String email, String address, String website, Coordinates location) {
-		return new Place(name, email, address, website, location);
+	@JsonCreator
+	public static Place create(@JsonProperty("name") String name,
+			@JsonProperty("address") String address,
+			@JsonProperty("category") String categoryName,
+			@JsonProperty("location") Coordinates location) {
+		
+		PlaceCategory category = PlacesUtil.getValidPlaceCategory(categoryName);
+
+		return new Place(name, address, category, location);
 	}
 
-	public static Place create( String name, String address, Coordinates location) {
-		return new Place(name, address, location);
-	}
 	
-	public static Place create(String name, String email, String address, String website, Coordinates location, Accomodation accomodation) {
-		return new Place(name, email, address, website, location, accomodation);
-	}
-
 	@JsonProperty("id")
 	public Integer getId() {
 		return id;
@@ -150,9 +155,28 @@ public class Place {
 		this.accomodation = accomodation;
 	}
 	
+	
+	@JsonProperty("category")
+	public PlaceCategory getCategory() {
+		return category;
+	}
+
+	@JsonProperty("category")
+	public void setCategory(PlaceCategory category) {
+		this.category = category;
+	}
+	
+	@JsonIgnore
+	public static List<PlaceCategory> getPlaceCategories() {
+		return Arrays.asList(PlaceCategory.values());
+	}
+	
+	
 	public static Double getDistance(Coordinates source, Coordinates target) {
 		return GeographicalDistance.geographicalDistance(source, target);
 	}
+	
+	
 	
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
@@ -197,5 +221,9 @@ public class Place {
 	public String toString() {
 		return "Place [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address
 				+ ", website=" + website + ", location=" + location + ", accomodation=" + accomodation + "]";
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(getPlaceCategories());
 	}
 }
