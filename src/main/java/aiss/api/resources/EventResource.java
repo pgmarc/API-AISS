@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
+import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Event;
 import aiss.model.Review;
 import aiss.model.repository.EventRepository;
@@ -140,11 +141,11 @@ public class EventResource {
 		Event event = eventRepository.getEvent(eventId);
 		Review review = eventRepository.getReview(eventId,reviewId);
 		
-		if(event.equals(null)) {
-			throw new NotFoundException("The event with id: " + eventId + " was not found.");
+		if(event==null) {
+			throw new EntityNotFoundException("The event with id: " + eventId + " was not found.");
 		}
-		if(review.equals(null)) {
-			throw new NotFoundException("The review with id: " + reviewId + " was not found in the event.");
+		if(review==null) {
+			throw new EntityNotFoundException("The review with id: " + reviewId + " was not found in the event.");
 		}
 		return review;
 	}
@@ -159,7 +160,7 @@ public class EventResource {
 		
 		Event event = eventRepository.getEvent(eventId);
 		
-		if(event.equals(null))
+		if(event==null)
 			throw new NotFoundException("The event with id: " + eventId + " was not found.");
 		
 		if (review.getId() !=null)
@@ -170,7 +171,7 @@ public class EventResource {
 		if (review.getDescription()==null) review.setDescription("");
 		
 		if (review.getRating() == null)
-			throw new BadRequestException("The rating must not be null");
+			throw new BadRequestException("The rating must be given as a parameter");
 		
 		if (review.getRating() < 0 || review.getRating() > 5)
 			throw new BadRequestException("The rating must be a value between 0 and 5");
@@ -194,12 +195,12 @@ public class EventResource {
 		Event event = eventRepository.getEvent(eventId);
 		
 		if (event == null)
-			throw new NotFoundException("The event with id="+ eventId +" was not found");		
+			throw new EntityNotFoundException("The event with id="+ eventId +" was not found");		
 		
 		Review oldReview = eventRepository.getReview(eventId, reviewId);
 		
 		if (oldReview == null)
-			throw new NotFoundException("The review with id="+ reviewId +
+			throw new EntityNotFoundException("The review with id="+ reviewId +
 					" was not found in that event");
 		
 		if (review.getUsername() != null)
@@ -225,12 +226,12 @@ public class EventResource {
 		Event event = eventRepository.getEvent(eventId);
 		
 		if (event == null)
-			throw new NotFoundException("The event with id=" + eventId + " was not found");
+			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
 
 		Review reviewToBeDeleted= eventRepository.getReview(eventId, reviewId);
 		
 		if(reviewToBeDeleted==null)
-			throw new NotFoundException("The review with id=" + reviewId +
+			throw new EntityNotFoundException("The review with id=" + reviewId +
 					" was not found in that event");
 	
 		eventRepository.deleteReview(eventId, reviewId);

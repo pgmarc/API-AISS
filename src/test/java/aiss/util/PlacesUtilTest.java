@@ -1,16 +1,20 @@
 package aiss.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import aiss.model.Accomodation;
 import aiss.model.Coordinates;
 import aiss.model.Place;
+import aiss.model.Accomodation.AccomodationType;
 import aiss.model.repository.MapPlaceRepository;
 
 public class PlacesUtilTest {
@@ -56,4 +60,66 @@ public class PlacesUtilTest {
 		List<Place> result = List.copyOf(PlacesUtil.getPagination(places, limit, offset));
 		assertEquals(expected, result);
 	}
+	
+	@Test
+	public void sortByNameDescending() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		expectedSorting.sort(Comparator.comparing(p->((Place) p).getName()));
+		placesToSort.sort(PlacesUtil.parseSort("+name"));
+		assertEquals(expectedSorting, placesToSort);
+	}
+	
+	@Test
+	public void sortByNameAscending() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		expectedSorting.sort(Comparator.comparing(p->((Place) p).getName()).reversed());
+		placesToSort.sort(PlacesUtil.parseSort("-name"));
+		assertEquals(expectedSorting, placesToSort);
+	}
+	
+	@Test
+	public void emptySort() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		placesToSort.sort(PlacesUtil.parseSort(""));
+		assertEquals(expectedSorting, placesToSort);
+	}
+	
+	@Test
+	public void invalidSorts() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		placesToSort.sort(PlacesUtil.parseSort("hello,invalid,"));
+		assertEquals(expectedSorting, placesToSort);
+	}
+	
+	@Test
+	public void sortByRatingAscending() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		placesToSort.sort(PlacesUtil.parseSort("-rating"));
+		expectedSorting.sort(Comparator.comparing(p->((Place) p).getRating()));
+	}
+	
+	@Test
+	public void sortByRatingDescending() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		placesToSort.sort(PlacesUtil.parseSort("+rating"));
+		expectedSorting.sort(Comparator.comparing(p->((Place) p).getRating()).reversed());
+	}
+	
+	@Test
+	public void sortByAccomodationType() {
+		List<Place> placesToSort = new ArrayList<>(places);
+		List<Place> expectedSorting = new ArrayList<>(places);
+		placesToSort.sort(PlacesUtil.parseSort("accomodationType"));
+		expectedSorting.sort((p1,p2)->
+					Comparator.nullsLast((ac1,ac2)->((Accomodation) ac1).getType().compareTo(((Accomodation) ac2).getType()))
+						.compare(p1.getAccomodation(), p2.getAccomodation()));
+		assertEquals(expectedSorting, placesToSort);
+	}
+	
 }

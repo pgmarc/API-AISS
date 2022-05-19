@@ -1,6 +1,9 @@
 package aiss.model;
 
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +13,7 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import java.util.stream.Collectors;
 
 import aiss.util.PlacesUtil;
 
@@ -189,7 +193,7 @@ public class Place {
 	}
 	
 	public Double getRating() {
-		Double rating = null;
+		Double rating = 0.;
 		if(!this.reviews.isEmpty()) { 
 			rating = this.reviews.values().stream()
 			.mapToDouble(r->r.getRating()).sum()/getNumReviews();
