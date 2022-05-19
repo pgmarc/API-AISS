@@ -214,10 +214,9 @@ components:
     Events:
       required:
       - date
-      - email
-      - location
+      - contactEmail
       - name
-      - organizers
+      - organizators
       - price
       type: object
       properties:
@@ -230,11 +229,9 @@ components:
         date:
           type: string
           format: date-time
-        location:
-          $ref: '#/components/schemas/Coordinates'
         website:
           type: string
-        email:
+        contactEmail:
           type: string
         types:
           type: string
