@@ -1,10 +1,13 @@
 package aiss.model;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+
+import aiss.model.AccomodationPayment.PaymentPeriod;
 
 public class Accomodation {
 	
@@ -88,9 +91,24 @@ public class Accomodation {
 				&& Objects.equals(numberOfRooms, other.numberOfRooms);
 	}
 
+	public Double getMinMonthlyPrice() {
+		return this.payments.stream()
+				.map(pay->pay.getPrice() / (pay.getPaymentPeriod() == PaymentPeriod.MONTHLY ? 1 : 12))
+				.min(Comparator.naturalOrder())
+				.orElse(null);
+	}
+	
+	public Double getMaxMonthlyPrice() {
+		return this.payments.stream()
+				.map(pay->pay.getPrice() / (pay.getPaymentPeriod() == PaymentPeriod.MONTHLY ? 1 : 12))
+				.max(Comparator.naturalOrder())
+				.orElse(null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Accomodation [roomsNumber=" + numberOfRooms
 				+ ", payments=" + payments + "]";
 	}
+	
 }
