@@ -1,14 +1,17 @@
 package aiss.util;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
+import aiss.model.Accomodation;
 
 public class PlacesUtil {
 	

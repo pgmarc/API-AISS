@@ -21,10 +21,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import org.jboss.resteasy.spi.BadRequestException;
-import org.jboss.resteasy.spi.NotFoundException;
 
-
+import aiss.exceptions.BadEntityRequestException;
 import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Event;
 import aiss.model.Review;
@@ -79,17 +77,22 @@ public class EventResource {
 	public Response addEvent(@Context UriInfo uriInfo, Event event) {
 		
 		if (event.getName() == null || "".equals(event.getName()))
-			throw new BadRequestException("The name of an event must not be null");
+			throw new BadEntityRequestException("The name of an event must not be null");
+		
 		if (event.getPrice() == null || "".equals(event.getPrice()))
-			throw new BadRequestException("The price of an event must not be null");
+			throw new BadEntityRequestException("The price of an event must not be null");
+		
 		if (event.getDate() == null || "".equals(event.getDate()))
-			throw new BadRequestException("The date of an event must not be null");
+			throw new BadEntityRequestException("The date of an event must not be null");
+		
 		if (event.getContactEmail() == null || "".equals(event.getContactEmail()))
-			throw new BadRequestException("The email of contact of an event must not be null");
+			throw new BadEntityRequestException("The email of contact of an event must not be null");
+		
 		if (event.getOrganizators() == null || "".equals(event.getOrganizators()))
-			throw new BadRequestException("The organizatos of an event must not be null");
+			throw new BadEntityRequestException("The organizatos of an event must not be null");
+		
 		if (event.getId() !=null)
-			throw new BadRequestException("The event id must not been given as a parameter.");
+			throw new BadEntityRequestException("The event id must not been given as a parameter.");
 
 		eventRepository.addEvent(event);
 		// Builds the response. Returns the event the has just been added.
@@ -106,7 +109,7 @@ public class EventResource {
 	public Response updateEvent(@PathParam("id") Integer eventId,Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
 		if (oldEvent == null)
-			throw new NotFoundException("The event with id="+ event.getId() +" was not found");			
+			throw new EntityNotFoundException("The event with id="+ event.getId() +" was not found");			
 		
 		if (event.getName() != null)
 			oldEvent.setName(event.getName());
@@ -133,7 +136,7 @@ public class EventResource {
 	public Response deleteEvent(@PathParam("id") Integer eventId) {
 		Event eventToBeRemoved = eventRepository.getEvent(eventId);
 		if (eventToBeRemoved == null)
-			throw new NotFoundException("The event with id=" + eventId + " was not found");
+			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
 		else
 			eventRepository.deleteEvent(eventId);
 		
@@ -170,24 +173,23 @@ public class EventResource {
 		Event event = eventRepository.getEvent(eventId);
 		
 		if(event==null)
-			throw new NotFoundException("The event with id: " + eventId + " was not found.");
+			throw new EntityNotFoundException("The event with id: " + eventId + " was not found.");
 		
 		if (review.getId() !=null)
-			throw new BadRequestException("The review id must not been given as a parameter.");
+			throw new BadEntityRequestException("The review id must not been given as a parameter.");
 		
 		if (review.getUsername()==null) review.setUsername("Anonymous");
 
 		if (review.getDescription()==null) review.setDescription("");
 		
 		if (review.getRating() == null)
-			throw new BadRequestException("The rating must be given as a parameter");
+			throw new BadEntityRequestException("The rating must be given as a parameter");
 		
 		if (review.getRating() < 0 || review.getRating() > 5)
-			throw new BadRequestException("The rating must be a value between 0 and 5");
+			throw new BadEntityRequestException("The rating must be a value between 0 and 5");
 		
 		eventRepository.addReview(eventId, review);
 
-		// Builds the response. Returns the song the has just been added.
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getReview");
 		URI uri = ub.build(event.getId(), review.getId());
 		ResponseBuilder resp = Response.created(uri);

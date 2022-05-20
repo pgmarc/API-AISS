@@ -23,9 +23,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import org.jboss.resteasy.spi.BadRequestException;
-import org.jboss.resteasy.spi.NotFoundException;
 
+import aiss.exceptions.BadEntityRequestException;
 import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Place;
 import aiss.model.Review;
@@ -63,7 +62,7 @@ public class PlaceResource {
 		limit = Optional.ofNullable(limit).orElse(10);
 		
 		if (limit <= 0 | offset < 0)
-			throw new BadRequestException("Invalid values for limit, offset. "
+			throw new BadEntityRequestException("Invalid values for limit, offset. "
 					+ "limit must be positive and greater than zero a and offset must be postive");
 		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
@@ -108,16 +107,16 @@ public class PlaceResource {
 	public Response addPlace(@Context UriInfo uriInfo, Place place) {
 
 		if (place.getId() !=null)
-			throw new BadRequestException("The place id must not been given as a parameter.");
+			throw new BadEntityRequestException("The place id must not been given as a parameter.");
 
 		if (place.getName() == null || ""==place.getName())
-			throw new BadRequestException("The place must hava a name to identify it");
+			throw new BadEntityRequestException("The place must hava a name to identify it");
 		
 		if (place.getAddress() == null || "".equals(place.getAddress()))
-			throw new BadRequestException("The address of a place must not be null");
+			throw new BadEntityRequestException("The address of a place must not be null");
 		
 		if (place.getLocation() == null)
-			throw new BadRequestException("The place must have coordinates");
+			throw new BadEntityRequestException("The place must have coordinates");
 
 		placeRepository.addPlace(place);
 
@@ -154,13 +153,13 @@ public class PlaceResource {
 			oldPlace.setWebsite(place.getWebsite());
 		
 		if (place.getReviews() != null)
-			throw new BadRequestException("Reviews must not be initialized"
+			throw new BadEntityRequestException("Reviews must not be initialized"
 					+ " when creating a place (Not the right operation)");
 		
 		// TODO Check if the client is initializing events array
 		
 		if (place.getAccomodation() != null)
-			throw new BadRequestException("Accomodation must not be initialized"
+			throw new BadEntityRequestException("Accomodation must not be initialized"
 					+ " when creating a place (Not the right operation)");
 		
 		placeRepository.updatePlace(oldPlace);
@@ -173,7 +172,7 @@ public class PlaceResource {
 	public Response deletePlace(@PathParam("id") Integer placeId) {
 		Place placeToBeRemoved = placeRepository.getPlace(placeId);
 		if (placeToBeRemoved == null)
-			throw new NotFoundException("The place with id=" + placeId + " was not found");
+			throw new EntityNotFoundException("The place with id=" + placeId + " was not found");
 		
 		placeRepository.deletePlace(placeId);
 		
@@ -192,7 +191,7 @@ public class PlaceResource {
 		if (place == null)
 			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");	
 		
-		if(reviews==null || reviews.isEmpty())
+		if(reviews == null || reviews.isEmpty())
 			throw new EntityNotFoundException("This place has no reviews yet");
 
 		return Response.status(Status.OK).entity(reviews).build();
@@ -227,17 +226,17 @@ public class PlaceResource {
 		if(place==null)
 			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
 		if (review.getId()!=null) 
-			throw new BadRequestException("The review id must not be included as a parameter");
+			throw new BadEntityRequestException("The review id must not be included as a parameter");
 		
 		if (review.getUsername()==null) review.setUsername("Anonymous");
 
 		if (review.getDescription()==null) review.setDescription("");
 		
 		if (review.getRating() == null)
-			throw new BadRequestException("The review rating must be included as a parameter");
+			throw new BadEntityRequestException("The review rating must be included as a parameter");
 		
 		if (review.getRating() < 0 || review.getRating() > 5)
-			throw new BadRequestException("The review rating must be between 0 and 5");
+			throw new BadEntityRequestException("The review rating must be between 0 and 5");
 		
 		placeRepository.addReview(placeId, review); 
 
@@ -266,7 +265,7 @@ public class PlaceResource {
 
 		
 		if(review.getRating()<0 || review.getRating()>5)
-			throw new BadRequestException("The rating must be between 0 and 5");
+			throw new BadEntityRequestException("The rating must be between 0 and 5");
 		
 		if (review.getUsername() != null)
 			oldReview.setUsername(review.getUsername());

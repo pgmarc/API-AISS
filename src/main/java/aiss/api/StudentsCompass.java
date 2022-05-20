@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import aiss.api.resources.PlaceResource;
+import aiss.exceptions.BadEntityRequestExceptionMapper;
 import aiss.exceptions.EntityNotFoundExceptionMapper;
 
 public class StudentsCompass extends Application {
@@ -17,6 +18,7 @@ public class StudentsCompass extends Application {
 	public StudentsCompass() {
 		singletons.add(PlaceResource.getInstance());
 		singletons.add(new EntityNotFoundExceptionMapper());
+		singletons.add(new BadEntityRequestExceptionMapper());
 	}
 
 	@Override
