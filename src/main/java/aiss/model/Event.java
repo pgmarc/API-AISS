@@ -9,8 +9,13 @@ import java.util.List;
 
 import java.util.Objects;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+@JsonPropertyOrder({"id", "name", "description", "date", "contactEmail", "website",
+	"price", "organizators", "transport", "type"})
 public class Event {
 	
 	private Integer reviewIndex=0;
@@ -41,7 +46,11 @@ public class Event {
 		BUS,TRAIN, BICYCLE, UNDERGROUND;
 	};
 	
-	public Event(String name, Integer price , LocalDateTime date, String contactEmail, String organizators) {
+	public Event(@JsonProperty("name") String name, 
+			@JsonProperty("price") Integer price ,
+			@JsonProperty("date") LocalDateTime date, 
+			@JsonProperty("contactEmail") String contactEmail, 
+			@JsonProperty("organizators") String organizators) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -63,7 +72,7 @@ public class Event {
 		this.transport= transport;
 		this.organizators = organizators;
 	}
-
+	@JsonCreator
 	public static Event createEvent(String name, Integer price, LocalDateTime date, String contactEmail,
 			String organizators) {
 		return new Event(name, price, date, contactEmail,organizators);
@@ -120,11 +129,11 @@ public class Event {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@JsonProperty("date")
+	@JsonIgnore
 	public LocalDateTime getDate() {
 		return date;
 	}
-	
+	@JsonProperty("date")
 	public String getDateFormatted() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		return date.format(f);
