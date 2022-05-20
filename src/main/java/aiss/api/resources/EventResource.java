@@ -52,7 +52,7 @@ public class EventResource {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAll(@QueryParam ("initialDate") String initialDateString,
+	public Response getAllEvents(@QueryParam ("initialDate") String initialDateString,
 			@QueryParam ("finalDate") String finalDateString ) {
 		LocalDateTime dateNow = LocalDateTime.now();
 		LocalDateTime dateNowPlusMonth = dateNow.plusDays(30);
