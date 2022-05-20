@@ -122,6 +122,7 @@ public class MapPlaceRepository implements PlaceRepository{
 		placesMap.get(placeId).getReviews().remove(reviewId);
 	}
 
+	//ACCOMODATION
 	@Override
 	public Accomodation getAccomodation(Integer placeId) {
 		return placesMap.get(placeId).getAccomodation();

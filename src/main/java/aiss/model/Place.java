@@ -1,6 +1,7 @@
 package aiss.model;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-import aiss.exceptions.BadEntityRequestException;
-import aiss.util.PlaceValidation;
 import aiss.util.PlacesUtil;
 
 
@@ -144,9 +143,14 @@ public class Place {
 		this.location = location;
 	}
 	
-	@JsonProperty("reviews")
+	@JsonIgnore
 	public Map<Integer,Review> getReviews() {
 		return this.reviews;
+	}
+	
+	@JsonProperty("reviews")
+	public Collection<Review> getCollectionReviews() {
+		return this.reviews.values();
 	}
 	
 	@JsonProperty("accomodation")
@@ -181,13 +185,13 @@ public class Place {
 	}
 	
 	
-	
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
 		this.reviews.put(reviewIndex, review);
 		reviewIndex++;
 	}
 	
+	@JsonIgnore
 	public Integer getNumReviews() {
 		return this.reviews.size();
 	}

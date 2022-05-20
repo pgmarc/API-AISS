@@ -269,7 +269,7 @@ public class PlaceResource {
 			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
 
 		
-		if(review.getRating()<0 || review.getRating()>5)
+		if(review.getRating() < 0 || review.getRating() > 5)
 			throw new BadEntityRequestException("The rating must be between 0 and 5");
 		
 		if (review.getUsername() != null)
@@ -295,15 +295,13 @@ public class PlaceResource {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
-		if (place == null) {
+		if (place == null)
 			throw new EntityNotFoundException("The place with id=" + placeId + " was not found");
-		}
 		
 		Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
 		
-		if(reviewToBeDeleted == null) {
+		if(reviewToBeDeleted == null)
 			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
-		}
 		
 		placeRepository.deleteReview(placeId, reviewId);
 		return Response.noContent().build();
