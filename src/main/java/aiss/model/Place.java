@@ -11,6 +11,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+import aiss.exceptions.BadEntityRequestException;
+import aiss.util.PlaceValidation;
 import aiss.util.PlacesUtil;
 
 
@@ -73,6 +75,8 @@ public class Place {
 			@JsonProperty("address") String address,
 			@JsonProperty("category") String categoryName,
 			@JsonProperty("location") Coordinates location) {
+		
+	
 		
 		PlaceCategory category = PlacesUtil.getValidPlaceCategory(categoryName);
 

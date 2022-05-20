@@ -30,6 +30,7 @@ import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
+import aiss.util.PlaceValidation;
 import aiss.util.PlacesUtil;
 
 @Path("/places")
@@ -97,8 +98,6 @@ public class PlaceResource {
 		if (place == null)
 			throw new EntityNotFoundException("Place with id=" + placeId + " not found");
 		
-		
-		
 		return Response.status(Status.OK).entity(place).build();
 	}
 	
@@ -118,10 +117,15 @@ public class PlaceResource {
 		
 		if (place.getLocation() == null)
 			throw new BadEntityRequestException("The place must have coordinates");
+		
+		if (!PlaceValidation.validCoordinates(place.getLocation()))
+			
+			throw new BadEntityRequestException("Invalid values for latitude and longitude."
+			+ " Latitude should be within [-90, 90]  and longitude within [-180, 180]");
+		
 
 		placeRepository.addPlace(place);
 
-		// Builds the response. Returns the place the has just been added.
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getPlace");
 		URI uri = ub.build(place.getId());
 		ResponseBuilder response = Response.created(uri);
@@ -292,7 +296,7 @@ public class PlaceResource {
 		Place place = placeRepository.getPlace(placeId);
 		
 		if (place == null) {
-			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
+			throw new EntityNotFoundException("The place with id=" + placeId + " was not found");
 		}
 		
 		Review reviewToBeDeleted= placeRepository.getReview(placeId, reviewId);
@@ -305,4 +309,3 @@ public class PlaceResource {
 		return Response.noContent().build();
 	}
 }
-
