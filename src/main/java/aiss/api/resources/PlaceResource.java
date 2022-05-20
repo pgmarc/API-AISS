@@ -55,7 +55,10 @@ public class PlaceResource {
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
 			@QueryParam("categories") String categories,
-			@QueryParam("sort") String sortValue) {
+			@QueryParam("sort") String sortValue,
+			@QueryParam("placeId") Integer placeId,
+			@QueryParam("minRadius") Double minRadius,
+			@QueryParam("maxRadius") Double maxRadius) {
 		
 		//TODO Documentacion Valores por defecto offset = 0 limit 10
 		offset = Optional.ofNullable(offset).orElse(0);
@@ -67,14 +70,20 @@ public class PlaceResource {
 		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		
+		if (placeId != null && (minRadius != null || maxRadius != null)) {
+			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
+		}
+		
 		if (categories != null) {
 			places = PlacesUtil.filterPlacesByCategory(places, categories);
 		}
+		
 		System.out.println(sortValue);
 		
 		if (sortValue != null) {
 			places.sort(PlacesUtil.parseSort(sortValue));
 		}
+		
 		System.out.println(places);
 		places = PlacesUtil.getPagination(places, limit, offset);
 		return Response.status(Status.OK).entity(places).build();
@@ -88,17 +97,9 @@ public class PlaceResource {
 		if (place == null)
 			throw new EntityNotFoundException("Place with id=" + placeId + " not found");
 		
+		
+		
 		return Response.status(Status.OK).entity(place).build();
-	}
-	
-	@GET
-	@Path("/{id}/around")
-	@Produces("application/json")
-	public Response getPlacesAround(@PathParam("id") Integer placeId,
-			@QueryParam("minRadius") Double minRadius,
-			@QueryParam("maxRadius") Double maxRadius) {
-		List<Place> placesInArea = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
-		return Response.status(Status.OK).entity(placesInArea).build();
 	}
 	
 	@POST
