@@ -35,6 +35,8 @@ public class Event {
 	private Integer price;
 	@JsonProperty("organizators")
 	private String organizators;
+	@JsonProperty("place")
+	private Place place;
 	private Types type;
 	private Transport transport;
 	@JsonProperty("reviews")
@@ -89,17 +91,17 @@ public class Event {
 		return id;
 	}
 
-
+	@JsonProperty("type")
 	public Types getType() {
 		return type;
 	}
 
-
+	@JsonProperty("type")
 	public void setType(Types type) {
 		this.type = type;
 	}
 
-
+	@JsonProperty("transport")
 	public Transport getTransport() {
 		return transport;
 	}
