@@ -184,7 +184,9 @@ public class PlaceResource {
 	@GET
 	@Path("/{id}/reviews")
 	@Produces("application/json")
-	public Response getAllReviews(@PathParam("id") Integer placeId) {
+	public Response getAllReviews(@PathParam("id") Integer placeId,
+			@QueryParam("rating")Double rating,
+			@QueryParam("word")String word) {
 		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
 		if (place == null)
@@ -192,7 +194,7 @@ public class PlaceResource {
 		
 		if(reviews==null || reviews.isEmpty())
 			throw new EntityNotFoundException("This place has no reviews yet");
-		
+
 		return Response.status(Status.OK).entity(reviews).build();
 	}
 
@@ -256,13 +258,15 @@ public class PlaceResource {
 		Place place = placeRepository.getPlace(placeId);
 		Review oldReview = placeRepository.getReview(placeId, reviewId);
 		
-		if (place == null) {
+		if (place == null) 
 			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
-		}
 		
-		if (oldReview == null) {
+		if (oldReview == null)
 			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
-		}
+
+		
+		if(review.getRating()<0 || review.getRating()>5)
+			throw new BadRequestException("The rating must be between 0 and 5");
 		
 		if (review.getUsername() != null)
 			oldReview.setUsername(review.getUsername());

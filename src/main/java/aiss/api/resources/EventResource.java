@@ -2,8 +2,8 @@ package aiss.api.resources;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
+
 
 import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Event;
@@ -51,9 +52,17 @@ public class EventResource {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAll() {
-		List<Event> events = new ArrayList<Event>(eventRepository.getAllEvents());
-		return Response.status(Status.OK).entity(events).build();
+	public Response getAllEvents(@QueryParam ("initialDate") String initialDateString,
+			@QueryParam ("finalDate") String finalDateString ) {
+		LocalDateTime dateNow = LocalDateTime.now();
+		LocalDateTime dateNowPlusMonth = dateNow.plusDays(30);
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		String initialDate = Optional.ofNullable(initialDateString).orElse(dateNow.format(dateFormat));
+		String finalDate = Optional.ofNullable(finalDateString).orElse(dateNowPlusMonth.format(dateFormat));
+		LocalDateTime minDate= LocalDateTime.parse(initialDate);  
+		LocalDateTime maxDate= LocalDateTime.parse(finalDate); 
+		
+		return Response.status(Status.OK).entity(null).build(); 
 	}
 	
 	@GET
@@ -94,7 +103,7 @@ public class EventResource {
 	@PUT
 	@Path("/{id}")
 	@Consumes("application/json")
-	public Response updateevent(@PathParam("id") Integer eventId,Event event) {
+	public Response updateEvent(@PathParam("id") Integer eventId,Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
 		if (oldEvent == null)
 			throw new NotFoundException("The event with id="+ event.getId() +" was not found");			
