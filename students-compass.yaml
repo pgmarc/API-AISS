@@ -263,7 +263,116 @@ paths:
           description: Any parameter is not correct
         "404":
           description: Resource not found
-       
+  /events:
+    get:
+      tags:
+      - events
+      summary: Get all events
+      description: Get all events
+      operationId: getAllEvents
+      responses:
+        "200":
+          description: List of events
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Events'
+    post:
+      tags:
+      - events
+      summary: Creates new events
+      description: Creates new events with the given payload
+      operationId: addEvents
+      requestBody:
+        description: Payload of the event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Events'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+  /events/{eventId}:
+    get:
+      tags:
+      - events
+      summary: Get a event by id
+      description: Get a event by id
+      operationId: getEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Values retrieved of a particular event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+    put:
+      tags:
+      - events
+      summary: Update the specified event
+      description: Update the specified event
+      operationId: updateEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the updated event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Events'
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+    delete:
+      tags:
+      - events
+      summary: Deletes an event
+      description: Deletes the event with the given id
+      operationId: deleteEvent
+      parameters:
+      - name: eventId   
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1 
+      responses:
+        "204":
+          description: Event successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
 components:
   schemas:
     Accomodations:
