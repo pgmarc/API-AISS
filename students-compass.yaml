@@ -40,11 +40,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Places'
-              examples:
-                Place:
-                  $ref: '#/components/examples/Place1'
-                Place1:
-                  $ref: '#/components/examples/Place2'
+
     post:
       tags:
       - places
@@ -65,6 +61,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Place'
+              examples:
+                Place:
+                  $ref: '#/components/examples/Place1'
+                Place1:
+                  $ref: '#/components/examples/Place2'
   /places/{placeId}:
     get:
       tags:
@@ -120,6 +121,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reviews'
+        "404":
+          description: Resource not found  
     post:
       tags:
       - reviews
@@ -149,7 +152,118 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Place'    
+                $ref: '#/components/schemas/Place'  
+        "400":
+          description: Any of the parameters are not correct
+        "404":
+          description: Resource not found
+          
+  /places/{placeId}/reviews/{reviewId}:
+    get:
+      tags:
+      - reviews
+      summary: Get the specified review
+      description: Get the specified review from a place by id
+      operationId: getReview
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Specified review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        "404":
+          description: Resource not found
+    put:
+      tags:
+      - reviews
+      summary: Update the specified review
+      description: Update the specified review
+      operationId: updateReview
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the updated review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+    delete:
+      tags:
+      - reviews
+      summary: Deletes a review
+      description: Deletes the review with the given id
+      operationId: deleteReview
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId   
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1 
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+       
 components:
   schemas:
     Accomodations:
