@@ -277,6 +277,9 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/Events'
+        "404":
+          description: Resource not found 
+              
     post:
       tags:
       - events
@@ -288,7 +291,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Events'
+              $ref: '#/components/schemas/Event'
         required: true
       responses:
         "201":
@@ -296,7 +299,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Events'
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "400":
+          description: One or more parameters are not correct
+        "404":
+          description: Resource not found  
   /events/{eventId}:
     get:
       tags:
@@ -320,7 +332,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Events'
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "404":
+          description: Resource not found
     put:
       tags:
       - events
@@ -342,7 +361,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Events'
+              $ref: '#/components/schemas/Event'
       responses:
         "204":
           description: Review successfully deleted
@@ -434,7 +453,7 @@ components:
         date:
           type: string
           format: date-time
-    Events:
+    Event:
       required:
       - date
       - contactEmail
@@ -472,6 +491,10 @@ components:
           - underground
         organizers:
           type: string
+    Events:
+      type: array
+      items:
+        $ref: '#/components/schemas/Event'
     Coordinates:
       required:
       - latitude
@@ -527,18 +550,31 @@ components:
         $ref: '#/components/schemas/Review'
   examples:
     Event1:
-      summary: Placido Domingo Event
-      description: Example the concert of Placido Domingo
+      summary: Plácido Domingo Event
+      description: Example the concert of Plácido Domingo
       value:
         name: Noches de la Maestranza
-        description:
+        description: Una noche llena de magia en La Maestranza con Plácido Domingo
         price: 150
-        date: 17-9-2022
-        website:
-        contactEmail:
-        types:
-        transport:
-        organizers:
+        date: 17-09-2022 21:30
+        website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
+        contactEmail: taquilla@teatrodelamaestranza.es
+        types: music
+        transport: bus
+        organizers: La Maestranza
+    Event2:
+      summary: Segio Dalma's Concert
+      description: Example the concert of Sergio Dalma
+      value:
+        name: Sergio Dalma
+        description: Vuelve a disfrutar de los mayores exitos de Sergio Dalma
+        price: 51
+        date: 21-05-2022 21:00
+        website: https://www.sergiodalma.es/event/sevilla/
+        contactEmail: info.cite@eulen.com
+        types: music
+        transport: bus
+        organizers: Cartuja Center    
     Place1:
       summary: Gran ilustre place
       description: Example the library gran ilustre
