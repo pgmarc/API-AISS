@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 import aiss.model.Accomodation;
 import aiss.model.Coordinates;
 import aiss.model.Place;
-import aiss.model.PlaceCategory;
 import aiss.model.Review;
+import aiss.util.PlaceData;
 
 public class MapPlaceRepository implements PlaceRepository{
 
@@ -25,91 +25,17 @@ public class MapPlaceRepository implements PlaceRepository{
 		
 		this.placesMap = new HashMap<Integer, Place>();
 		
-		Place place1 = new Place();
-		place1.setName("Quatz");
-		place1.setEmail("wzaniolini0@amazonaws.com");
-		place1.setAddress("6086 Morrow Park");
-		place1.setWebsite("https://goo.gl");
-		place1.setCategory(PlaceCategory.ACCOMODATION);
-		place1.setLocation(Coordinates.of(48.8466523,2.2582125));
-		addPlace(place1);
-
-
-		Place place2 = new Place();
-		place2.setName("Demivee");
-		place2.setEmail("dcoughlin1@hhs.gov");
-		place2.setAddress("7347 Graceland Road");
-		place2.setWebsite("http://deliciousdays.com");
-		place2.setCategory(PlaceCategory.BUSINESS);
-		place2.setLocation(Coordinates.of(11.5399857,-85.6986957));
-		addPlace(place2);
+		PlaceData.getPlacesInfo().forEach(place -> addPlace(place));
 		
-		Place place3 = new Place();
-		place3.setName("Aimbu");
-		place3.setEmail("ocrigane2@alexa.com");
-		place3.setAddress("36581 Hauk Point");
-		place3.setWebsite("https://sourceforge.netm");
-		place3.setCategory(PlaceCategory.DISCO);
-		place3.setLocation(Coordinates.of(42.8043197,132.8288963));
-		addPlace(place3);
-		
-
 		Review review1 = new Review("Zarzu","Todo perfecto",4.5);
 		Review review2 = new Review("pgmarc","Sitio perfecto para estar en familia",2.0);
 
-		
-		addReview(place1.getId(),review1);
-		addReview(place2.getId(),review1);
-		addReview(place3.getId(),review1);
-
-		Place place4 = new Place();
-		place4.setName("Twimm");
-		place4.setEmail("ccaddick3@taobao.com");
-		place4.setAddress("616 Talisman Terrace");
-		place4.setCategory(PlaceCategory.FOOD_DRINK);
-		place4.setWebsite("http://quantcast.com");
-		place4.setLocation(Coordinates.of(52.1584604,20.9110916));
-		addPlace(place4);
-		
-		Place place5 = new Place();
-		place5.setName("Jazzy");
-		place5.setEmail("rnairne4@un.org");
-		place5.setAddress("09 Montana Place");
-		place5.setWebsite("https://reference.com");
-		place5.setCategory(PlaceCategory.RETAIL);
-		place5.setLocation(Coordinates.of(-42.7700601,-65.0306302));
-		addPlace(place5);
-		
-		Place place6 = new Place();
-		place6.setName("Jazzy");
-		place6.setEmail("fsnoday5@alcampo.mail");
-		place6.setAddress("102 Elka Terrace");
-		place6.setWebsite("http://wisc.edu");
-		place6.setCategory(PlaceCategory.UNDEFINED);
-		place6.setLocation(Coordinates.of(62.2666019,27.1252002));
-		addPlace(place6);
-		
-		Place place7 = new Place();
-		place7.setName("Babbleset");
-		place7.setEmail("csarch6@globo.com");
-		place7.setAddress("1827 Manufacturers Road");
-		place7.setWebsite("http://diigo.com");
-		place7.setCategory(PlaceCategory.UNIVERSITY);
-		place7.setLocation(Coordinates.of(38.1748383,20.5829927));
-		addPlace(place7);
-		
-		Place place8 = new Place();
-		place8.setName("Aimbu");
-		place8.setEmail("ocrigane2@alexa.com");
-		place8.setAddress("36581 Hauk Point");
-		place8.setWebsite("https://sourceforge.netm");
-		place8.setCategory(PlaceCategory.DISCO);
-		place8.setLocation(Coordinates.of(42.8043197,132.8288963));
-		addPlace(place8);
-		
-		addReview(place8.getId(), review2);
-
-		
+		addReview(0, review1);
+		addReview(1, review2);
+		addReview(3, review1);
+		addReview(5, review1);
+		addReview(5, review2);
+		addReview(7, review1);
 	}
 	
 	public static MapPlaceRepository getInstance() {
