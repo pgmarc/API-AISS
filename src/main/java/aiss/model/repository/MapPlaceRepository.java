@@ -55,6 +55,8 @@ public class MapPlaceRepository implements PlaceRepository{
 		
 
 		Review review1 = new Review("Zarzu","Todo perfecto",4.5);
+		Review review2 = new Review("pgmarc","Sitio perfecto para estar en familia",2.0);
+
 		
 		addReview(place1.getId(),review1);
 		addReview(place2.getId(),review1);
@@ -95,6 +97,18 @@ public class MapPlaceRepository implements PlaceRepository{
 		place7.setCategory(PlaceCategory.UNIVERSITY);
 		place7.setLocation(Coordinates.of(38.1748383,20.5829927));
 		addPlace(place7);
+		
+		Place place8 = new Place();
+		place8.setName("Aimbu");
+		place8.setEmail("ocrigane2@alexa.com");
+		place8.setAddress("36581 Hauk Point");
+		place8.setWebsite("https://sourceforge.netm");
+		place8.setCategory(PlaceCategory.DISCO);
+		place8.setLocation(Coordinates.of(42.8043197,132.8288963));
+		addPlace(place8);
+		
+		addReview(place8.getId(), review2);
+
 		
 	}
 	

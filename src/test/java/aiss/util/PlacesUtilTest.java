@@ -66,6 +66,7 @@ public class PlacesUtilTest {
 		expectedSorting.sort(Comparator.comparing(p->((Place) p).getName()));
 		placesToSort.sort(PlacesUtil.parseSort("+name"));
 		assertEquals(expectedSorting, placesToSort);
+		System.out.println("+name: " + placesToSort);
 	}
 	
 	@Test
@@ -75,6 +76,7 @@ public class PlacesUtilTest {
 		expectedSorting.sort(Comparator.comparing(p->((Place) p).getName()).reversed());
 		placesToSort.sort(PlacesUtil.parseSort("-name"));
 		assertEquals(expectedSorting, placesToSort);
+		System.out.println("-name: " + placesToSort);
 	}
 	
 	@Test
@@ -99,6 +101,8 @@ public class PlacesUtilTest {
 		List<Place> expectedSorting = new ArrayList<>(places);
 		placesToSort.sort(PlacesUtil.parseSort("-rating"));
 		expectedSorting.sort(Comparator.comparing(p->((Place) p).getRating()));
+		System.out.println("-rating: " + placesToSort);
+
 	}
 	
 	@Test
@@ -107,6 +111,8 @@ public class PlacesUtilTest {
 		List<Place> expectedSorting = new ArrayList<>(places);
 		placesToSort.sort(PlacesUtil.parseSort("+rating"));
 		expectedSorting.sort(Comparator.comparing(p->((Place) p).getRating()).reversed());
+		System.out.println("+rating: " + placesToSort);
+
 	}
 	
 	@Test

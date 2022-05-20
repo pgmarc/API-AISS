@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -30,7 +28,6 @@ import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Place;
-import aiss.model.PlaceCategory;
 import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
@@ -58,9 +55,10 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
-			@QueryParam("categories") String categories) {
+			@QueryParam("categories") String categories,
+			@QueryParam("sort") String sortValue) {
 		
-		//TODO Valores por defecto offset = 0 limit 10
+		//TODO Documentacion Valores por defecto offset = 0 limit 10
 		offset = Optional.ofNullable(offset).orElse(0);
 		limit = Optional.ofNullable(limit).orElse(10);
 		
@@ -73,7 +71,12 @@ public class PlaceResource {
 		if (categories != null) {
 			places = PlacesUtil.filterPlacesByCategory(places, categories);
 		}
+		System.out.println(sortValue);
 		
+		if (sortValue != null) {
+			places.sort(PlacesUtil.parseSort(sortValue));
+		}
+		System.out.println(places);
 		places = PlacesUtil.getPagination(places, limit, offset);
 		return Response.status(Status.OK).entity(places).build();
 	}
