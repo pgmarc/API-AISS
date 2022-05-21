@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import aiss.model.Accomodation;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
-import aiss.model.Accomodation;
 
 public class PlacesUtil {
 	
@@ -57,7 +57,7 @@ public class PlacesUtil {
 	
 	public static Set<PlaceCategory> parseCategoriesToFilter(String categories) {
 		Set<PlaceCategory> categoriesToFilter = new HashSet<>();
-		List<String> categoryNames = getListOfCategoryNamesSeparatedByCommas(categories);
+		List<String> categoryNames = getListOfCategoryNamesSeparatedBySemicolon(categories);
 		if (categoryNames.isEmpty()) {
 			return Set.of(PlaceCategory.UNDEFINED);
 		}
@@ -83,8 +83,12 @@ public class PlacesUtil {
 				.map(category -> category.toString()).collect(Collectors.toList());
 	}
 	
-	private static List<String> getListOfCategoryNamesSeparatedByCommas(String categories) {
-		return Arrays.asList(categories.trim().split(","));
+	private static List<String> getListOfCategoryNamesSeparatedBySemicolon(String categories) {
+		return Arrays.asList(categories.replace(" ", "").split(";"));
+	}
+	
+	public static <E extends Enum<E>> boolean stringMatchesEnum(E enumValue, String stringValue) {
+		return enumValue.toString().equals(stringValue.toUpperCase());
 	}
 	
 	public static List<Place> filterPlacesByCategory(List<Place> places, String categories) {
@@ -92,5 +96,13 @@ public class PlacesUtil {
 		return places.stream()
 				.filter(place -> 
 				categoriesToFilter.contains(place.getCategory())).collect(Collectors.toList());
+	}
+	
+	public static Double safeParseDouble(String s) {
+		try {
+			return Double.valueOf(s);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
