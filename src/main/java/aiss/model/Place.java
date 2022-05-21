@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -212,6 +213,10 @@ public class Place {
 		return Objects.hash(address, id, location, name, accomodation);
 	}
 
+	public boolean accomodationMatches(Predicate<Accomodation> pred) {
+		return this.accomodation != null && pred.test(this.getAccomodation());
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

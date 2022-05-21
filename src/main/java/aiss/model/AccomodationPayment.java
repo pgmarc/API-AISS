@@ -18,15 +18,17 @@ public class AccomodationPayment {
 	private PaymentPeriod paymentPeriod;
 	@JsonProperty("mealService")
 	private MealService mealService;
+	@JsonProperty("roomType")
+	private RoomType roomType;
 	
 	public AccomodationPayment() {}
 	
-	public AccomodationPayment(String description, Double price, PaymentPeriod paymentPeriod, MealService mealService) {
-		super();
+	public AccomodationPayment(String description, Double price, PaymentPeriod paymentPeriod, MealService mealService, RoomType roomType) {
 		this.description = description;
 		this.price = price;
 		this.paymentPeriod = paymentPeriod;
 		this.mealService = mealService;
+		this.roomType = roomType;
 	}
 
 	@JsonProperty("description")
@@ -69,6 +71,16 @@ public class AccomodationPayment {
 		this.mealService = mealService;
 	}
 	
+	@JsonProperty("roomType")
+	public RoomType getRoomType() {
+		return roomType;
+	}
+	
+	@JsonProperty("roomType")
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(description, mealService, paymentPeriod, price);
@@ -92,4 +104,5 @@ public class AccomodationPayment {
 		return "AccomodationPayment [description=" + description + ", price=" + price + ", paymentPeriod="
 				+ paymentPeriod + ", mealService=" + mealService + "]";
 	}
+
 }
