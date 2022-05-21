@@ -56,7 +56,7 @@ public class PlaceResource {
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
 			@QueryParam("categories") String categories,
-			@QueryParam("sort") String sortValue,
+			@QueryParam("order") String sortValue,
 			@QueryParam("placeId") Integer placeId,
 			@QueryParam("minRadius") Double minRadius,
 			@QueryParam("maxRadius") Double maxRadius) {
@@ -228,14 +228,16 @@ public class PlaceResource {
 			Review review) {
 		
 		Place place = placeRepository.getPlace(placeId);
-		if(place==null)
+		
+		if(place == null)
 			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");
-		if (review.getId()!=null) 
+		
+		if (review.getId() != null) 
 			throw new BadEntityRequestException("The review id must not be included as a parameter");
 		
-		if (review.getUsername()==null) review.setUsername("Anonymous");
+		if (review.getUsername() == null) review.setUsername("Anonymous");
 
-		if (review.getDescription()==null) review.setDescription("");
+		if (review.getDescription() == null) review.setDescription("No description");
 		
 		if (review.getRating() == null)
 			throw new BadEntityRequestException("The review rating must be included as a parameter");

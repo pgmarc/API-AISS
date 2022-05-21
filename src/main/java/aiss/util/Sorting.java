@@ -47,7 +47,4 @@ public class Sorting {
 			.reduce((c1,c2)->c1.thenComparing(c2))
 			.orElse((p1,p2)->0);
 	}
-
-	
-	
 }
