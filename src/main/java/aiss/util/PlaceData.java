@@ -3,6 +3,12 @@ package aiss.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import aiss.model.Accomodation;
+import aiss.model.Accomodation.AccomodationType;
+import aiss.model.AccomodationPayment;
+import aiss.model.AccomodationPayment.MealService;
+import aiss.model.AccomodationPayment.PaymentPeriod;
+import aiss.model.AccomodationPayment.RoomType;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
@@ -103,6 +109,39 @@ public class PlaceData {
 		place11.setCategory(PlaceCategory.BUS_STATION);
 		place11.setLocation(Coordinates.of(37.39101613670735, -6.003420901094104));
 		
+		Place place12 = new Place();
+		place12.setName("Residencia universitaria micampus Armendáriz");
+		place12.setEmail("armendariz@micampusliving.com");
+		place12.setAddress("Ctra. Su Eminencia 15, 41013 Sevilla");
+		place12.setWebsite("https://micampusresidencias.com/sevilla-armendariz/");
+		place12.setCategory(PlaceCategory.ACCOMODATION);
+		place12.setLocation(Coordinates.of(37.1237613670735, -6.12381094104));
+		
+		Place place13 = new Place();
+		place13.setName("Piso de totalmente incuestionable calidad");
+		place13.setEmail("elmejorpisitodelmundo@localshadybusiness.es");
+		place13.setAddress("El callejón ese oscuro y sospechoso, 2, 41001 Sevilla");
+		place13.setWebsite("http://www.localshadybusiness.es");
+		place13.setCategory(PlaceCategory.ACCOMODATION);
+		place13.setLocation(Coordinates.of(37.1237613670735, -6.12381094104));
+		
+		Place place14 = new Place();
+		place14.setName("Residencia test 1");
+		place14.setEmail("testing@gmail.com");
+		place14.setAddress("Calle test, 2, 41001 Sevilla");
+		place14.setWebsite("http://www.testing.es");
+		place14.setCategory(PlaceCategory.ACCOMODATION);
+		place14.setLocation(Coordinates.of(12.34567, -12.34567));
+		
+		Place place15 = new Place();
+		place15.setName("Residencia test 2");
+		place15.setEmail("testing2@gmail.com");
+		place15.setAddress("Calle test 2, 2, 41001 Sevilla");
+		place15.setWebsite("http://www.testing2.es");
+		place15.setCategory(PlaceCategory.ACCOMODATION);
+		place15.setLocation(Coordinates.of(21.34567, -21.34567));
+		
+		
 		places.add(place1);
 		places.add(place2);
 		places.add(place3);
@@ -114,7 +153,148 @@ public class PlaceData {
 		places.add(place9);
 		places.add(place10);
 		places.add(place11);
+		places.add(place12);
+		places.add(place13);
+		places.add(place14);
 
+		Accomodation acc1 = new Accomodation(
+				500, 
+				List.of(
+						new AccomodationPayment(
+								"Individual con servicios extra",
+								1500.1,
+								PaymentPeriod.YEARLY,
+								MealService.ALL_MEALS,
+								RoomType.INDIVIDUAL),
+						new AccomodationPayment(
+								"Doble con servicios extra",
+								1050.1,
+								PaymentPeriod.YEARLY,
+								MealService.ALL_MEALS,
+								RoomType.INDIVIDUAL),
+						new AccomodationPayment(
+								"Individual con limpieza semanal",
+								1200.1,
+								PaymentPeriod.YEARLY,
+								MealService.TWO_MEALS,
+								RoomType.INDIVIDUAL),
+						new AccomodationPayment(
+								"Doble con limpieza semanal",
+								900.1,
+								PaymentPeriod.YEARLY,
+								MealService.TWO_MEALS,
+								RoomType.DOUBLE)
+						),
+				AccomodationType.RESIDENCE);
+		place14.setAccomodation(acc1);
+		
+		Accomodation acc2 = new Accomodation(
+				600, 
+				List.of(
+						new AccomodationPayment(
+								"Dos habitaciones y un cuarto de baño, cocina pequeña",
+								500.,
+								PaymentPeriod.MONTHLY,
+								MealService.SELF_CATERING,
+								RoomType.OTHER)
+						),
+				AccomodationType.RESIDENCE);
+		place15.setAccomodation(acc2);
+		
+		Accomodation acc3 = new Accomodation(
+				800, 
+				List.of(
+						new AccomodationPayment(
+								"Pensión completa, limpieza de habitación semanal, cambio"
+								+ " de sábanas y toallas semanal, salón, cocina, baño completo, mesa de estudio,"
+								+ " armario, climatización,"
+								+ " WIFI y todos los beneficios de micampus Club.",
+								628.,
+								PaymentPeriod.MONTHLY,
+								MealService.ALL_MEALS,
+								RoomType.DOUBLE),
+						new AccomodationPayment(
+								"Pensión completa, limpieza de habitación semanal, cambio de sábanas y toallas semanal,"
+								+ " salón grande, cocina, baño completo, mesa de estudio, armario, WIFI, "
+								+ "climatización y todos los beneficios de micampus Club.",
+								759.,
+								PaymentPeriod.MONTHLY,
+								MealService.ALL_MEALS,
+								RoomType.INDIVIDUAL),
+						new AccomodationPayment(
+								"Limpieza de habitación semanal, "
+								+ "cambio de sábanas y toallas semanal, 2 amplias "
+								+ "habitaciones, salón grande, baño  y cocina completos, mesa "
+								+ "de estudio, armario, climatización, WIFI y todos los "
+								+ "beneficios de micampus Club.",
+								807.,
+								PaymentPeriod.MONTHLY,
+								MealService.SELF_CATERING,
+								RoomType.DOUBLE),
+						new AccomodationPayment(
+								"Limpieza de habitación semanal, "
+								+ "cambio de sábanas y toallas semanal, amplia "
+								+ "habitación, salón grande, baño y cocina completos, mesa "
+								+ "de estudio, armario, climatización, WIFI y todos los "
+								+ "beneficios de micampus Club.",
+								1011.1,
+								PaymentPeriod.MONTHLY,
+								MealService.SELF_CATERING,
+								RoomType.INDIVIDUAL)
+						),
+				AccomodationType.RESIDENCE);
+		place12.setAccomodation(acc3);
+		
+		Accomodation ac4 = new Accomodation(
+				1200,
+				List.of(
+						new AccomodationPayment(
+								"3 literas dobles y un baño compartido"
+								+ " para nada en malas condiciones",
+								199.99,
+								PaymentPeriod.MONTHLY,
+								MealService.TWO_MEALS,
+								RoomType.OTHER),
+						new AccomodationPayment(
+								"4 literas dobles en una habitación muy muy espaciosa y con"
+								+ " cocina y baños de la máxima calidad",
+								149.99,
+								PaymentPeriod.MONTHLY,
+								MealService.SELF_CATERING,
+								RoomType.OTHER)
+						),
+				AccomodationType.FLAT);
+		place13.setAccomodation(ac4);
+		
+		Accomodation ac5 = new Accomodation(
+				850,
+				List.of(
+						new AccomodationPayment(
+								"Media pensión (con opción de pensión completa), "
+								+ "limpieza semanal incluida, baño propio, cocina "
+								+ "equipada, escritorio, agua, climatización, WIFI, "
+								+ "electricidad, televisión y todos los beneficios de "
+								+ "micampus Club",
+								615.1,
+								PaymentPeriod.MONTHLY,
+								MealService.TWO_MEALS,
+								RoomType.DOUBLE
+								),
+						new AccomodationPayment(
+								"Media pensión (con opción de pensión completa), "
+								+ "limpieza semanal incluida, baño propio, cocina "
+								+ "equipada compartida, escritorio, agua, climatización, WIFI, "
+								+ "electricidad, televisión y todos los beneficios de "
+								+ "micampus Club",
+								699.,
+								PaymentPeriod.MONTHLY,
+								MealService.TWO_MEALS,
+								RoomType.INDIVIDUAL)
+						),
+				AccomodationType.RESIDENCE
+				);
+		place6.setAccomodation(ac5);
+		
 		return places;
 	}
 }
