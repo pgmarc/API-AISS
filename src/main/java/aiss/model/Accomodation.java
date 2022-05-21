@@ -24,7 +24,7 @@ public class Accomodation {
 	
 	public Accomodation() {}
 
-	public Accomodation(Integer id, Integer roomsNumber, Double price, List<AccomodationPayment> payments, AccomodationType type) {
+	public Accomodation(Integer roomsNumber, Double price, List<AccomodationPayment> payments, AccomodationType type) {
 		this.numberOfRooms = roomsNumber;
 		this.payments = payments;
 		this.type = type;
