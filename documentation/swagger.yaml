@@ -30,25 +30,104 @@ paths:
     get:
       tags:
       - places
-      summary: Get all places
-      description: Get all places
+      summary: Get places by diferent criteria
+      description: Get all the places given some criteria
       operationId: getAllPlaces
+      parameters:
+      - name: offset
+        in: query
+        description: Position where it will start to find places.
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          example: 1
+          default: 0
+      - name: limit
+        in: query
+        description: Limit the number of places returned
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          example: 5
+          default: 10
+      - name: order
+        in: query
+        description: This field sets the order that will return the results. You can
+          specify one value by giving only one string. In case that you want to order
+          with multiple criteria you have to format the as comma separated values.
+          The ordering is done starting from the left to the right
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          One Value:
+            value: +name
+          Multiple Values:
+            value: "+name,-rating"
+      - name: placeId
+        in: query
+        description: If you want to filter the places around any location you MUST
+          specify the place that you want by giving the concrete placeId.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+        examples:
+          ETSII:
+            value: 0
+          Benito Villamarín:
+            value: 3
+      - name: minRadius
+        in: query
+        description: Set the minimun radius (in meters) when looking for places. It
+          depends on the placeId given by parameter
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          format: double
+        examples:
+          "500 metres":
+            value: 500
+          "1 kilometer":
+            value: 1000
+      - name: maxRadius
+        in: query
+        description: Set the maximum radius (in meters) when looking for places. It
+          depends on the placeId given by parameter
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          format: double
+        examples:
+          "1 kilometer":
+            value: 1000
+          "3 kilometers":
+            value: 3000
       responses:
         "200":
-          description: List of places
+          description: Return a list of places
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Places'
-              examples:
-                Place:
-                  $ref: '#/components/examples/Place1'
-                Place1:
-                  $ref: '#/components/examples/Place2'
     post:
       tags:
       - places
-      summary: Creates new places
+      summary: Create new places
       description: Creates new places with the given payload
       operationId: addPlaces
       requestBody:
@@ -65,6 +144,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Place'
+              examples:
+                Place:
+                  $ref: '#/components/examples/Place1'
+                Place1:
+                  $ref: '#/components/examples/Place2'
   /places/{placeId}:
     get:
       tags:
@@ -81,7 +165,11 @@ paths:
         explode: false
         schema:
           type: integer
-          example: 1
+        examples:
+          Estanislao Id:
+            value: 5
+          ETSII Id:
+            value: 0
       responses:
         "200":
           description: Values retrieved of a particular place
@@ -89,38 +177,382 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Place'
+              examples:
+                Place1:
+                  $ref: '#/components/examples/Place1'
+                Place2:
+                  $ref: '#/components/examples/Place2'
+                Estanislao:
+                  $ref: '#/components/examples/Estanislao'
+  /places/{placeId}/reviews:
+    get:
+      tags:
+      - reviews
+      summary: Get all reviews from a place by id
+      description: Get all reviews from a place by id
+      operationId: getAllReviews
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: List of all the reviews from a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reviews'
+        "404":
+          description: Resource not found
+    post:
+      tags:
+      - reviews
+      summary: Creates new reviews
+      description: Creates new reviews with the given payload to the place
+      operationId: addReviews
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+        "400":
+          description: Any of the parameters are not correct
+        "404":
+          description: Resource not found
+  /places/{placeId}/reviews/{reviewId}:
+    get:
+      tags:
+      - reviews
+      summary: Get the specified review
+      description: Get the specified review from a place by id
+      operationId: getReview
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Specified review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        "404":
+          description: Resource not found
+    put:
+      tags:
+      - reviews
+      summary: Update the specified review
+      description: Update the specified review
+      operationId: updateReview
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the updated review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+    delete:
+      tags:
+      - reviews
+      summary: Deletes a review
+      description: Deletes the review with the given id
+      operationId: deleteReview
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+  /events:
+    get:
+      tags:
+      - events
+      summary: Get all events
+      description: Get all events
+      operationId: getAllEvents
+      responses:
+        "200":
+          description: List of events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+        "404":
+          description: Resource not found
+    post:
+      tags:
+      - events
+      summary: Creates new events
+      description: Creates new events with the given payload
+      operationId: addEvents
+      requestBody:
+        description: Payload of the event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "400":
+          description: One or more parameters are not correct
+        "404":
+          description: Resource not found
+  /events/{eventId}:
+    get:
+      tags:
+      - events
+      summary: Get a event by id
+      description: Get a event by id
+      operationId: getEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Values retrieved of a particular event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "404":
+          description: Resource not found
+    put:
+      tags:
+      - events
+      summary: Update the specified event
+      description: Update the specified event
+      operationId: updateEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the updated event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+    delete:
+      tags:
+      - events
+      summary: Deletes an event
+      description: Deletes the event with the given id
+      operationId: deleteEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "204":
+          description: Event successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
 components:
   schemas:
     Accomodations:
+      required:
+      - numberOfRooms
+      - payments
+      - type
       type: object
       properties:
-        roomNumbers:
+        numberOfRooms:
           type: integer
-        area:
-          type: number
-          format: double
+        type:
+          type: string
+          enum:
+          - RESIDENCE
+          - FLAT
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccomodationPayments'
+      nullable: true
+    AccomodationPayments:
+      required:
+      - description
+      - mealService
+      - paymentPeriod
+      - price
+      type: object
+      properties:
+        description:
+          type: string
         price:
           type: number
           format: double
-    Reviews:
+          example: 499.9
+        paymentPeriod:
+          type: string
+          enum:
+          - YEARLY
+          - MONTHLY
+        mealService:
+          type: string
+          enum:
+          - ALL_MEALS
+          - TWO_MEALS
+          - SELF_CATERING
+    Review:
+      required:
+      - rating
       type: object
       properties:
         username:
           type: string
+          description: Name of the author of the review
+          nullable: true
+          default: Anonymous
         description:
           type: string
+          description: Review of the user
+          nullable: true
+          default: No description
         rating:
-          type: integer
+          maximum: 5
+          minimum: 0
+          type: number
+          description: Rating given by the user
+          format: double
         date:
           type: string
           format: date-time
-    Events:
+    Event:
       required:
+      - contactEmail
       - date
-      - email
-      - location
       - name
-      - organizers
+      - organizators
       - price
       type: object
       properties:
@@ -133,11 +565,9 @@ components:
         date:
           type: string
           format: date-time
-        location:
-          $ref: '#/components/schemas/Coordinates'
         website:
           type: string
-        email:
+        contactEmail:
           type: string
         types:
           type: string
@@ -155,6 +585,10 @@ components:
           - underground
         organizers:
           type: string
+    Events:
+      type: array
+      items:
+        $ref: '#/components/schemas/Event'
     Coordinates:
       required:
       - latitude
@@ -173,6 +607,7 @@ components:
           type: number
           description: The longitude of the place
           format: double
+      description: Coordinates of the place
     Place:
       required:
       - address
@@ -182,19 +617,19 @@ components:
       properties:
         name:
           type: string
+          description: Name of the place or alias
         email:
           type: string
+          description: Contact email of the place
+          nullable: true
         address:
           type: string
-        rating:
-          type: integer
-          description: The average of all the reviews of the users
-          format: int32
         website:
           type: string
-        details:
-          oneOf:
-          - $ref: '#/components/schemas/Accomodations'
+          description: Website of the place
+          nullable: true
+        accomodation:
+          $ref: '#/components/schemas/Accomodations'
         location:
           $ref: '#/components/schemas/Coordinates'
         reviews:
@@ -205,7 +640,39 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Place'
+    Reviews:
+      type: array
+      description: List of reviews that BELONGS to ONE PLACE. Reviews ARE NOT SHARED
+        between places
+      items:
+        $ref: '#/components/schemas/Review'
   examples:
+    Event1:
+      summary: Plácido Domingo Event
+      description: Example the concert of Plácido Domingo
+      value:
+        name: Noches de la Maestranza
+        description: Una noche llena de magia en La Maestranza con Plácido Domingo
+        price: 150
+        date: 17-09-2022 21:30
+        website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
+        contactEmail: taquilla@teatrodelamaestranza.es
+        types: music
+        transport: bus
+        organizers: La Maestranza
+    Event2:
+      summary: Segio Dalma's Concert
+      description: Example the concert of Sergio Dalma
+      value:
+        name: Sergio Dalma
+        description: Vuelve a disfrutar de los mayores exitos de Sergio Dalma
+        price: 51
+        date: 21-05-2022 21:00
+        website: https://www.sergiodalma.es/event/sevilla/
+        contactEmail: info.cite@eulen.com
+        types: music
+        transport: bus
+        organizers: Cartuja Center
     Place1:
       summary: Gran ilustre place
       description: Example the library gran ilustre
@@ -229,6 +696,36 @@ components:
         location:
           latitude: 40.0
           longitude: -65.4
+    Estanislao:
+      description: Example of a Place with Accomodation
+      value:
+        name: Residencia universitaria Estanislao del Campo
+        email: estanislao@micampusliving.com
+        address: "Ctra. Su Eminencia, 2A, 41013 Sevilla"
+        website: https://micampusresidencias.com/micampus-estanislao
+        rating: 4.0
+        location:
+          latitude: 37.35649060120476
+          longitude: -5.9781261663374625
+        reviews:
+        - username: theLegend27
+          description: "Muy buen sitio y bien mantenido, pero las comidas se podrí\
+            an mejorar."
+          rating: 4.0
+        accomodation:
+          numberOfRooms: 500
+          payments:
+          - description: Habitación individual con cocina compartida
+            price: 499.0
+            paymentPeriod: YEARLY
+            mealService: TWO_MEALS
+            roomType: INDIVIDUAL
+          - description: Habitación compartida
+            price: 299.0
+            paymentPeriod: MONTHLY
+            mealService: ALL_MEALS
+            roomType: DOUBLE
+          type: RESIDENCE
   requestBodies:
     Coordinates:
       content:
