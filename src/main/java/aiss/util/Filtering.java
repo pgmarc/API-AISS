@@ -11,7 +11,7 @@ public class Filtering {
 	
 	public static final Map<String, Function<String, Predicate<Place>>> placeFilters = Map.ofEntries(
 		Map.entry("type", o->(p->PlacesUtil.parseCategoriesToFilter(o).contains(p.getCategory()))),
-		Map.entry("name", o-> (p->p.getName().contains(o))),
+		Map.entry("name", o-> (p->p.getName().toLowerCase().contains(o.toLowerCase()))),
 		Map.entry("accomodationType", o-> (p->p.accomodationMatches(
 				ac-> PlacesUtil.stringMatchesEnum(ac.getType(), o)))),
 		Map.entry("paymentPeriod", o-> (p->p.accomodationMatches(

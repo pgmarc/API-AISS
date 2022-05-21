@@ -98,6 +98,11 @@ public class PlacesUtil {
 				categoriesToFilter.contains(place.getCategory())).collect(Collectors.toList());
 	}
 	
+	public static List<Place> filterPlaces(List<Place> places, String filters) {
+		return places.stream().filter(Filtering.parsePlaceFilter(filters))
+				.collect(Collectors.toList());
+	}
+	
 	public static Double safeParseDouble(String s) {
 		try {
 			return Double.valueOf(s);
