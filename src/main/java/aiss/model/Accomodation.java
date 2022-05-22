@@ -3,9 +3,9 @@ package aiss.model;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-
 
 import aiss.model.AccomodationPayment.PaymentPeriod;
 
@@ -24,7 +24,7 @@ public class Accomodation {
 	
 	public Accomodation() {}
 
-	public Accomodation(Integer id, Integer roomsNumber, Double price, List<AccomodationPayment> payments, AccomodationType type) {
+	public Accomodation(Integer roomsNumber, List<AccomodationPayment> payments, AccomodationType type) {
 		this.numberOfRooms = roomsNumber;
 		this.payments = payments;
 		this.type = type;
@@ -103,6 +103,11 @@ public class Accomodation {
 				.map(pay->pay.getPrice() / (pay.getPaymentPeriod() == PaymentPeriod.MONTHLY ? 1 : 12))
 				.max(Comparator.naturalOrder())
 				.orElse(null);
+	}
+	
+	public boolean anyPaymentsMatch(Predicate<AccomodationPayment> predicate) {
+		return this.payments.stream()
+			.anyMatch(predicate);
 	}
 	
 	@Override
