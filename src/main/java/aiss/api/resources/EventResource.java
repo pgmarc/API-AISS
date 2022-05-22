@@ -68,6 +68,12 @@ public class EventResource {
 	@Produces("application/json")
 	public Response getEvent(@PathParam("id") Integer eventId) {
 		Event event = eventRepository.getEvent(eventId);
+		
+		if (eventId == null)
+			throw new EntityNotFoundException("The event with id=" 
+		+ eventId + "was not found");
+			
+		
 		return Response.status(Status.OK).entity(event).build();
 	}
 	
@@ -76,26 +82,31 @@ public class EventResource {
 	@Produces("application/json")
 	public Response addEvent(@Context UriInfo uriInfo, Event event) {
 		
+		if (event.getId() !=null)
+			throw new BadEntityRequestException("The event id must not been given as a parameter.");
+		
 		if (event.getName() == null || "".equals(event.getName()))
-			throw new BadEntityRequestException("The name of an event must not be null");
+			throw new BadEntityRequestException("The name of an event must have a value");
 		
 		if (event.getPrice() == null || "".equals(event.getPrice()))
 			throw new BadEntityRequestException("The price of an event must not be null");
 		
-		if (event.getDate() == null || "".equals(event.getDate()))
+		if (event.getDate() == null)
 			throw new BadEntityRequestException("The date of an event must not be null");
 		
+		if (event.getDate().isBefore(LocalDateTime.now()))
+			throw new BadEntityRequestException("Cannot create events before the present");
+		
 		if (event.getContactEmail() == null || "".equals(event.getContactEmail()))
-			throw new BadEntityRequestException("The email of contact of an event must not be null");
+			throw new BadEntityRequestException("The contact email of an event must have a value.");
 		
 		if (event.getOrganizators() == null || "".equals(event.getOrganizators()))
-			throw new BadEntityRequestException("The organizatos of an event must not be null");
+			throw new BadEntityRequestException("The organizators of an event must not be null,"
+					+ " has to be managed by someone");
 		
-		if (event.getId() !=null)
-			throw new BadEntityRequestException("The event id must not been given as a parameter.");
 
 		eventRepository.addEvent(event);
-		// Builds the response. Returns the event the has just been added.
+
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getEvent");
 		URI uri = ub.build(event.getId());
 		ResponseBuilder response = Response.created(uri);
@@ -137,8 +148,8 @@ public class EventResource {
 		Event eventToBeRemoved = eventRepository.getEvent(eventId);
 		if (eventToBeRemoved == null)
 			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
-		else
-			eventRepository.deleteEvent(eventId);
+	
+		eventRepository.deleteEvent(eventId);
 		
 		return Response.noContent().build();
 	}
@@ -153,12 +164,12 @@ public class EventResource {
 		Event event = eventRepository.getEvent(eventId);
 		Review review = eventRepository.getReview(eventId,reviewId);
 		
-		if(event==null) {
+		if(event==null)
 			throw new EntityNotFoundException("The event with id: " + eventId + " was not found.");
-		}
-		if(review==null) {
-			throw new EntityNotFoundException("The review with id: " + reviewId + " was not found in the event.");
-		}
+		if(review==null)
+			throw new EntityNotFoundException("The review with id: " 
+		+ reviewId + " was not found in the event.");
+		
 		return review;
 	}
 	

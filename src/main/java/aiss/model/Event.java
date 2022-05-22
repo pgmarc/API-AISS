@@ -14,6 +14,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+import aiss.exceptions.BadJsonMapping;
+import aiss.util.DateValidation;
+
 @JsonPropertyOrder({"id", "name", "description", "date", "contactEmail", "website",
 	"price", "organizators", "transport", "type"})
 public class Event {
@@ -32,7 +35,7 @@ public class Event {
 	@JsonProperty("website")
 	private String website;
 	@JsonProperty("price")
-	private Integer price;
+	private Double price;
 	@JsonProperty("organizators")
 	private String organizators;
 	@JsonProperty("place")
@@ -48,11 +51,8 @@ public class Event {
 		BUS,TRAIN, BICYCLE, UNDERGROUND;
 	};
 	
-	public Event(@JsonProperty("name") String name, 
-			@JsonProperty("price") Integer price ,
-			@JsonProperty("date") LocalDateTime date, 
-			@JsonProperty("contactEmail") String contactEmail, 
-			@JsonProperty("organizators") String organizators) {
+	private Event(String name, Double price, LocalDateTime date,  String contactEmail, 
+			 String organizators) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -61,31 +61,20 @@ public class Event {
 		this.organizators = organizators;
 	}
 	
-	public Event(String name, String description, Integer price , LocalDateTime date, 
-			String website, String contactEmail, Types type, Transport transport,String organizators) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.date = date;
-		this.website = website;
-		this.contactEmail = contactEmail;
-		this.type = type;
-		this.transport= transport;
-		this.organizators = organizators;
-	}
 	@JsonCreator
-	public static Event createEvent(String name, Integer price, LocalDateTime date, String contactEmail,
-			String organizators) {
-		return new Event(name, price, date, contactEmail,organizators);
+	public static Event createEvent(@JsonProperty("name") String name, 
+			@JsonProperty("price") Double price, 
+			@JsonProperty("date") String date, 
+			@JsonProperty("contactEmail") String contactEmail,
+			@JsonProperty("organizators") String organizators) throws BadJsonMapping {
+		if (!DateValidation.validDateTime(date))
+			throw new BadJsonMapping("Invalid Date");
+		
+		LocalDateTime parsedDate = DateValidation.LocalDate(date);
+		
+		return new Event(name, price, parsedDate, contactEmail,organizators);
 	}
 
-	public static Event createEvent( String name, String description, Integer price,
-										LocalDateTime date, String website,  
-										String contactEmail, Types type, Transport transport, 
-										String organizators) {
-		return new Event(name, description,price,date,website,contactEmail,type,transport,organizators);
-	}
 	@JsonProperty("id")
 	public Integer getId() {
 		return id;
@@ -106,7 +95,7 @@ public class Event {
 		return transport;
 	}
 
-
+	@JsonProperty("transport")
 	public void setTransport(Transport transport) {
 		this.transport = transport;
 	}
@@ -115,35 +104,43 @@ public class Event {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
 	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
+	
 	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	@JsonProperty("description")
 	public String getDescription() {
 		return description;
 	}
+	
 	@JsonProperty("description")
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	@JsonIgnore
 	public LocalDateTime getDate() {
 		return date;
 	}
+	
 	@JsonProperty("date")
 	public String getDateFormatted() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		return date.format(f);
 	}
+	
 	@JsonProperty("date")
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
+	
 	@JsonProperty("contactEmail")
 	public String getContactEmail() {
 		return contactEmail;
@@ -153,34 +150,42 @@ public class Event {
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
 	}
+	
 	@JsonProperty("website")
 	public String getWebsite() {
 		return website;
 	}
+	
 	@JsonProperty("website")
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+	
 	@JsonProperty("price")
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
+	
 	@JsonProperty("price")
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
 	@JsonProperty("organizators")
 	public String getOrganizators() {
 		return organizators;
 	}
+	
 	@JsonProperty("organizators")
 	public void setOrganizators(String organizators) {
 		this.organizators = organizators;
 	}
+	
 	@JsonProperty("reviews")
 	public List<Review> getReviews() {
 		return reviews;
 	}
+	
 	@JsonProperty("reviews")
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
@@ -200,7 +205,6 @@ public class Event {
 		return this.reviews.stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
 	}
 	
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(date, name, organizators, website);
