@@ -560,7 +560,7 @@ components:
         website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
         contactEmail: taquilla@teatrodelamaestranza.es
         types: music
-        transport: bus
+        transport: bicycle
         organizers: La Maestranza
     Event2:
       summary: Segio Dalma's Concert
