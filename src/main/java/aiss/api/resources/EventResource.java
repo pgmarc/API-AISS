@@ -111,6 +111,7 @@ public class EventResource {
 	@PUT
 	@Path("/{id}")
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response updateEvent(@PathParam("id") Integer eventId, Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
 		
@@ -141,6 +142,7 @@ public class EventResource {
 	
 	@DELETE
 	@Path("/{id}")
+	@Produces("application/json")
 	public Response deleteEvent(@PathParam("id") Integer eventId) {
 		Event eventToBeRemoved = eventRepository.getEvent(eventId);
 		if (eventToBeRemoved == null)
@@ -209,6 +211,7 @@ public class EventResource {
 	@PUT
 	@Path("/{id}/reviews/{reviewId}")
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response updateReview(@PathParam("id") Integer eventId,
 			@PathParam("reviewId") Integer reviewId, Review review) {
 		
@@ -240,6 +243,7 @@ public class EventResource {
 	
 	@DELETE
 	@Path("/{id}/reviews/{reviewId}")
+	@Produces("application/json")
 	public Response deleteReview(@PathParam("id") Integer eventId,
 			@PathParam("reviewId") Integer reviewId) {
 		

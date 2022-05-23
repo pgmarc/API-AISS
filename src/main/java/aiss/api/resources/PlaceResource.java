@@ -183,6 +183,7 @@ public class PlaceResource {
 	
 	@DELETE
 	@Path("/{id}")
+	@Produces("application/json")
 	public Response deletePlace(@PathParam("id") Integer placeId) {
 		Place placeToBeRemoved = placeRepository.getPlace(placeId);
 		if (placeToBeRemoved == null)
@@ -268,6 +269,7 @@ public class PlaceResource {
 	@PUT
 	@Path("/{id}/reviews/{reviewId}")
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response updateReview(@PathParam("id") Integer placeId,
 			@PathParam("reviewId") Integer reviewId, Review review) {
 		
@@ -302,6 +304,7 @@ public class PlaceResource {
 	
 	@DELETE
 	@Path("/{id}/reviews/{reviewId}")
+	@Produces("application/json")
 	public Response deleteReview(@PathParam("id") Integer placeId,
 			@PathParam("reviewId") Integer reviewId) {
 		
