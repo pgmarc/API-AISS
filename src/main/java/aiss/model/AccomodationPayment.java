@@ -104,5 +104,4 @@ public class AccomodationPayment {
 		return "AccomodationPayment [description=" + description + ", price=" + price + ", paymentPeriod="
 				+ paymentPeriod + ", mealService=" + mealService + "]";
 	}
-
 }

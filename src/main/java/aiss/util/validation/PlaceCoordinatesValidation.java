@@ -1,8 +1,8 @@
-package aiss.util;
+package aiss.util.validation;
 
 import aiss.model.Coordinates;
 
-public class PlaceValidation {
+public class PlaceCoordinatesValidation {
 	
 	public static boolean validCoordinates(Coordinates coordinates) {
 		if (!validLatitude(coordinates.getLatitude()) 

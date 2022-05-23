@@ -2,8 +2,7 @@ package aiss.api.resources;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import java.util.Collection;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,7 +12,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -28,6 +26,7 @@ import aiss.model.Event;
 import aiss.model.Review;
 import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
+import aiss.util.validation.DateValidation;
 
 
 @Path("/events")
@@ -50,17 +49,10 @@ public class EventResource {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAllEvents(@QueryParam ("initialDate") String initialDateString,
-			@QueryParam ("finalDate") String finalDateString ) {
-		LocalDateTime dateNow = LocalDateTime.now();
-		LocalDateTime dateNowPlusMonth = dateNow.plusDays(30);
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		String initialDate = Optional.ofNullable(initialDateString).orElse(dateNow.format(dateFormat));
-		String finalDate = Optional.ofNullable(finalDateString).orElse(dateNowPlusMonth.format(dateFormat));
-		LocalDateTime minDate= LocalDateTime.parse(initialDate);  
-		LocalDateTime maxDate= LocalDateTime.parse(finalDate); 
+	public Response getAllEvents() {
 		
-		return Response.status(Status.OK).entity(null).build(); 
+		Collection<Event> events = eventRepository.getAllEvents();
+		return Response.status(Status.OK).entity(events).build(); 
 	}
 	
 	@GET
@@ -69,11 +61,9 @@ public class EventResource {
 	public Response getEvent(@PathParam("id") Integer eventId) {
 		Event event = eventRepository.getEvent(eventId);
 		
-		if (eventId == null)
-			throw new EntityNotFoundException("The event with id=" 
-		+ eventId + "was not found");
+		if (event == null)
+			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
 			
-		
 		return Response.status(Status.OK).entity(event).build();
 	}
 	
@@ -81,26 +71,30 @@ public class EventResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addEvent(@Context UriInfo uriInfo, Event event) {
-		
-		if (event.getId() !=null)
+				
+		if (event.getId() != null)
 			throw new BadEntityRequestException("The event id must not been given as a parameter.");
 		
-		if (event.getName() == null || "".equals(event.getName()))
+		if (event.getName() == null || event.getName().isEmpty())
 			throw new BadEntityRequestException("The name of an event must have a value");
 		
-		if (event.getPrice() == null || "".equals(event.getPrice()))
+		if (event.getPrice() == null)
 			throw new BadEntityRequestException("The price of an event must not be null");
 		
 		if (event.getDate() == null)
 			throw new BadEntityRequestException("The date of an event must not be null");
 		
-		if (event.getDate().isBefore(LocalDateTime.now()))
-			throw new BadEntityRequestException("Cannot create events before the present");
+		if (!DateValidation.validDateTime(event.getDate()))
+			throw new BadEntityRequestException("Invalid DateTime."
+					+ " MUST be formated like yyyy-MM-dd hh:mm");
 		
-		if (event.getContactEmail() == null || "".equals(event.getContactEmail()))
+		if (DateValidation.isBeforeCurrentDate(event.getDate()))
+			throw new BadEntityRequestException("Cannot create events before the current date");
+		
+		if (event.getContactEmail() == null || event.getContactEmail().isEmpty())
 			throw new BadEntityRequestException("The contact email of an event must have a value.");
 		
-		if (event.getOrganizators() == null || "".equals(event.getOrganizators()))
+		if (event.getOrganizators() == null || event.getOrganizators().isEmpty())
 			throw new BadEntityRequestException("The organizators of an event must not be null,"
 					+ " has to be managed by someone");
 		
@@ -117,12 +111,13 @@ public class EventResource {
 	@PUT
 	@Path("/{id}")
 	@Consumes("application/json")
-	public Response updateEvent(@PathParam("id") Integer eventId,Event event) {
+	public Response updateEvent(@PathParam("id") Integer eventId, Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
+		
 		if (oldEvent == null)
 			throw new EntityNotFoundException("The event with id="+ event.getId() +" was not found");			
 		
-		if (event.getName() != null)
+		if (event.getName() != null && !event.getName().isEmpty())
 			oldEvent.setName(event.getName());
 		
 		if (event.getContactEmail() != null)
@@ -131,9 +126,11 @@ public class EventResource {
 		if (event.getPrice() != null)
 			oldEvent.setPrice(event.getPrice());
 		
-		if (event.getDate() != null)
+		if (event.getDate() != null && DateValidation.validDateTime(event.getDate()) 
+			&& !DateValidation.isBeforeCurrentDate(event.getDate()))
 			oldEvent.setDate(event.getDate());
-		if (event.getOrganizators() != null)
+		
+		if (event.getOrganizators() != null && !event.getOrganizators().isEmpty())
 			oldEvent.setOrganizators(event.getOrganizators());
 		
 		
@@ -164,11 +161,12 @@ public class EventResource {
 		Event event = eventRepository.getEvent(eventId);
 		Review review = eventRepository.getReview(eventId,reviewId);
 		
-		if(event==null)
+		if(event == null)
 			throw new EntityNotFoundException("The event with id: " + eventId + " was not found.");
-		if(review==null)
-			throw new EntityNotFoundException("The review with id: " 
-		+ reviewId + " was not found in the event.");
+		
+		if(review == null)
+			throw new EntityNotFoundException("The review with id: " + reviewId 
+					+ " was not found in the event.");
 		
 		return review;
 	}
@@ -183,15 +181,15 @@ public class EventResource {
 		
 		Event event = eventRepository.getEvent(eventId);
 		
-		if(event==null)
+		if(event == null)
 			throw new EntityNotFoundException("The event with id: " + eventId + " was not found.");
 		
-		if (review.getId() !=null)
+		if (review.getId() != null)
 			throw new BadEntityRequestException("The review id must not been given as a parameter.");
 		
-		if (review.getUsername()==null) review.setUsername("Anonymous");
+		if (review.getUsername() == null) review.setUsername("Anonymous");
 
-		if (review.getDescription()==null) review.setDescription("");
+		if (review.getDescription() == null) review.setDescription("");
 		
 		if (review.getRating() == null)
 			throw new BadEntityRequestException("The rating must be given as a parameter");
@@ -252,7 +250,7 @@ public class EventResource {
 
 		Review reviewToBeDeleted= eventRepository.getReview(eventId, reviewId);
 		
-		if(reviewToBeDeleted==null)
+		if(reviewToBeDeleted == null)
 			throw new EntityNotFoundException("The review with id=" + reviewId +
 					" was not found in that event");
 	

@@ -1,4 +1,4 @@
-package aiss.util;
+package aiss.util.validation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,8 +12,7 @@ public class DateValidation {
 			+ "(00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$";
 	private static Pattern dateTimePattern = Pattern.compile(dateTimeRgx);
 	
-	
-	public static LocalDateTime LocalDate(String dateTime) {
+	public static LocalDateTime parseDateTime(String dateTime) {
 		Matcher matcher = dateTimePattern.matcher(dateTime);
 		matcher.find();
 		Integer year = Integer.valueOf(dateTime.substring(0, 4));
@@ -36,5 +35,11 @@ public class DateValidation {
 	
 	public static boolean validBothDate(String startDate, String endDate) {
 		return validDateTime(startDate) && validDateTime(endDate);
+	}
+	
+	public static boolean isBeforeCurrentDate(String dateString) {
+		LocalDateTime currentDate = LocalDateTime.now();
+		LocalDateTime date = parseDateTime(dateString);
+		return date.isBefore(currentDate);
 	}
 }

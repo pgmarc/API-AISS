@@ -2,7 +2,6 @@ package aiss.model;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -12,8 +11,9 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
-import aiss.util.PlacesUtil;
+import aiss.util.CategoryDeserialize;
 
 
 @JsonPropertyOrder({"id", "name", "address", "category", "email", "website",
@@ -34,10 +34,11 @@ public class Place {
 	@JsonProperty("location")
 	private Coordinates location;
 	@JsonProperty("reviews")
-	private Map<Integer, Review> reviews = new HashMap<Integer, Review>();
+	private Map<Integer, Review> reviews; // NO TOCAR MODIFICADO POR PEDRO
 	@JsonProperty("accomodation")
 	private Accomodation accomodation = null;
 	@JsonProperty("category")
+	@JsonDeserialize(using = CategoryDeserialize.class)
 	private PlaceCategory category;
 	
 	
@@ -50,35 +51,12 @@ public class Place {
 		this.location = location;
 		this.category = category;
 	}
-	
-	public Place(String name, String email, String address, String website, Coordinates location) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.address = address;
-		this.website = website;
-		this.location = location;
-	}
-	
-	public Place(String name, String email, String address, String website, Coordinates location, Accomodation accomodation) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.address = address;
-		this.website = website;
-		this.location = location;
-		this.accomodation = accomodation;
-	}
 
 	@JsonCreator
 	public static Place create(@JsonProperty("name") String name,
 			@JsonProperty("address") String address,
-			@JsonProperty("category") String categoryName,
+			@JsonProperty("category") PlaceCategory category,
 			@JsonProperty("location") Coordinates location) {
-		
-	
-		
-		PlaceCategory category = PlacesUtil.getValidPlaceCategory(categoryName);
 
 		return new Place(name, address, category, location);
 	}
@@ -154,6 +132,11 @@ public class Place {
 		return this.reviews.values();
 	}
 	
+	@JsonProperty("reviews")
+	public void setReviews(Map<Integer, Review> reviews) {
+		this.reviews = reviews;
+	}
+
 	@JsonProperty("accomodation")
 	public Accomodation getAccomodation() {
 		return this.accomodation;

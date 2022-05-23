@@ -30,8 +30,8 @@ import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
-import aiss.util.PlaceValidation;
 import aiss.util.PlacesUtil;
+import aiss.util.validation.PlaceCoordinatesValidation;
 
 @Path("/places")
 public class PlaceResource {
@@ -61,13 +61,12 @@ public class PlaceResource {
 			@QueryParam("minRadius") Double minRadius,
 			@QueryParam("maxRadius") Double maxRadius) {
 		
-		//TODO Documentacion Valores por defecto offset = 0 limit 10
 		offset = Optional.ofNullable(offset).orElse(0);
 		limit = Optional.ofNullable(limit).orElse(10);
 		
 		if (limit <= 0 | offset < 0)
 			throw new BadEntityRequestException("Invalid values for limit, offset. "
-					+ "limit must be positive and greater than zero a and offset must be postive");
+					+ "limit must be positive and greater than zero and offset must be postive");
 		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		
@@ -85,7 +84,6 @@ public class PlaceResource {
 			places.sort(PlacesUtil.parseSort(sortValue));
 		}
 		
-		System.out.println(places);
 		places = PlacesUtil.getPagination(places, limit, offset);
 		return Response.status(Status.OK).entity(places).build();
 	}
@@ -95,6 +93,7 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getPlace(@PathParam("id") Integer placeId) {
 		Place place = placeRepository.getPlace(placeId);
+		
 		if (place == null)
 			throw new EntityNotFoundException("Place with id=" + placeId + " not found");
 		
@@ -109,17 +108,17 @@ public class PlaceResource {
 		if (place.getId() !=null)
 			throw new BadEntityRequestException("The place id must not been given as a parameter.");
 
-		if (place.getName() == null || ""==place.getName())
-			throw new BadEntityRequestException("The place must hava a name to identify it");
+		if (place.getName() == null || place.getName().isEmpty())
+			throw new BadEntityRequestException("The place must have a name or alias to identify it");
 		
-		if (place.getAddress() == null || "".equals(place.getAddress()))
-			throw new BadEntityRequestException("The address of a place must not be null");
+		if (place.getAddress() == null || place.getAddress().isEmpty())
+			throw new BadEntityRequestException("The address of a place must not be null"
+					+ " (A place has to be located somewhere)");
 		
 		if (place.getLocation() == null)
 			throw new BadEntityRequestException("The place must have coordinates");
 		
-		if (!PlaceValidation.validCoordinates(place.getLocation()))
-			
+		if (!PlaceCoordinatesValidation.validCoordinates(place.getLocation()))
 			throw new BadEntityRequestException("Invalid values for latitude and longitude."
 			+ " Latitude should be within [-90, 90]  and longitude within [-180, 180]");
 		
@@ -136,11 +135,17 @@ public class PlaceResource {
 	@PUT
 	@Path("/{id}")
 	@Consumes("application/json")
-	public Response updatePlace(@PathParam("id") Integer placeId,Place place) {
+	@Produces("application/json")
+	public Response updatePlace(@PathParam("id") Integer placeId, Place place) {
 		Place oldPlace = placeRepository.getPlace(placeId);
+		
 		if (oldPlace == null)
-			throw new EntityNotFoundException("The place with id=" 
-						+ place.getId() +" was not found");			
+			throw new EntityNotFoundException("The place with id=" + place.getId() +" not found");
+		
+		if (place.getAddress() != null && (place.getAddress().isEmpty() 
+				|| place.getAddress().isBlank()))
+			throw new BadEntityRequestException("A place must have an address."
+					+ " a place address MUST NOT be empty or blank");
 		
 		if (place.getAddress() != null)
 			oldPlace.setAddress(place.getAddress());
@@ -151,6 +156,10 @@ public class PlaceResource {
 		if (place.getCategory() != null)
 			oldPlace.setCategory(place.getCategory());
 		
+		if (place.getName() != null && (place.getName().isEmpty() || place.getName().isBlank()))
+			throw new BadEntityRequestException("A place must have a name."
+					+ " a place name MUST NOT be empty or blank");
+			
 		if (place.getName() != null)
 			oldPlace.setName(place.getName());
 		
@@ -158,15 +167,15 @@ public class PlaceResource {
 			oldPlace.setWebsite(place.getWebsite());
 		
 		if (place.getReviews() != null)
-			throw new BadEntityRequestException("Reviews must not be initialized"
-					+ " when creating a place (Not the right operation)");
-		
-		// TODO Check if the client is initializing events array
-		
+			throw new BadEntityRequestException("Reviews must not be initialized again"
+					+ " when updating a place. "
+					+ "If you want to add reviews to a place GO TO POST /places/{placeId}/reviews");
+				
 		if (place.getAccomodation() != null)
 			throw new BadEntityRequestException("Accomodation must not be initialized"
 					+ " when creating a place (Not the right operation)");
 		
+
 		placeRepository.updatePlace(oldPlace);
 		
 		return Response.status(Status.NO_CONTENT).entity(oldPlace).build();
@@ -193,6 +202,7 @@ public class PlaceResource {
 			@QueryParam("word")String word) {
 		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
+		
 		if (place == null)
 			throw new EntityNotFoundException("The place with id=" +placeId+ " was not found");	
 		

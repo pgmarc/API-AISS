@@ -50,6 +50,7 @@ public class MapPlaceRepository implements PlaceRepository{
 	@Override
 	public void addPlace(Place place) {
 		place.setId(placeIndex);
+		place.setReviews(new HashMap<Integer, Review>());
 		placesMap.put(place.getId(), place);
 		placeIndex++;
 	}

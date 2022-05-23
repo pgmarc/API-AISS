@@ -114,6 +114,5 @@ public class Accomodation {
 	public String toString() {
 		return "Accomodation [roomsNumber=" + numberOfRooms
 				+ ", payments=" + payments + "]";
-	}
-	
+	}	
 }

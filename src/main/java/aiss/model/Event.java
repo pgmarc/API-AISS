@@ -1,21 +1,15 @@
 package aiss.model;
 
-import java.time.LocalDateTime; 
-
-import java.time.format.DateTimeFormatter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import aiss.exceptions.BadJsonMapping;
-import aiss.util.DateValidation;
 
 @JsonPropertyOrder({"id", "name", "description", "date", "contactEmail", "website",
 	"price", "organizators", "transport", "type"})
@@ -29,7 +23,7 @@ public class Event {
 	@JsonProperty("description")
 	private String description;
 	@JsonProperty("date")
-	private LocalDateTime date;
+	private String date;
 	@JsonProperty("contactEmail")
 	private String contactEmail;
 	@JsonProperty("website")
@@ -51,7 +45,7 @@ public class Event {
 		BUS,TRAIN, BICYCLE, UNDERGROUND;
 	};
 	
-	private Event(String name, Double price, LocalDateTime date,  String contactEmail, 
+	public Event(String name, Double price, String date,  String contactEmail, 
 			 String organizators) {
 		super();
 		this.name = name;
@@ -61,18 +55,23 @@ public class Event {
 		this.organizators = organizators;
 	}
 	
+	public Event(String name, Double price, String contactEmail, String organizators) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.contactEmail = contactEmail;
+		this.organizators = organizators;
+	}
+	
+	
 	@JsonCreator
 	public static Event createEvent(@JsonProperty("name") String name, 
 			@JsonProperty("price") Double price, 
 			@JsonProperty("date") String date, 
 			@JsonProperty("contactEmail") String contactEmail,
 			@JsonProperty("organizators") String organizators) throws BadJsonMapping {
-		if (!DateValidation.validDateTime(date))
-			throw new BadJsonMapping("Invalid Date");
-		
-		LocalDateTime parsedDate = DateValidation.LocalDate(date);
-		
-		return new Event(name, price, parsedDate, contactEmail,organizators);
+
+		return new Event(name, price, date, contactEmail,organizators);
 	}
 
 	@JsonProperty("id")
@@ -125,19 +124,13 @@ public class Event {
 		this.description = description;
 	}
 	
-	@JsonIgnore
-	public LocalDateTime getDate() {
+	@JsonProperty("date")
+	public String getDate() {
 		return date;
 	}
 	
 	@JsonProperty("date")
-	public String getDateFormatted() {
-		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-		return date.format(f);
-	}
-	
-	@JsonProperty("date")
-	public void setDate(LocalDateTime date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	

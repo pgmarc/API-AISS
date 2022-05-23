@@ -24,13 +24,14 @@ public class MapEventRepository implements EventRepository {
 	
 	public void init() {
 		this.eventsMap = new HashMap<Integer, Event>();
-		Event event1 = new Event("Sergio Dalma",51,LocalDateTime.of(2022, 05, 21, 21, 00),
-				"info.cite@eulen.com", "Cartuja Center");
-		addEvent(event1);
-
+			
+		Event event1 = new Event("Sergio Dalma", 100.0, "2022-5-21 21:00" ,
+		"info.cite@eulen.com", "Cartuja Center");
 		
-		Event event2 = new Event("Noches de la Maestranza",150,LocalDateTime.of(2022, 9, 17, 21, 30),
+		Event event2 = new Event("Noches de la Maestranza", 150.0, "2022-9-17 21:30",
 				"taquilla@teatrodelamaestranza.es", "La Maestranza");
+		
+		addEvent(event1);
 		addEvent(event2);
 	}
 		
