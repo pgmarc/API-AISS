@@ -41,10 +41,10 @@ public class Event {
 	private Transport transport;
 	@JsonProperty("reviews")
 	private List<Review> reviews= new ArrayList<Review>();
-	private enum Types {
+	public enum Types {
 		MUSIC,THEATRE, ART, CULTURAL;
 	};
-	private enum Transport {
+	public enum Transport {
 		BUS,TRAIN, BICYCLE, UNDERGROUND;
 	};
 	
@@ -74,6 +74,9 @@ public class Event {
 		this.transport= transport;
 		this.organizators = organizators;
 	}
+	public Event() {
+	}
+
 	@JsonCreator
 	public static Event createEvent(String name, Integer price, LocalDateTime date, String contactEmail,
 			String organizators) {
