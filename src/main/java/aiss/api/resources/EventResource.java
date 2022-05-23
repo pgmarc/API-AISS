@@ -1,7 +1,9 @@
 package aiss.api.resources;
 
 import java.net.URI;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 import javax.ws.rs.Consumes;
@@ -12,10 +14,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+
+
+
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
@@ -27,6 +33,13 @@ import aiss.model.Review;
 import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
 import aiss.util.validation.DateValidation;
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 
 @Path("/events")
@@ -49,10 +62,27 @@ public class EventResource {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAllEvents() {
-		
-		Collection<Event> events = eventRepository.getAllEvents();
-		return Response.status(Status.OK).entity(events).build(); 
+	public Response getAllEvents( @QueryParam ("initialDateString") String initialDateString,
+			@QueryParam ("finalDateString") String finalDateString ) {
+		LocalDateTime dateNow = LocalDateTime.now();
+		LocalDateTime dateNowPlusMonth = dateNow.plusDays(30);
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		String initialDate = Optional.ofNullable(initialDateString).orElse(dateNow.format(dateFormat));
+		String finalDate = Optional.ofNullable(finalDateString).orElse(dateNowPlusMonth.format(dateFormat));
+		LocalDateTime minDate= LocalDateTime.parse(initialDate);  
+		LocalDateTime maxDate= LocalDateTime.parse(finalDate); 
+		List<Event> events = new ArrayList<Event>(eventRepository.getAllEvents());
+		// events = List.copyOf(eventRepository.getEventsOnDate());
+		for ( Event e:  events) {
+			LocalDateTime parsedEventDate = LocalDateTime.parse(e.getDate());
+			if (parsedEventDate.equals(minDate)|| parsedEventDate.isAfter(minDate)&&parsedEventDate.isBefore(minDate)) {
+				System.out.println(e);	 
+			}
+			else if (parsedEventDate.equals(maxDate)|| parsedEventDate.isBefore(maxDate)) {
+				System.out.println(e);		
+		    }
+		}
+		return Response.status(Status.OK).entity(null).build(); 
 	}
 	
 	@GET
