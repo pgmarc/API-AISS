@@ -10,6 +10,8 @@ public class AccomodationPayment {
 	public enum MealService {ALL_MEALS,TWO_MEALS,SELF_CATERING}
 	public enum RoomType {INDIVIDUAL, DOUBLE, OTHER}
 	
+	@JsonProperty("id")
+	private Integer id;
 	@JsonProperty("description")
 	private String description;
 	@JsonProperty("price")
@@ -31,6 +33,16 @@ public class AccomodationPayment {
 		this.roomType = roomType;
 	}
 
+	@JsonProperty("id") 
+	public Integer getId() {
+		return id;
+	}
+	
+	@JsonProperty("id")
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	@JsonProperty("description")
 	public String getDescription() {
 		return description;

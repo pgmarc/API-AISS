@@ -11,8 +11,8 @@ import aiss.model.Place;
 public class Sorting {
 	
 	public static final Map<String, Comparator<Event>> eventSorts = Map.ofEntries(
-		Map.entry("+date", (e1,e2)->e1.getLocalDateTime().compareTo(e2.getLocalDateTime())),
-		Map.entry("-date", (e1,e2)->e2.getLocalDateTime().compareTo(e1.getLocalDateTime()))
+		Map.entry("+date", (e1,e2)->e1.getLocalDate().compareTo(e2.getLocalDate())),
+		Map.entry("-date", (e1,e2)->e2.getLocalDate().compareTo(e1.getLocalDate()))
 	);
 
 	public static final Map<String, Comparator<Place>> placeSorts = Map.ofEntries(

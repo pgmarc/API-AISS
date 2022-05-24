@@ -3,6 +3,7 @@ package aiss.model.repository;
 import java.util.Collection;
 
 import aiss.model.Accomodation;
+import aiss.model.AccomodationPayment;
 import aiss.model.Place;
 import aiss.model.Review;
 
@@ -26,4 +27,9 @@ public interface PlaceRepository {
 	public void addAccomodation(Integer placeId, Accomodation accomodation);
 	public void updateAccomodation(Integer placeId, Accomodation accomodation);
 	public void deleteAccomodation(Integer placeId);
+	
+	public AccomodationPayment getAccommodationPayment(Integer placeId, Integer paymentId);
+	public void addAccommodationPayment(Integer placeId, AccomodationPayment payment);
+	public void updateAccommodationPayment(Integer placeId, Integer paymentId, AccomodationPayment payment);
+	public void deleteAccommodationPayment(Integer placeId, Integer paymentId);
 }
