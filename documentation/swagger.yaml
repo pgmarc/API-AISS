@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Students Compass
-  description: |
-    Great API for students looking for a place to stay and spend your spare time on.
+  description: Great API for students looking for a place to stay and spend your spare
+    time on.
   termsOfService: http://swagger.io/terms/
   contact:
     email: studentscompass007@gmail.com
@@ -14,7 +14,7 @@ servers:
 - url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
   description: SwaggerHub API Auto Mocking
 - url: https://student-compass-350106.appspot.com/api
-  description: Production API server
+  description: AppEngine server
 - url: "http://localhost:{port}/api"
   description: Development server
   variables:
@@ -69,9 +69,38 @@ paths:
           type: string
         examples:
           One Value:
+            description: It will filter by place name ascending
             value: +name
           Multiple Values:
+            description: It will filter by place name ascending and then by place
+              rating descending
             value: "+name,-rating"
+      - name: categories
+        in: query
+        description: This field filter places by its CATEGORY CASE INSENSITIVE. You
+          can specify one value by giving only one string. In case that you want to
+          order with multiple criteria you have to format them as comma separated
+          values. If the user puts an extra comma in the filtering it will also filter
+          by UNDEFINED.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Bar filter:
+            value: bar
+          Stadium filter:
+            value: stadium
+          Multiple filters:
+            description: "It will filter by bar, congress and supermarket"
+            value: "congress,bar,supermarket"
+          User puts extra comma:
+            description: "It will filter by congress, bar, supermarket and undefined"
+            value: "congress, ,bar,supermarket"
+          All commas:
+            description: It will ONLY filter by UNDEFINED
+            value: ",,,"
       - name: placeId
         in: query
         description: If you want to filter the places around any location you MUST
@@ -124,6 +153,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Places'
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       tags:
       - places
@@ -146,9 +187,9 @@ paths:
                 $ref: '#/components/schemas/Place'
               examples:
                 Place:
-                  $ref: '#/components/examples/Place1'
-                Place1:
-                  $ref: '#/components/examples/Place2'
+                  $ref: '#/components/examples/CatedralSevilla'
+                Test Place:
+                  $ref: '#/components/examples/TestPlace'
   /places/{placeId}:
     get:
       tags:
@@ -179,11 +220,42 @@ paths:
                 $ref: '#/components/schemas/Place'
               examples:
                 Place1:
-                  $ref: '#/components/examples/Place1'
+                  $ref: '#/components/examples/CatedralSevilla'
                 Place2:
-                  $ref: '#/components/examples/Place2'
+                  $ref: '#/components/examples/TestPlace'
                 Estanislao:
                   $ref: '#/components/examples/Estanislao'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - places
+      summary: Delete a place
+      description: Deletes the place with the given id
+      operationId: deletePlace
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "204":
+          description: The resource was succesfully deleted
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /places/{placeId}/reviews:
     get:
       tags:
@@ -209,7 +281,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Reviews'
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       tags:
       - reviews
@@ -243,7 +319,11 @@ paths:
         "400":
           description: Any of the parameters are not correct
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /places/{placeId}/reviews/{reviewId}:
     get:
       tags:
@@ -278,7 +358,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Review'
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     put:
       tags:
       - reviews
@@ -316,7 +400,11 @@ paths:
         "400":
           description: Any parameter is not correct
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       tags:
       - reviews
@@ -348,7 +436,11 @@ paths:
         "400":
           description: Any parameter is not correct
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /events:
     get:
       tags:
@@ -364,7 +456,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Events'
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       tags:
       - events
@@ -393,7 +489,11 @@ paths:
         "400":
           description: One or more parameters are not correct
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /events/{eventId}:
     get:
       tags:
@@ -424,7 +524,11 @@ paths:
                 Event2:
                   $ref: '#/components/examples/Event2'
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     put:
       tags:
       - events
@@ -453,7 +557,11 @@ paths:
         "400":
           description: Any parameter is not correct
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       tags:
       - events
@@ -476,7 +584,11 @@ paths:
         "400":
           description: Any parameter is not correct
         "404":
-          description: Resource not found
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Accomodations:
@@ -523,30 +635,6 @@ components:
           - ALL_MEALS
           - TWO_MEALS
           - SELF_CATERING
-    Review:
-      required:
-      - rating
-      type: object
-      properties:
-        username:
-          type: string
-          description: Name of the author of the review
-          nullable: true
-          default: Anonymous
-        description:
-          type: string
-          description: Review of the user
-          nullable: true
-          default: No description
-        rating:
-          maximum: 5
-          minimum: 0
-          type: number
-          description: Rating given by the user
-          format: double
-        date:
-          type: string
-          format: date-time
     Event:
       required:
       - contactEmail
@@ -618,12 +706,43 @@ components:
         name:
           type: string
           description: Name of the place or alias
+        address:
+          type: string
+        category:
+          type: string
+          nullable: true
+          enum:
+          - SUPERMARKET
+          - PHARMACY
+          - ATM
+          - BUSINESS
+          - BAR
+          - RESTAURANT
+          - CHURCH
+          - CINEMA
+          - PARK
+          - NIGTH_CLUB
+          - MUSEUM
+          - UNIVERSITY
+          - GYM
+          - CONGRESS
+          - HOSPITAL
+          - POLICE
+          - TOURIST_ATTRACTION
+          - ACCOMODATION
+          - STADIUM
+          - GAS_STATION
+          - TRAIN_STATION
+          - BUS_STATION
+          - AIRPORT
+          - PARKING
+          - TAXI_STAND
+          - SUBWAY_STATION
+          - UNDEFINED
         email:
           type: string
           description: Contact email of the place
           nullable: true
-        address:
-          type: string
         website:
           type: string
           description: Website of the place
@@ -646,6 +765,61 @@ components:
         between places
       items:
         $ref: '#/components/schemas/Review'
+    Review:
+      required:
+      - rating
+      type: object
+      properties:
+        username:
+          type: string
+          description: Name of the author of the review
+          nullable: true
+          default: Anonymous
+        description:
+          type: string
+          description: Review of the user
+          nullable: true
+          default: No description
+        rating:
+          maximum: 5
+          minimum: 0
+          type: number
+          description: Rating given by the user
+          format: double
+        date:
+          type: string
+          format: date-time
+    Error:
+      required:
+      - code
+      - errorMessage
+      type: object
+      properties:
+        errorMessage:
+          type: string
+          description: Cause of the error
+        code:
+          type: number
+          description: HTTP status code of the response
+        documentation:
+          type: string
+          description: Documentation related to the error
+          default: https://student-compass-350106.appspot.com/api/docs/index.html
+  responses:
+    ResourceDeleted:
+      description: The resource was succesfully deleted
+    NotFound:
+      description: The given resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Request body was not well formed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   examples:
     Event1:
       summary: Plácido Domingo Event
@@ -673,29 +847,26 @@ components:
         types: music
         transport: bus
         organizers: Cartuja Center
-    Place1:
-      summary: Gran ilustre place
-      description: Example the library gran ilustre
+    CatedralSevilla:
+      summary: La catedral de sevilla
+      description: Example the seville cathedral
       value:
-        name: La biblioteca del gran ilustre
-        email: ilustre@gmail.com
-        address: Gran ilustre s/n
-        rating: 5
-        web: granilustre.com
+        name: Catedral de Sevilla
+        address: "Av. de la Constitución, s/n, 41004 Sevilla"
+        web: https://www.catedraldesevilla.es
         location:
-          latitude: 40.0
-          longitude: -65.4
-    Place2:
-      description: Example of a Place1
+          latitude: 37.38586299856296
+          longitude: -5.993103877606445
+    TestPlace:
+      description: Example of Imaginary place
       value:
-        name: La biblioteca del gran ilustre 1
-        email: ilustre@gmail.com
-        address: Gran ilustre s/n
-        rating: 5
-        web: granilustre.com
+        name: Esto es un test de un lugar
+        email: test@testing.com
+        address: C. Test s/n
+        web: https://foobar.com
         location:
-          latitude: 40.0
-          longitude: -65.4
+          latitude: 25.000777231550654
+          longitude: -71.00017170317003
     Estanislao:
       description: Example of a Place with Accomodation
       value:
