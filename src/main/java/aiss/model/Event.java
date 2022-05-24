@@ -143,7 +143,7 @@ public class Event {
 	}
 	
 	@JsonProperty("date")
-	public String getFormatedDate() {
+	public String getFormatedDateTime() {
 		return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 	}
 	

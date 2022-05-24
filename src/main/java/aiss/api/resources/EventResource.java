@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import org.jboss.resteasy.spi.BadRequestException;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -35,6 +34,7 @@ import aiss.util.validation.DateValidation;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,21 +68,33 @@ public class EventResource {
 		String currentDateString = DateValidation.currentDateFormated();
 		String currentDatePlusMonthString = DateValidation.currentDatePlusMonthFormated();
 		
-		if (initialDateString != null && !DateValidation.validDateTime(initialDateString))
-			throw new BadRequestException("Bad formated initialDate");
+		if (initialDateString != null && !DateValidation.validDate(initialDateString))
+			throw new BadEntityRequestException("Bad formated initialDate");
 		
-		if (initialDateString != null && !DateValidation.validDateTime(finalDateString))
-			throw new BadRequestException("Bad formated initialDate");
+		if (initialDateString != null && !DateValidation.validDate(finalDateString))
+			throw new BadEntityRequestException("Bad formated initialDate");
 		
 		String initialDate = Optional.ofNullable(initialDateString).orElse(currentDateString);
 		String finalDate = Optional.ofNullable(finalDateString).orElse(currentDatePlusMonthString);
 		
-		LocalDate minDate = LocalDate.parse(initialDate);  
-		LocalDate maxDate = LocalDate.parse(finalDate); 
+		LocalDate minDate = DateValidation.parseLocalDate(initialDate);  
+		LocalDate maxDate = DateValidation.parseLocalDate(finalDate); 
 	
 		events = EventsUtil.sortEvent(events, minDate, maxDate);
 		
 		return Response.status(Status.OK).entity(events).build(); 
+	}
+	
+	@GET
+	@Path("/{eventid}/reviews")
+	@Produces("application/json")
+	public Response getAllReviews(@PathParam("id") Integer eventId) {
+		Collection<Review> event = eventRepository.getAllReviews(eventId);
+		
+		if (event == null)
+			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
+			
+		return Response.status(Status.OK).entity(event).build();
 	}
 	
 	@GET

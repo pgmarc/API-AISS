@@ -87,10 +87,9 @@ public class MapEventRepository implements EventRepository {
 	
 	@Override
 	public void addEvent(Event event) {
-		event.setId(eventIndex);
+		event.setId(eventIndex++);
 		event.setReviews(new HashMap<Integer, Review>());
 		eventsMap.put(event.getId(), event);
-		eventIndex++;
 	}
 
 	@Override
@@ -115,8 +114,8 @@ public class MapEventRepository implements EventRepository {
 
 	//REVIEWS
 	@Override
-	public List<Review> getAllReviews(Integer eventId) {
-		return eventsMap.get(eventId).getReviews().values().stream().collect(Collectors.toList());
+	public Collection<Review> getAllReviews(Integer eventId) {
+		return eventsMap.get(eventId).getReviews().values();
 	}
 	
 	@Override
