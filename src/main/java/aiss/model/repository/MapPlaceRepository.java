@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 
 import aiss.model.Accomodation;
+import aiss.model.AccomodationPayment;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.Review;
@@ -156,6 +157,7 @@ public class MapPlaceRepository implements PlaceRepository{
 
 	@Override
 	public void addAccomodation(Integer placeId, Accomodation accomodation) {
+		accomodation.setPayments(new HashMap<>());
 		placesMap.get(placeId).setAccomodation(accomodation);
 		
 	}
@@ -168,5 +170,33 @@ public class MapPlaceRepository implements PlaceRepository{
 	@Override
 	public void deleteAccomodation(Integer placeId) {
 		placesMap.get(placeId).setAccomodation(null);
+	}
+
+	@Override
+	public AccomodationPayment getAccommodationPayment(Integer placeId, Integer paymentId) {
+		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+		return accommodation == null ? null : accommodation.getPayment(paymentId);
+	}
+
+	@Override
+	public void addAccommodationPayment(Integer placeId, AccomodationPayment payment) {
+		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+		if(accommodation != null)
+			accommodation.addPayment(payment);
+	}
+
+	@Override
+	public void updateAccommodationPayment(Integer placeId, Integer paymentId,
+			AccomodationPayment payment) {
+		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+		if(accommodation != null)
+			accommodation.setPayment(paymentId, payment);
+	}
+
+	@Override
+	public void deleteAccommodationPayment(Integer placeId, Integer paymentId) {
+		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+		if(accommodation != null)
+			accommodation.removePayment(paymentId);
 	}
 }

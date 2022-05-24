@@ -1,7 +1,7 @@
 package aiss.model;
 
 import java.util.Comparator;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -17,19 +17,22 @@ public class Accomodation {
 	private Integer numberOfRooms;
 	
 	@JsonProperty("payments")
-	private List<AccomodationPayment> payments;
+	private Map<Integer,AccomodationPayment> payments;
 	
 	@JsonProperty("type")
 	private AccomodationType type;
 	
+	private Integer idCounter = 0;
+	
 	public Accomodation() {}
 
-	public Accomodation(Integer roomsNumber, List<AccomodationPayment> payments, AccomodationType type) {
+	public Accomodation(Integer roomsNumber, Map<Integer,AccomodationPayment> payments, AccomodationType type) {
 		this.numberOfRooms = roomsNumber;
 		this.payments = payments;
 		this.type = type;
 		}
 
+	
 	@JsonProperty("numberOfRooms")
 	public Integer getNumberOfRooms() {
 		return numberOfRooms;
@@ -41,21 +44,27 @@ public class Accomodation {
 	}
 
 	@JsonProperty("payments")
-	public List<AccomodationPayment> getPayments() {
+	public Map<Integer,AccomodationPayment> getPayments() {
 		return payments;
 	}
 
 	@JsonProperty("payment")
-	public void setPayments(List<AccomodationPayment> payments) {
+	public void setPayments(Map<Integer,AccomodationPayment> payments) {
 		this.payments = payments;
 	}
 	
-	public void getPayment(Integer index) {
-		this.payments.get(index);
+	public AccomodationPayment getPayment(Integer index) {
+		return this.payments.get(index);
+	}
+	
+	public void setPayment(Integer index, AccomodationPayment payment) {
+		this.payments.put(index, payment);
 	}
 	
 	public void addPayment(AccomodationPayment payment) {
-		this.payments.add(payment);
+		Integer id = getNewPaymentId();
+		payment.setId(id);
+		this.payments.put(id, payment);
 	}
 	
 	public void removePayment(int index) {
@@ -92,22 +101,30 @@ public class Accomodation {
 	}
 
 	public Double getMinMonthlyPrice() {
-		return this.payments.stream()
+		return this.payments.entrySet().stream()
+				.map(e->e.getValue())
 				.map(pay->pay.getPrice() / (pay.getPaymentPeriod() == PaymentPeriod.MONTHLY ? 1 : 12))
 				.min(Comparator.naturalOrder())
 				.orElse(null);
 	}
 	
 	public Double getMaxMonthlyPrice() {
-		return this.payments.stream()
+		return this.payments.entrySet().stream()
+				.map(e->e.getValue())
 				.map(pay->pay.getPrice() / (pay.getPaymentPeriod() == PaymentPeriod.MONTHLY ? 1 : 12))
 				.max(Comparator.naturalOrder())
 				.orElse(null);
 	}
 	
 	public boolean anyPaymentsMatch(Predicate<AccomodationPayment> predicate) {
-		return this.payments.stream()
-			.anyMatch(predicate);
+		return this.payments.entrySet().stream()
+			.anyMatch(e->predicate.test(e.getValue()));
+	}
+	
+	private Integer getNewPaymentId() {
+		int value = idCounter;
+		idCounter++;
+		return value;
 	}
 	
 	@Override
