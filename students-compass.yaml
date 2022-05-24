@@ -392,6 +392,172 @@ paths:
           description: Any parameter is not correct
         "404":
           description: Resource not found
+  /events/{eventId}/reviews:
+    get:
+      tags:
+      - reviews
+      summary: Get all reviews from a event by id
+      description: Get all reviews from a event by id
+      operationId: getAllReviews
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: List of all the reviews from a particular event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reviews'
+        "404":
+          description: Resource not found  
+    post:
+      tags:
+      - reviews
+      summary: Creates new reviews
+      description: Creates new reviews with the given payload to the event
+      operationId: addReviews
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/event'  
+        "400":
+          description: Any of the parameters are not correct
+        "404":
+          description: Resource not found
+          
+  /events/{eventId}/reviews/{reviewId}:
+    get:
+      tags:
+      - reviews
+      summary: Get the specified review
+      description: Get the specified review from a event by id
+      operationId: getReview
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Specified review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        "404":
+          description: Resource not found
+    put:
+      tags:
+      - reviews
+      summary: Update the specified review
+      description: Update the specified review
+      operationId: updateReview
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the updated review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
+    delete:
+      tags:
+      - reviews
+      summary: Deletes a review
+      description: Deletes the review with the given id
+      operationId: deleteReview
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId   
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1 
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: Resource not found
 components:
   schemas:
     Accomodations:
