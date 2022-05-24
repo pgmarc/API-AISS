@@ -12,6 +12,8 @@ import aiss.model.AccomodationPayment.RoomType;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
+import aiss.model.Review;
+import aiss.model.repository.MapPlaceRepository;
 
 public class PlaceData {
 

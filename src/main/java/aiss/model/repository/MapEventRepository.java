@@ -37,6 +37,40 @@ public class MapEventRepository implements EventRepository {
 		
 		EventData.getEventsInfo().forEach(event -> addEvent(event));
 		
+		Review review1 = new Review("Zarzu","Todo perfecto",4.5);
+		
+		Review review2 = new Review("pgmarc","Sitio perfecto para estar en familia",2.0);
+		
+		Review review3 = new Review();
+		review3.setUsername("Beni135");
+		review3.setDescription("Un sitio muy agradable, gran servicio y increibles precios");
+		review3.setRating(4.5);
+		
+		Review review4 = new Review();
+		review4.setUsername("Killerpro");
+		review4.setDescription("De las mejores cervezas de la zona por un precio asequible,"
+				+ " ademas tiene un pequeño menú por si entra hambre");
+		review4.setRating(4.0);
+		
+		Review review5 = new Review();
+		review5.setUsername("Pablo456");
+		review5.setDescription("Un sitio agradable, no es el mejor en su "
+				+ "categoria pero no está mal");
+		review5.setRating(2.5);
+		
+		Review review6 = new Review();
+		review6.setUsername("Jaime");
+		review6.setDescription("Un pesimo servicio y precios desorbitados, "
+				+ "ademas una localización espantosa en medio de la nada");
+		review6.setRating(0.);
+		
+		addReview(0, review1);
+		addReview(1, review2);
+		addReview(2, review3);
+		addReview(3, review4);
+		addReview(4, review5);
+		addReview(5, review6);
+		addReview(6, review1);
 		
 	}
 		
