@@ -125,6 +125,4 @@ public class PlacesUtilTest {
 						.compare(p1.getAccomodation(), p2.getAccomodation()));
 		assertEquals(expectedSorting, placesToSort);
 	}
-	
-	
 }

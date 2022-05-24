@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import aiss.model.Event;
 import aiss.model.Review;
+import aiss.util.EventData;
 
 
 public class MapEventRepository implements EventRepository {
@@ -25,14 +26,18 @@ public class MapEventRepository implements EventRepository {
 	public void init() {
 		this.eventsMap = new HashMap<Integer, Event>();
 			
-		Event event1 = new Event("Sergio Dalma", 100.0, "2022-5-21 21:00" ,
+		Event event1 = new Event("Sergio Dalma", 100.0,LocalDateTime.of(2022, 5, 21, 21, 0),
 		"info.cite@eulen.com", "Cartuja Center");
 		
-		Event event2 = new Event("Noches de la Maestranza", 150.0, "2022-9-17 21:30",
+		Event event2 = new Event("Noches de la Maestranza", 150.0, LocalDateTime.of(2022, 9, 17, 21, 30),
 				"taquilla@teatrodelamaestranza.es", "La Maestranza");
 		
 		addEvent(event1);
 		addEvent(event2);
+		
+		EventData.getEventsInfo().forEach(event -> addEvent(event));
+		
+		
 	}
 		
 	public static MapEventRepository getInstance() {

@@ -3,6 +3,7 @@ package aiss.util.validation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,13 +34,15 @@ public class DateValidation {
 		return matcher.find();
 	}
 	
-	public static boolean validBothDate(String startDate, String endDate) {
-		return validDateTime(startDate) && validDateTime(endDate);
+	public static boolean isBeforeCurrentDate(LocalDateTime date) {
+		return date.isBefore(LocalDateTime.now());
 	}
 	
-	public static boolean isBeforeCurrentDate(String dateString) {
-		LocalDateTime currentDate = LocalDateTime.now();
-		LocalDateTime date = parseDateTime(dateString);
-		return date.isBefore(currentDate);
+	public static String currentDateFormated() {
+		return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
+	
+	public static String currentDatePlusMonthFormated() {
+		return LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 }

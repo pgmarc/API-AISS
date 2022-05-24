@@ -1,10 +1,8 @@
 package aiss.api.resources;
 
 import java.net.URI;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-
+import org.jboss.resteasy.spi.BadRequestException;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -32,8 +30,8 @@ import aiss.model.Event;
 import aiss.model.Review;
 import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
+import aiss.util.EventsUtil;
 import aiss.util.validation.DateValidation;
-
 
 
 import java.util.ArrayList;
@@ -62,27 +60,29 @@ public class EventResource {
 	
 	@GET
 	@Produces("application/json")
-	public Response getAllEvents( @QueryParam ("initialDateString") String initialDateString,
-			@QueryParam ("finalDateString") String finalDateString ) {
-		LocalDateTime dateNow = LocalDateTime.now();
-		LocalDateTime dateNowPlusMonth = dateNow.plusDays(30);
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		String initialDate = Optional.ofNullable(initialDateString).orElse(dateNow.format(dateFormat));
-		String finalDate = Optional.ofNullable(finalDateString).orElse(dateNowPlusMonth.format(dateFormat));
-		LocalDateTime minDate= LocalDateTime.parse(initialDate);  
-		LocalDateTime maxDate= LocalDateTime.parse(finalDate); 
+	public Response getAllEvents(@QueryParam("initialDate") String initialDateString,
+			@QueryParam("finalDate") String finalDateString ) {
+		
 		List<Event> events = new ArrayList<Event>(eventRepository.getAllEvents());
-		// events = List.copyOf(eventRepository.getEventsOnDate());
-		for ( Event e:  events) {
-			LocalDateTime parsedEventDate = LocalDateTime.parse(e.getDate());
-			if (parsedEventDate.equals(minDate)|| parsedEventDate.isAfter(minDate)&&parsedEventDate.isBefore(minDate)) {
-				System.out.println(e);	 
-			}
-			else if (parsedEventDate.equals(maxDate)|| parsedEventDate.isBefore(maxDate)) {
-				System.out.println(e);		
-		    }
-		}
-		return Response.status(Status.OK).entity(null).build(); 
+		
+		String currentDateString = DateValidation.currentDateFormated();
+		String currentDatePlusMonthString = DateValidation.currentDatePlusMonthFormated();
+		
+		if (initialDateString != null && !DateValidation.validDateTime(initialDateString))
+			throw new BadRequestException("Bad formated initialDate");
+		
+		if (initialDateString != null && !DateValidation.validDateTime(finalDateString))
+			throw new BadRequestException("Bad formated initialDate");
+		
+		String initialDate = Optional.ofNullable(initialDateString).orElse(currentDateString);
+		String finalDate = Optional.ofNullable(finalDateString).orElse(currentDatePlusMonthString);
+		
+		LocalDate minDate = LocalDate.parse(initialDate);  
+		LocalDate maxDate = LocalDate.parse(finalDate); 
+	
+		events = EventsUtil.sortEvent(events, minDate, maxDate);
+		
+		return Response.status(Status.OK).entity(events).build(); 
 	}
 	
 	@GET
@@ -105,26 +105,25 @@ public class EventResource {
 		if (event.getId() != null)
 			throw new BadEntityRequestException("The event id must not been given as a parameter.");
 		
-		if (event.getName() == null || event.getName().isEmpty())
-			throw new BadEntityRequestException("The name of an event must have a value");
+		if (event.getName() == null || event.getName().isEmpty() || event.getName().isBlank())
+			throw new BadEntityRequestException("An event must have a name");
 		
 		if (event.getPrice() == null)
-			throw new BadEntityRequestException("The price of an event must not be null");
+			throw new BadEntityRequestException("An event must have a price");
+		
+		if (event.getPrice() != null && event.getPrice() < 0)
+			throw new BadEntityRequestException("Negative price error. The price must be greater than or equal to zero");
 		
 		if (event.getDate() == null)
 			throw new BadEntityRequestException("The date of an event must not be null");
 		
-		if (!DateValidation.validDateTime(event.getDate()))
-			throw new BadEntityRequestException("Invalid DateTime."
-					+ " MUST be formated like yyyy-MM-dd hh:mm");
-		
 		if (DateValidation.isBeforeCurrentDate(event.getDate()))
 			throw new BadEntityRequestException("Cannot create events before the current date");
 		
-		if (event.getContactEmail() == null || event.getContactEmail().isEmpty())
+		if (event.getContactEmail() == null || event.getContactEmail().isEmpty() || event.getContactEmail().isBlank())
 			throw new BadEntityRequestException("The contact email of an event must have a value.");
 		
-		if (event.getOrganizators() == null || event.getOrganizators().isEmpty())
+		if (event.getOrganizators() == null || event.getOrganizators().isEmpty() || event.getOrganizators().isBlank())
 			throw new BadEntityRequestException("The organizators of an event must not be null,"
 					+ " has to be managed by someone");
 		
@@ -148,20 +147,41 @@ public class EventResource {
 		if (oldEvent == null)
 			throw new EntityNotFoundException("The event with id="+ event.getId() +" was not found");			
 		
-		if (event.getName() != null && !event.getName().isEmpty())
+		if (event.getName() != null || (event.getName().isEmpty() || event.getName().isBlank()))
+			throw new BadEntityRequestException("An event must have a name");
+		
+		if (event.getName() != null)
 			oldEvent.setName(event.getName());
+		
+		
+		if (event.getContactEmail() != null ||
+		 (event.getContactEmail().isEmpty() ||event.getContactEmail().isBlank()))
+			throw new BadEntityRequestException("An event must have a contact email");
 		
 		if (event.getContactEmail() != null)
 			oldEvent.setContactEmail(event.getContactEmail());
 		
+		
+		if (event.getPrice() != null && event.getPrice() < 0)
+			throw new BadEntityRequestException("Cannot update event price."
+					+ " The price must be greater than or equal to zero");
+		
 		if (event.getPrice() != null)
 			oldEvent.setPrice(event.getPrice());
 		
-		if (event.getDate() != null && DateValidation.validDateTime(event.getDate()) 
-			&& !DateValidation.isBeforeCurrentDate(event.getDate()))
+		
+		if (event.getDate() != null && DateValidation.isBeforeCurrentDate(event.getDate()))
+			throw new BadEntityRequestException("Cannot update an event before the current date");
+
+		if (event.getDate() != null)
 			oldEvent.setDate(event.getDate());
 		
-		if (event.getOrganizators() != null && !event.getOrganizators().isEmpty())
+		
+		if (event.getOrganizators() != null || 
+		 (event.getOrganizators().isEmpty() || event.getOrganizators().isBlank()))
+			throw new BadEntityRequestException("An event must have someone that manages the event");
+		
+		if (event.getOrganizators() != null)
 			oldEvent.setOrganizators(event.getOrganizators());
 		
 		
