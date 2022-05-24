@@ -114,10 +114,10 @@ public class EventResource {
 		if (event.getPrice() != null && event.getPrice() < 0)
 			throw new BadEntityRequestException("Negative price error. The price must be greater than or equal to zero");
 		
-		if (event.getDate() == null)
+		if (event.getLocalDateTime() == null)
 			throw new BadEntityRequestException("The date of an event must not be null");
 		
-		if (DateValidation.isBeforeCurrentDate(event.getDate()))
+		if (DateValidation.isBeforeCurrentDate(event.getLocalDateTime()))
 			throw new BadEntityRequestException("Cannot create events before the current date");
 		
 		if (event.getContactEmail() == null || event.getContactEmail().isEmpty() || event.getContactEmail().isBlank())
@@ -170,11 +170,11 @@ public class EventResource {
 			oldEvent.setPrice(event.getPrice());
 		
 		
-		if (event.getDate() != null && DateValidation.isBeforeCurrentDate(event.getDate()))
+		if (event.getLocalDateTime() != null && DateValidation.isBeforeCurrentDate(event.getLocalDateTime()))
 			throw new BadEntityRequestException("Cannot update an event before the current date");
 
-		if (event.getDate() != null)
-			oldEvent.setDate(event.getDate());
+		if (event.getLocalDateTime() != null)
+			oldEvent.setDate(event.getLocalDateTime());
 		
 		
 		if (event.getOrganizators() != null || 

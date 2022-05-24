@@ -13,6 +13,7 @@ public interface EventRepository {
 	public Event getEvent(Integer eventId);
 	public void updateEvent(Event event);
 	public void deleteEvent(Integer eventId);
+	
 	public Collection<Review> getAllReviews(Integer eventId);
 	public Review getReview(Integer eventId, Integer reviewId);
 	public void addReview(Integer eventId, Review review);

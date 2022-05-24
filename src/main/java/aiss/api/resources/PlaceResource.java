@@ -79,7 +79,6 @@ public class PlaceResource {
 		}
 		
 		System.out.println(sortValue);
-		
 		if (sortValue != null) {
 			places.sort(PlacesUtil.parseSort(sortValue));
 		}

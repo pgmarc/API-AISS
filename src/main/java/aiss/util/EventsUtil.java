@@ -10,7 +10,8 @@ public class EventsUtil {
 	
 	public static List<Event> sortEvent(List<Event> events, LocalDate initialDate,
 			LocalDate finalDate) {
-		return events.stream().filter(event -> event.getDate().toLocalDate().isAfter(initialDate)
-				&& event.getDate().toLocalDate().isBefore(finalDate)).collect(Collectors.toList());
+		return events.stream().filter(event -> event.getLocalDateTime() != null)
+				.filter(event -> event.getLocalDate().isAfter(initialDate) 
+				&& event.getLocalDate().isBefore(finalDate)).collect(Collectors.toList());
 	}
 }

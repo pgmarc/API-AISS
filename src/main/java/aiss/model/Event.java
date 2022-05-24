@@ -1,10 +1,10 @@
 package aiss.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonCreator;
@@ -42,7 +42,7 @@ public class Event {
 	private Types type;
 	private Transport transport;
 	@JsonProperty("reviews")
-	private List<Review> reviews= new ArrayList<Review>();
+	private Map<Integer,Review> reviews;
 	public enum Types {
 		MUSIC,THEATRE, ART, CULTURAL;
 	};
@@ -133,8 +133,13 @@ public class Event {
 	}
 	
 	@JsonIgnore
-	public LocalDateTime getDate() {
+	public LocalDateTime getLocalDateTime() {
 		return date;
+	}
+	
+	@JsonIgnore
+	public LocalDate getLocalDate() {
+		return date.toLocalDate();
 	}
 	
 	@JsonProperty("date")
@@ -187,19 +192,34 @@ public class Event {
 		this.organizators = organizators;
 	}
 	
-	@JsonProperty("reviews")
-	public List<Review> getReviews() {
-		return reviews;
+	@JsonProperty("place")
+	public Place getPlace() {
+		return place;
+	}
+	
+	@JsonProperty("place")
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+
+	@JsonIgnore
+	public Map<Integer, Review> getReviews() {
+		return this.reviews;
 	}
 	
 	@JsonProperty("reviews")
-	public void setReviews(List<Review> reviews) {
+	public Collection<Review> getFormatedReviews() {
+		return this.reviews.values();
+	}
+	
+	@JsonProperty("reviews")
+	public void setReviews(Map<Integer,Review> reviews) {
 		this.reviews = reviews;
 	}
 
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
-		this.reviews.add(reviewIndex, review);
+		this.reviews.put(reviewIndex, review);
 		reviewIndex++;
 	}
 	
@@ -208,8 +228,9 @@ public class Event {
 		return this.reviews.size();
 	}
 	
+	@JsonProperty("rating")
 	public Double getRating() {
-		return this.reviews.stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
+		return getFormatedReviews().stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
 	}
 	
 	@Override

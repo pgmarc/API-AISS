@@ -40,7 +40,7 @@ public class EventData {
 		event3.setName("HAY QUE VIVIR EL MOMENTO ");
 		event3.setContactEmail("info.cite@eulen.com");
 		event3.setDate(LocalDateTime.of(2022, 6, 11, 22, 0));
-		event3.setDescription("Tras ddos obligados aplazamientos, Manuel Carrasco vuelve por fin, "
+		event3.setDescription("Tras dos obligados aplazamientos, Manuel Carrasco vuelve por fin, "
 				+ " a la carretera con una gira renovada y con una clara premisa; “Hay que vivir el momento”.");
 		event3.setOrganizators("Cartuja Center");
 		event3.setPrice(30.0);
@@ -246,7 +246,7 @@ public class EventData {
 		Event event20 = new Event();
 		event20.setName("Cómo Conocí a mi Suegra en Sevilla");
 		event20.setContactEmail("info@lamascaraproducciones.es");
-		event10.setDate(LocalDateTime.of(2022, 12, 10, 19, 45));
+		event20.setDate(LocalDateTime.of(2022, 12, 10, 19, 45));
 		event20.setDescription("sucesión de monólogos cotidianos donde realizan una divertida parodia centrándose en la relación de un pareja y "
 				+ "en situaciones del día a día analizadas desde el punto de vista humorístico.");
 		event20.setOrganizators("GUADALMEDIA EVENTS, S.L");

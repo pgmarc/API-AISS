@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import aiss.model.Event;
 import aiss.model.Review;
 import aiss.util.EventData;
@@ -52,6 +54,7 @@ public class MapEventRepository implements EventRepository {
 	@Override
 	public void addEvent(Event event) {
 		event.setId(eventIndex);
+		event.setReviews(new HashMap<Integer, Review>());
 		eventsMap.put(event.getId(), event);
 		eventIndex++;
 	}
@@ -76,7 +79,17 @@ public class MapEventRepository implements EventRepository {
 		eventsMap.remove(eventId);
 	}
 
-//REVIEWS
+	//REVIEWS
+	@Override
+	public List<Review> getAllReviews(Integer eventId) {
+		return eventsMap.get(eventId).getReviews().values().stream().collect(Collectors.toList());
+	}
+	
+	@Override
+	public Review getReview(Integer eventId, Integer reviewId) {
+		return eventsMap.get(eventId).getReviews().get(reviewId);
+	}
+	
 	@Override
 	public void addReview(Integer eventId, Review review) {
 		review.setDate(LocalDateTime.now());
@@ -84,26 +97,13 @@ public class MapEventRepository implements EventRepository {
 	}
 
 	@Override
-	public List<Review> getAllReviews(Integer eventId) {
-		return eventsMap.get(eventId).getReviews();
-	}
-	
-	@Override
-	public Review getReview(Integer eventId, Integer reviewId) {
-		return eventsMap.get(eventId).getReviews().get(reviewId);
-	}
-
-	@SuppressWarnings("unlikely-arg-type")
-	@Override
 	public void updateReview(Integer eventId, Review review) {
-		eventsMap.get(eventId).getReviews().remove(review.getId());
-		eventsMap.get(eventId).getReviews().add(review.getId(), review);
+		eventsMap.get(eventId).getReviews().put(eventId, review);
 	}
 
 	@Override
 	public void deleteReview(Integer eventId, Integer reviewId) {
-		Review reviewToDelete= eventsMap.get(eventId).getReviews().get(reviewId);
-		eventsMap.get(eventId).getReviews().remove(reviewToDelete);
+		eventsMap.get(eventId).getReviews().remove(reviewId);
 	}
 }
 
