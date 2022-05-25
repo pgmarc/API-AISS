@@ -652,17 +652,6 @@ paths:
                   errorMessage: Bad request
                   code: 400
                   documentation: https://student-compass-350106.appspot.com/api/docs/index.html
-        "404":
-          description: Request body was not well formed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Bad request
-                  code: 400
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
     post:
       tags:
       - events
