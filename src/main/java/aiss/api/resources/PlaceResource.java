@@ -58,7 +58,7 @@ public class PlaceResource {
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
 			@QueryParam("categories") String categories,
-			@QueryParam("order") String sortValue,
+			@QueryParam("order") String orderValue,
 			@QueryParam("placeId") Integer placeId,
 			@QueryParam("minRadius") Double minRadius,
 			@QueryParam("maxRadius") Double maxRadius) {
@@ -80,9 +80,9 @@ public class PlaceResource {
 			places = PlacesUtil.filterPlacesByCategory(places, categories);
 		}
 		
-		System.out.println(sortValue);
-		if (sortValue != null) {
-			places.sort(PlacesUtil.parseSort(sortValue));
+		System.out.println(orderValue);
+		if (orderValue != null) {
+			places.sort(PlacesUtil.parseSort(orderValue));
 		}
 		
 		places = PlacesUtil.getPagination(places, limit, offset);
