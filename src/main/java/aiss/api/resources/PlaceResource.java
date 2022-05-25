@@ -124,6 +124,9 @@ public class PlaceResource {
 			throw new BadEntityRequestException("Invalid values for latitude and longitude."
 			+ " Latitude should be within [-90, 90]  and longitude within [-180, 180]");
 		
+		if(place.getCategory() == null)
+			place.setCategory(PlaceCategory.UNDEFINED);
+			
 		placeRepository.addPlace(place);
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getPlace");
@@ -137,7 +140,7 @@ public class PlaceResource {
 	@Path("/{id}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updatePlace(@PathParam("id") Integer placeId, Place place) {
+	public Response updatePlace(@Context UriInfo uriInfo, @PathParam("id") Integer placeId, Place place) {
 		Place oldPlace = placeRepository.getPlace(placeId);
 		
 		if (oldPlace == null)
@@ -179,7 +182,11 @@ public class PlaceResource {
 
 		placeRepository.updatePlace(oldPlace);
 		
-		return Response.status(Status.NO_CONTENT).entity(oldPlace).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+		URI uri = ub.build();
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(oldPlace);			
+		return response.build();
 	}
 	
 	@DELETE
@@ -285,7 +292,7 @@ public class PlaceResource {
 			oldAccommodation.setType(accommodation.getType());
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation");
-		URI uri = ub.build(placeId);
+		URI uri = ub.build();
 		ResponseBuilder response = Response.ok(uri);
 		response.entity(place.getAccomodation());			
 		return response.build();
@@ -375,7 +382,7 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodationPayment(@PathParam("placeId") Integer placeId, 
+	public Response updateAccomodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
 			@PathParam("payId") Integer paymentId, AccomodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -411,7 +418,11 @@ public class PlaceResource {
 		if(payment.getRoomType() != null)
 			oldPayment.setRoomType(payment.getRoomType());
 		
-		return Response.status(Status.NO_CONTENT).entity(payment).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation/{payId}");
+		URI uri = ub.build(oldPayment.getId());
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(oldPayment);			
+		return response.build();
 	}
 	
 	@DELETE

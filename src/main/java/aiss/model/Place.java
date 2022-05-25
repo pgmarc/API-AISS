@@ -38,7 +38,6 @@ public class Place {
 	@JsonProperty("accomodation")
 	private Accomodation accomodation = null;
 	@JsonProperty("category")
-	@JsonDeserialize(using = CategoryDeserialize.class)
 	private PlaceCategory category;
 	
 	

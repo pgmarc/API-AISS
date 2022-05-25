@@ -2,13 +2,45 @@ package aiss.model;
 
 import java.util.Objects;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import aiss.model.Accomodation.AccomodationType;
+import aiss.util.EnumValidator;
 
 public class AccomodationPayment {
 	
-	public enum PaymentPeriod {YEARLY, MONTHLY}
-	public enum MealService {ALL_MEALS,TWO_MEALS,SELF_CATERING}
-	public enum RoomType {INDIVIDUAL, DOUBLE, OTHER}
+	public enum PaymentPeriod {YEARLY, MONTHLY;
+		@JsonCreator
+		public static PaymentPeriod fromString(String key) {
+			
+			String newKey = key.toUpperCase();
+			
+			return key == null || !EnumValidator.isValidEnum(PaymentPeriod.class, newKey)?
+					null : PaymentPeriod.valueOf(key.toUpperCase());
+		} 
+	}
+	public enum MealService {ALL_MEALS,TWO_MEALS,SELF_CATERING;
+		@JsonCreator
+		public static MealService fromString(String key) {
+			
+			String newKey = key.toUpperCase();
+			
+			return key == null || !EnumValidator.isValidEnum(MealService.class, newKey)?
+					null : MealService.valueOf(key.toUpperCase());
+		} 
+	}
+	public enum RoomType {INDIVIDUAL, DOUBLE, OTHER;
+		@JsonCreator
+		public static RoomType fromString(String key) {
+			
+			String newKey = key.toUpperCase();
+			
+			return key == null || !EnumValidator.isValidEnum(RoomType.class, newKey)?
+					null : RoomType.valueOf(key.toUpperCase());
+		} 
+	}
 	
 	@JsonProperty("id")
 	private Integer id;
