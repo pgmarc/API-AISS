@@ -39,16 +39,8 @@ public class Event {
 	private String organizators;
 	@JsonProperty("place")
 	private Place place;
-	private Types type;
-	private Transport transport;
 	@JsonProperty("reviews")
 	private Map<Integer,Review> reviews;
-	public enum Types {
-		MUSIC,THEATRE, ART, CULTURAL;
-	};
-	public enum Transport {
-		BUS,TRAIN, BICYCLE, UNDERGROUND;
-	};
 	
 	public Event(String name, Double price, LocalDateTime date,  String contactEmail, 
 			 String organizators) {
@@ -87,25 +79,7 @@ public class Event {
 		return id;
 	}
 
-	@JsonProperty("type")
-	public Types getType() {
-		return type;
-	}
-
-	@JsonProperty("type")
-	public void setType(Types type) {
-		this.type = type;
-	}
-
-	@JsonProperty("transport")
-	public Transport getTransport() {
-		return transport;
-	}
-
-	@JsonProperty("transport")
-	public void setTransport(Transport transport) {
-		this.transport = transport;
-	}
+	
 
 	@JsonProperty("id")
 	public void setId(Integer id) {
