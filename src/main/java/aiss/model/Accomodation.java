@@ -1,17 +1,30 @@
 package aiss.model;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import aiss.exceptions.BadEntityRequestException;
 import aiss.model.AccomodationPayment.PaymentPeriod;
+import aiss.util.EnumValidator;
 
 public class Accomodation {
 	
-	public enum AccomodationType {RESIDENCE, FLAT}
+	public enum AccomodationType {RESIDENCE, FLAT;
+		@JsonCreator
+		public static AccomodationType fromString(String key) {
+			
+			String newKey = key.toUpperCase();
+			
+			return key == null || !EnumValidator.isValidEnum(AccomodationType.class, newKey)?
+					null : AccomodationType.valueOf(key.toUpperCase());
+		} 
+	}
 	
 	@JsonProperty("numberOfRooms")
 	private Integer numberOfRooms;
