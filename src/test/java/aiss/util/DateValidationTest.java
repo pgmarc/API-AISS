@@ -14,7 +14,7 @@ public class DateValidationTest {
 	public void ShouldGetValidDate() {
 		String date = "2022-7-7 15:30:00";
 		LocalDateTime expected = LocalDateTime.of(2022, 7, 7, 15, 30);
-		LocalDateTime resutl = DateValidation.parseDateTime(date);
+		LocalDateTime resutl = DateValidation.parseLocalDateTime(date);
 		assertEquals(expected, resutl);
 	}
 

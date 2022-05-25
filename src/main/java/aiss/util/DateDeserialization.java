@@ -33,7 +33,7 @@ public class DateDeserialization extends StdDeserializer<LocalDateTime> {
 				throw new JsonMappingException("Unprocessable DateTime."
 						+ " DateTime should be formated: yyyy-MM-dd HH:mm."
 						+ " Hours should be formated: 00:00 - 23:59");
-			return DateValidation.parseDateTime(formatedDate);
+			return DateValidation.parseLocalDateTime(formatedDate);
 		} catch (Exception e) {
 			throw new BadEntityRequestException(e.getMessage());
 		}	    

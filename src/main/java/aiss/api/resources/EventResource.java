@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import aiss.exceptions.BadEntityRequestException;
 import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Event;
+import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
@@ -83,18 +84,6 @@ public class EventResource {
 		events = EventsUtil.sortEvent(events, minDate, maxDate);
 		
 		return Response.status(Status.OK).entity(events).build(); 
-	}
-	
-	@GET
-	@Path("/{eventid}/reviews")
-	@Produces("application/json")
-	public Response getAllReviews(@PathParam("id") Integer eventId) {
-		Collection<Review> event = eventRepository.getAllReviews(eventId);
-		
-		if (event == null)
-			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
-			
-		return Response.status(Status.OK).entity(event).build();
 	}
 	
 	@GET
@@ -217,6 +206,21 @@ public class EventResource {
 	
 	//REVIEWS
 	@GET
+	@Path("/{eventId}/reviews")
+	@Produces("application/json")
+	public Response getAllReviews(@PathParam("eventId") Integer eventId) {
+		Collection<Review> reviews= eventRepository.getAllReviews(eventId);
+		Event event= eventRepository.getEvent(eventId);
+		
+		if (event == null)
+			throw new EntityNotFoundException("The event with id=" +eventId+ " was not found");	
+		
+		if(reviews == null || reviews.isEmpty())
+			throw new EntityNotFoundException("This event has no reviews yet");
+
+		return Response.status(Status.OK).entity(reviews).build();
+	}
+	@GET
 	@Path("/{id}/reviews/{reviewId}")
 	@Produces("application/json")
 	public Review getReview(@PathParam("id") Integer eventId,
@@ -300,7 +304,7 @@ public class EventResource {
 		oldReview.setDate(LocalDateTime.now());
 		eventRepository.updateReview(eventId, oldReview);
 		
-		return Response.status(Status.NO_CONTENT).entity(oldReview).build();
+		return Response.status(Status.OK).entity(oldReview).build();
 	}
 	
 	@DELETE
