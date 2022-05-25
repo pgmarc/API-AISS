@@ -1,8 +1,23 @@
 openapi: 3.0.0
 info:
   title: Students Compass
-  description: Great API for students looking for a place to stay and spend your spare
-    time on.
+  description: |
+    <h3>
+    Description:
+    <h5>Great API for students looking for a place to stay and spend your spare time on.
+    <h3>
+    Authors:
+    <ul>
+    <li>Ávila Maqueda, María del Mar
+    <ul> - Correo: maravimaq@alum.us.es</ul>
+    <li>González Marcos, Pedro
+    <ul> - Correo: pedgonmar2@alum.us.es</ul>
+    <li>Ruiz Delgado, Victoria del Carmen
+    <ul> - Correo: vicruidel1@alum.us.es </ul>
+    <li>Tomás Vela, Elena
+    <ul> - Correo: eletomvel@alum.us.es</ul>
+    <li>Zarzuela Reina, Carlos
+    <ul> - Correo: carzarrei@alum.us.es</ul>
   termsOfService: http://swagger.io/terms/
   contact:
     email: studentscompass007@gmail.com
