@@ -1,8 +1,23 @@
 openapi: 3.0.0
 info:
   title: Students Compass
-  description: Great API for students looking for a place to stay and spend your spare
-    time on.
+  description: |
+    <h3>
+    Description:
+    <h5>Great API for students looking for a place to stay and spend your spare time on.
+    <h3>
+    Authors:
+    <ul>
+    <li>Ávila Maqueda, María del Mar
+    <ul> - Correo: maravimaq@alum.us.es</ul>
+    <li>González Marcos, Pedro
+    <ul> - Correo: pedgonmar2@alum.us.es</ul>
+    <li>Ruiz Delgado, Victoria del Carmen
+    <ul> - Correo: vicruidel1@alum.us.es </ul>
+    <li>Tomás Vela, Elena
+    <ul> - Correo: eletomvel@alum.us.es</ul>
+    <li>Zarzuela Reina, Carlos
+    <ul> - Correo: carzarrei@alum.us.es</ul>
   termsOfService: http://swagger.io/terms/
   contact:
     email: studentscompass007@gmail.com
@@ -43,7 +58,6 @@ paths:
         schema:
           minimum: 0
           type: integer
-          example: 1
           default: 0
       - name: limit
         in: query
@@ -54,7 +68,6 @@ paths:
         schema:
           minimum: 0
           type: integer
-          example: 5
           default: 10
       - name: order
         in: query
@@ -368,6 +381,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reviews'
+              example: 
+                
         "404":
           description: The given resource was not found
           content:
@@ -464,6 +479,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Review'
+              examples:
+                Review 1:
+                 $ref: '#/components/examples/review1'
+                Review 5:
+                 $ref: '#/components/examples/review5'
         "404":
           description: The given resource was not found.
           content:
@@ -502,8 +522,17 @@ paths:
             schema:
               $ref: '#/components/schemas/Review'
       responses:
-        "204":
-          description: Review successfully deleted.
+        "200":
+          description: Review successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                Review 3:
+                 $ref: '#/components/examples/review3'
+                Review 2:
+                 $ref: '#/components/examples/review2'
         "400":
           description: Any parameter is not correct.
         "404":
@@ -824,6 +853,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Review'
+              examples:
+                Review 3:
+                 $ref: '#/components/examples/review3'
+                Review 2:
+                 $ref: '#/components/examples/review2'
         "404":
           description: The given resource was not found
           content:
@@ -862,8 +896,17 @@ paths:
             schema:
               $ref: '#/components/schemas/Review'
       responses:
-        "204":
-          description: Review successfully deleted
+        "200":
+          description: Review successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                Review 3:
+                 $ref: '#/components/examples/review3'
+                Review 2:
+                 $ref: '#/components/examples/review2'
         "400":
           description: Any parameter is not correct
         "404":
@@ -1091,9 +1134,6 @@ components:
           type: number
           description: Rating given by the user
           format: double
-        date:
-          type: string
-          format: date-time
     Error:
       required:
       - code
@@ -1219,6 +1259,39 @@ components:
             mealService: ALL_MEALS
             roomType: DOUBLE
           type: RESIDENCE
+    review1: 
+      description: Example of a review
+      value:
+        username: Beni123
+        description: Increible relación calidad/precio en la comida, 
+          aunque un poco lento el servicio.
+        rating: 4.0
+    review2: 
+      description: Example of a review
+      value:
+        username: Zarzu054
+        description: Un muy mal servicio, la comida bastante mala y una localizacion pesima.
+        rating: 1.0
+    review3: 
+      description: Example of a review
+      value:
+        username: KillerPro678
+        description: De las mejores cervezas de la zona por un precio decente. El personal muy amable y servicial
+        rating: 5.0
+    review4: 
+      description: Example of a review
+      value:
+        username: Beni123
+        description: Increible relación calidad/precio en la comida, 
+          aunque un poco lento el servicio.
+        rating: 4.0
+    review5: 
+      description: Example of a review
+      value:
+        username: Beni123
+        description: Increible relación calidad/precio en la comida, 
+          aunque un poco lento el servicio.
+        rating: 4.0
   requestBodies:
     Coordinates:
       content:
