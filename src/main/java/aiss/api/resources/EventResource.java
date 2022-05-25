@@ -30,6 +30,7 @@ import aiss.model.Place;
 import aiss.model.Review;
 import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
+import aiss.model.repository.MapPlaceRepository;
 import aiss.util.EventsUtil;
 import aiss.util.validation.DateValidation;
 
@@ -325,6 +326,87 @@ public class EventResource {
 					" was not found in that event");
 	
 		eventRepository.deleteReview(eventId, reviewId);
+		
+		return Response.noContent().build();
+	}
+	
+	// Event Place
+	@GET
+	@Path("/{id}/place")
+	@Produces("application/json")
+	public Response getPlace(@PathParam("id") Integer eventId) {
+		
+		Event event = eventRepository.getEvent(eventId);
+		
+		if (event == null)
+			throw new EntityNotFoundException("The event with id=" + eventId+ " not found");
+		
+		return Response.status(Status.OK).entity(event.getPlace()).build();
+	}
+	
+	
+	@POST
+	@Path("/{id}/place/{placeId}")
+	@Produces("application/json")
+	public Response addPlace(@Context UriInfo uriInfo, @PathParam("id") Integer eventId,
+			@PathParam("placeId") Integer placeId) {
+		
+		Event event = eventRepository.getEvent(eventId);
+		Place place = MapPlaceRepository.getInstance().getPlace(placeId);
+		
+		if(event == null)
+			throw new EntityNotFoundException("The event with id=" + eventId+ " not found");
+		
+		if (place == null)
+			throw new EntityNotFoundException("The with id=" + placeId + 
+					" not found cannot be added to an event");
+
+		
+		eventRepository.addPlace(eventId, placeId);
+		
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getPlace");
+		URI uri = ub.build(eventId);
+		ResponseBuilder resp = Response.created(uri);
+		resp.entity(event);			
+		return resp.build();
+	}
+	
+	@PUT
+	@Path("/{id}/place/{placeId}")
+	@Produces("application/json")
+	public Response updatePlace(@Context UriInfo uriInfo, @PathParam("id") Integer eventId,
+			@PathParam("placeId") Integer placeId) {
+		
+		Event event = eventRepository.getEvent(eventId);
+		Place place = MapPlaceRepository.getInstance().getPlace(placeId);
+		
+		if (event == null) 
+			throw new EntityNotFoundException("The event with id=" + eventId + " not found");
+		
+		if (place == null)
+			throw new EntityNotFoundException("The with id=" + placeId + 
+					" not found cannot be added to an event");
+		
+		eventRepository.updatePlace(eventId, placeId);
+		
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getPlace");
+		URI uri = ub.build(eventId);
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(event);			
+		return response.build();		
+	}
+	
+	@DELETE
+	@Path("/{id}/place")
+	@Produces("application/json")
+	public Response deletePlace(@PathParam("id") Integer eventId) {
+		
+		Event event = eventRepository.getEvent(eventId);
+		
+		if (event == null)
+			throw new EntityNotFoundException("The event with id=" + eventId + " was not found");
+		
+		eventRepository.deletePlace(eventId);
 		
 		return Response.noContent().build();
 	}

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import aiss.model.Event;
+import aiss.model.Place;
 import aiss.model.Review;
 import aiss.util.EventData;
 
@@ -135,6 +136,28 @@ public class MapEventRepository implements EventRepository {
 	@Override
 	public void deleteReview(Integer eventId, Integer reviewId) {
 		eventsMap.get(eventId).getReviews().remove(reviewId);
+	}
+	
+	@Override
+	public Place getPlace(Integer eventId) {
+		return eventsMap.get(eventId).getPlace();
+	}
+
+	@Override
+	public void addPlace(Integer eventId, Integer placeId) {
+		Place place = MapPlaceRepository.getInstance().getPlace(placeId);
+		eventsMap.get(eventId).setPlace(place);
+	}
+
+	@Override
+	public void updatePlace(Integer eventId, Integer placeId) {
+		Place place = MapPlaceRepository.getInstance().getPlace(placeId);
+		eventsMap.get(eventId).setPlace(place);
+	}
+
+	@Override
+	public void deletePlace(Integer eventId) {
+		eventsMap.get(eventId).setPlace(null);
 	}
 }
 
