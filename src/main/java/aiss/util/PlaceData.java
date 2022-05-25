@@ -144,6 +144,104 @@ public class PlaceData {
 		place15.setCategory(PlaceCategory.ACCOMODATION);
 		place15.setLocation(Coordinates.of(21.34567, -21.34567));
 		
+		Place place16 = new Place();
+		place1.setName("Aeropuerto de Sevilla");
+		place1.setEmail("svqcas@aena.es");
+		place1.setAddress("Carretera N-IV Madrid-Cádiz, kilómetro 532");
+		place1.setWebsite("https://www.aena.es");
+		place1.setCategory(PlaceCategory.AIRPORT);
+		place1.setLocation(Coordinates.of(37.418056, -5.898889));
+		
+		Place place17 = new Place();
+		place1.setName("Supermercado el Jamón");
+		place1.setEmail("hola@supermercadoseljamon.com");
+		place1.setAddress("C. Bami, 21");
+		place1.setWebsite("https://www.supermercadoseljamon.com");
+		place1.setCategory(PlaceCategory.SUPERMARKET);
+		place1.setLocation(Coordinates.of(37.418056, -5.898889));
+		
+		Place place18 = new Place();
+		place1.setName("Farmacia los Bermejales");
+		place1.setEmail("josearafael@hotmail.com");
+		place1.setAddress("Avenida Paseo de Europa , 2");
+		place1.setWebsite("https://www.sensafarma.es/farmacia/farmacia-los-bermejales--003519");
+		place1.setCategory(PlaceCategory.PHARMACY);
+		place1.setLocation(Coordinates.of(37.347413443216624, -5.977527613329705));
+		
+		Place place19 = new Place();
+		place1.setName("Cajero Automático Caja Rural");
+		place1.setEmail("cajarural@hotmail.com");
+		place1.setAddress("AV. REINO UNIDO , esq, C. Dresde, 1");
+		place1.setWebsite("https://www.grupocajarural.es/en");
+		place1.setCategory(PlaceCategory.ATM);
+		place1.setLocation(Coordinates.of(37.347805781771854, -5.97701262919528));
+		
+		Place place20 = new Place();
+		place1.setName("Silken Al-Andalus Palace");
+		place1.setEmail("hotelsilken@silken.es");
+		place1.setAddress("Avenida de la Palmera, S/N, esq. calle Paraná.");
+		place1.setWebsite("https://www.hoteles-silken.com/en/hotel-al-andalus-seville");
+		place1.setCategory(PlaceCategory.BUSINESS);
+		place1.setLocation(Coordinates.of(37.354232, -5.980253));
+		
+		Place place21 = new Place();
+		place1.setName("Casa Félix");
+		place1.setEmail("hola@casafelix.com");
+		place1.setAddress("Av. de la Reina Mercedes, 51");
+		place1.setWebsite("https://www.casafelix.com");
+		place1.setCategory(PlaceCategory.RESTAURANT);
+		place1.setLocation(Coordinates.of(37.3582028488584, -5.986044012031853));
+		
+		Place place22 = new Place();
+		place1.setName("Iglesia De La Virgen Del Carmen Los Bermejales");
+		place1.setEmail("parroquiamar@gmail.com");
+		place1.setAddress("Calle de la Corbeta, s/n; ");
+		place1.setWebsite("http://www.parroquiamar.com");
+		place1.setCategory(PlaceCategory.CHURCH);
+		place1.setLocation(Coordinates.of(37.35027112578121, -5.978104559623624));
+		
+		Place place23 = new Place();
+		place1.setName("Cine Yelmo Premium Lagoh");
+		place1.setEmail("cineslagoh@hotmail.com");
+		place1.setAddress(" Centro Comercial Lagoh, Av. de Palmas Altas, S/N,");
+		place1.setWebsite("https://yelmocines.es/cartelera/sevilla/-premium-lagoh");
+		place1.setCategory(PlaceCategory.CINEMA);
+		place1.setLocation(Coordinates.of(37.34125068226267, -5.98645935566553));
+		
+		Place place24 = new Place();
+		place1.setName("Parque de María Luisa");
+		place1.setEmail("parquemarialuisas@sevilla.es");
+		place1.setAddress("P.º de las Delicias, s/n, 41013 Sevilla");
+		place1.setWebsite("https://www.sevilla.org");
+		place1.setCategory(PlaceCategory.PARK);
+		place1.setLocation(Coordinates.of(37.374748653723486, -5.988248783469929));
+		
+		Place place25 = new Place();
+		place1.setName("KOKO");
+		place1.setEmail("hola@koko.com");
+		place1.setAddress("Pl. de la Encarnación, 38");
+		place1.setWebsite("https://www.koko.com");
+		place1.setCategory(PlaceCategory.NIGHT_CLUB);
+		place1.setLocation(Coordinates.of(37.39347634268463, -5.991833855581043));
+		
+		Place place26 = new Place();
+		place1.setName("Museo Bellas Artes Sevilla");
+		place1.setEmail("museobellasartessevilla.ccul@juntadeandalucia.es");
+		place1.setAddress("Pl. del Museo, 9");
+		place1.setWebsite("https://www.museosdeandalucia.es/web/museodebellasartesdesevilla");
+		place1.setCategory(PlaceCategory.MUSEUM);
+		place1.setLocation(Coordinates.of(37.39347634268463, -5.991833855581043));
+		
+		Place place27 = new Place();
+		place1.setName("Freedom Fitness");
+		place1.setEmail("info@freedomfitness.es");
+		place1.setAddress("Calle Luxemburgo 5");
+		place1.setWebsite("https://freedomfitness.es");
+		place1.setCategory(PlaceCategory.GYM);
+		place1.setLocation(Coordinates.of(37.3460189387598, -5.981073975326615));
+		
+		
+		
 		
 		places.add(place1);
 		places.add(place2);
@@ -159,7 +257,19 @@ public class PlaceData {
 		places.add(place12);
 		places.add(place13);
 		places.add(place14);
-
+		places.add(place15);
+		places.add(place16);
+		places.add(place17);
+		places.add(place18);
+		places.add(place19);
+		places.add(place20);
+		places.add(place21);
+		places.add(place22);
+		places.add(place23);
+		places.add(place24);
+		places.add(place25);
+		places.add(place26);
+		places.add(place27);
 		Accomodation acc1 = new Accomodation(
 				500, 
 				new HashMap<>(),
