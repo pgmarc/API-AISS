@@ -231,6 +231,59 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - places
+      summary: Update a place by id
+      description: Update place information given the place id
+      operationId: updatePlace
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 4
+      requestBody:
+        description: Response body of the data that wants to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+            examples:
+              Update Test:
+                $ref: '#/components/examples/UpdateTest'
+              Test:
+                $ref: '#/components/examples/TestPlace'
+      responses:
+        "204":
+          description: Place was updated sucessfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+              examples:
+                Place1:
+                  $ref: '#/components/examples/CatedralSevilla'
+                Place2:
+                  $ref: '#/components/examples/TestPlace'
+                Estanislao:
+                  $ref: '#/components/examples/Estanislao'
+        "400":
+          description: Bad request from the client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       tags:
       - places
@@ -589,6 +642,191 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /events/{eventId}/reviews:
+    get:
+      tags:
+      - reviews
+      summary: Get all reviews from a event by id
+      description: Get all reviews from a event by id
+      operationId: getAllReviewsEvents
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: List of all the reviews from a particular event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reviews'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - reviews
+      summary: Creates new reviews
+      description: Creates new reviews with the given payload to the event
+      operationId: addReviewsEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        "201":
+          description: Succesfully created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        "400":
+          description: Any of the parameters are not correct
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /events/{eventId}/reviews/{reviewId}:
+    get:
+      tags:
+      - reviews
+      summary: Get the specified review
+      description: Get the specified review from a event by id
+      operationId: getReviewEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Specified review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - reviews
+      summary: Update the specified review
+      description: Update the specified review
+      operationId: updateReviewEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the event
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      requestBody:
+        description: Payload of the updated review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - reviews
+      summary: Deletes a review
+      description: Deletes the review with the given id
+      operationId: deleteReviewEvent
+      parameters:
+      - name: eventId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      - name: reviewId
+        in: path
+        description: Id of the review
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "204":
+          description: Review successfully deleted
+        "400":
+          description: Any parameter is not correct
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Accomodations:
@@ -860,13 +1098,20 @@ components:
     TestPlace:
       description: Example of Imaginary place
       value:
-        name: Esto es un test de un lugar
+        name: This is a test of place
         email: test@testing.com
         address: C. Test s/n
         web: https://foobar.com
         location:
           latitude: 25.000777231550654
           longitude: -71.00017170317003
+    UpdateTest:
+      description: Example of Imaginary place
+      value:
+        name: This is an updated place
+        email: updaetedTest@updatedtesting.com
+        address: C.Update Test s/n
+        web: https://updatedfoobar.com
     Estanislao:
       description: Example of a Place with Accomodation
       value:
