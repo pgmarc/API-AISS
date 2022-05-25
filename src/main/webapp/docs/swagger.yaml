@@ -555,13 +555,40 @@ paths:
       summary: Get all events
       description: Get all events
       operationId: getAllEvents
+      parameters:
+        - name: initialDate
+          in: query
+          description: This field sets the initial date for events to be returned. You can specify it by giving one string whith the following format dd-MM-yyyy HH:mm. Anyway, it doesn't need to be filled. If you don´t fill the initial date it will show you all the events since the current date.
+          required: false
+          schema:
+            type: string
+            pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
+          example: 2022-08-10 10:00
+        
+        - name: finalDate
+          in: query
+          description: This field sets final date for events to be returned. You can specify it by giving one string whith the following format dd-MM-yyyy HH:mm. Anyway, it doesn't need to be filled. If you don´t fill the final date it shows you all the events that are hold for a month since the actual date.
+          required: false
+          schema:
+            type: string
+            pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
+          example: 2022-09-10 10:00
+            
       responses:
         "200":
-          description: List of events
+          description: Returns a list of events
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Events'
+                items:
+                  $ref: '#/components/schemas/Events'
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                  
         "404":
           description: The given resource was not found
           content:
@@ -948,21 +975,7 @@ components:
         website:
           type: string
         contactEmail:
-          type: string
-        types:
-          type: string
-          enum:
-          - music
-          - theater
-          - art
-          - cultural
-        transport:
-          type: string
-          enum:
-          - bus
-          - train
-          - bicycle
-          - underground
+          type: string 
         organizers:
           type: string
     Events:
@@ -1130,7 +1143,7 @@ components:
         name: Noches de la Maestranza
         description: Una noche llena de magia en La Maestranza con Plácido Domingo
         price: 150
-        date: 17-09-2022 21:30
+        date: 2022-09-17 21:30
         website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
         contactEmail: taquilla@teatrodelamaestranza.es
         types: music
@@ -1143,7 +1156,7 @@ components:
         name: Sergio Dalma
         description: Vuelve a disfrutar de los mayores exitos de Sergio Dalma
         price: 51
-        date: 21-05-2022 21:00
+        date: 2022-05-21 21:00
         website: https://www.sergiodalma.es/event/sevilla/
         contactEmail: info.cite@eulen.com
         types: music
