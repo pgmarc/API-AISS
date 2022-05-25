@@ -204,7 +204,14 @@ public class Event {
 	
 	@JsonProperty("rating")
 	public Double getRating() {
-		return getFormatedReviews().stream().mapToDouble(r->r.getRating()).sum()/getNumReviews();
+		Double rating = 0.;
+		if(!this.reviews.isEmpty()) { 
+			rating = this.reviews.values().stream()
+			.mapToDouble(r->r.getRating()).sum()/getNumReviews();
+			rating = Math.round(rating * 10.0) /10.0;
+		}
+		
+		return rating;
 	}
 	
 	@Override
