@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aiss.model.Event;
-import aiss.model.Event.Transport;
-import aiss.model.Event.Types;
 
 
 public class EventData {
@@ -21,8 +19,6 @@ public class EventData {
 		event1.setDescription("Una noche llena de magia en La Maestranza con Plácido Domingo");
 		event1.setOrganizators("La Maestranza");
 		event1.setPrice(150.0);
-		event1.setTransport(Transport.BUS);
-		event1.setType(Types.MUSIC);
 		event1.setWebsite("https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/");
 		
 		Event event2 = new Event();
@@ -32,8 +28,6 @@ public class EventData {
 		event2.setDescription("Vuelve a disfrutar de los mayores exitos de Sergio Dalma");
 		event2.setOrganizators("Cartuja Center");
 		event2.setPrice(51.0);
-		event2.setTransport(Transport.BUS);
-		event2.setType(Types.MUSIC);
 		event2.setWebsite("https://www.sergiodalma.es/event/sevilla/");
 		
 		Event event3 = new Event();
@@ -44,8 +38,6 @@ public class EventData {
 				+ " a la carretera con una gira renovada y con una clara premisa; “Hay que vivir el momento”.");
 		event3.setOrganizators("Cartuja Center");
 		event3.setPrice(30.0);
-		event3.setTransport(Transport.BUS);
-		event3.setType(Types.MUSIC);
 		event3.setWebsite("https://manuelcarrasco.es/eventos/");
 		
 		Event event4 = new Event();
@@ -55,8 +47,6 @@ public class EventData {
 		event4.setDescription("Escucha en directo “Likes y Cicatrices”, el undécimo álbum de Melendi, ya se ha convertido en todo un superventas");
 		event4.setOrganizators("SIENTE LA MUSICA, AIE - V72389042");
 		event4.setPrice(42.0);
-		event4.setTransport(Transport.BUS);
-		event4.setType(Types.MUSIC);
 		event4.setWebsite("https://www.elcorteingles.es/entradas/conciertos/entradas-melendi-cabaret-festival-mairena-del-aljarafe/");
 		
 		Event event5 = new Event();
@@ -66,8 +56,6 @@ public class EventData {
 		event5.setDescription("CAMILO llega a España con su primer tour, Mis Manos, para deleitar a su tribu.");
 		event5.setOrganizators("Cartuja Center");
 		event5.setPrice(61.0);
-		event5.setTransport(Transport.BUS);
-		event5.setType(Types.MUSIC);
 		event5.setWebsite("https://www.vayaentradas.com/ciclos/ficha/557-camilo-tour-espana-2022");
 		
 		Event event6 = new Event();
@@ -79,8 +67,6 @@ public class EventData {
 				+ " pintor Ricardo Casstillo");
 		event6.setOrganizators("Ricardo Casstillo");
 		event6.setPrice(3.0);
-		event6.setTransport(Transport.BICYCLE);
-		event6.setType(Types.ART);
 		event6.setWebsite("https://icas.sevilla.org/espacios/fabiola/agenda/el-paisaje-andaluz-por-canadas-cordeles-y-veredas");
 		
 		Event event7 = new Event();
@@ -90,8 +76,6 @@ public class EventData {
 		event7.setDescription("Un viaje a través del tiempo y de las culturas");
 		event7.setOrganizators("CaixaForum Sevilla");
 		event7.setPrice(6.0);
-		event7.setTransport(Transport.BUS);
-		event7.setType(Types.ART);
 		event7.setWebsite("https://www.guiadelocio.com/sevilla/arte/sevilla/la-imagen-humana-arte-identidades-y-simbolismo#localizacion");
 		
 		Event event8 = new Event();
@@ -103,8 +87,6 @@ public class EventData {
 				+ "y digitales además de pinturas");
 		event8.setOrganizators("Federico Guzmán");
 		event8.setPrice(0.0);
-		event8.setTransport(Transport.TRAIN);
-		event8.setType(Types.ART);
 		event8.setWebsite("https://icas.sevilla.org/espacios/espacio-turina");
 		
 		Event event9 = new Event();
@@ -116,8 +98,6 @@ public class EventData {
 				+ "artista Esther Ferrer ");
 		event9.setOrganizators("Esther Ferrer ");
 		event9.setPrice(0.0);
-		event9.setTransport(Transport.TRAIN);
-		event9.setType(Types.ART);
 		event9.setWebsite("https://cicus.us.es/");
 		
 		Event event10 = new Event();
@@ -128,8 +108,6 @@ public class EventData {
 				+ "nacido en Utrera en el año 1976");
 		event10.setOrganizators(null);
 		event10.setPrice(2.0);
-		event10.setTransport(Transport.BICYCLE);
-		event10.setType(Types.ART);
 		event10.setWebsite("http://www.caac.es/");
 		
 		Event event11 = new Event();
@@ -140,8 +118,6 @@ public class EventData {
 				+ "que permiten evolucionar al flamenco");
 		event11.setOrganizators("Junta de Andalucía");
 		event11.setPrice(18.0);
-		event11.setTransport(Transport.TRAIN);
-		event11.setType(Types.CULTURAL);
 		event11.setWebsite("https://www.juntadeandalucia.es/cultura/flamenco/content/flamenco-viene-del-sur");
 		
 		Event event12 = new Event();
@@ -152,8 +128,6 @@ public class EventData {
 				+ "recorren tanto el exterior como el interior del pabellón");
 		event12.setOrganizators("Fundación Tres Culturas del Mediterráneo");
 		event12.setPrice(0.0);
-		event12.setTransport(Transport.UNDERGROUND);
-		event12.setType(Types.CULTURAL);
 		event12.setWebsite("https://www.eventbrite.es/e/entradas-programa-de-visitas-guiadas-a-la-sede-de-la-fundacion-tres-culturas-327927749727");
 		
 		Event event13 = new Event();
@@ -164,8 +138,6 @@ public class EventData {
 				+ "por los espacios más significativo de su interior para revelar su historia y su mensaje evangelizador.");
 		event13.setOrganizators("Ayuntamiento de Sevilla");
 		event13.setPrice(21.0);
-		event13.setTransport(Transport.BUS);
-		event13.setType(Types.CULTURAL);
 		event13.setWebsite("https://onsevilla.com/catedral-giralda-sevilla#:~:text=Horario%3A%20lunes%20a%20s%C3%A1bados%20de,domingos%20a%20las%2017%20horas");
 		
 		Event event14 = new Event();
@@ -176,8 +148,6 @@ public class EventData {
 				+ "Sevilla y por tanto de visita obligada.");
 		event14.setOrganizators("Junta de Andalucía");
 		event14.setPrice(3.0);
-		event14.setTransport(Transport.BICYCLE);
-		event14.setType(Types.CULTURAL);
 		event14.setWebsite("https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/evento/torre-del-oro-visitas");
 		
 		Event event15 = new Event();
@@ -188,8 +158,6 @@ public class EventData {
 				+ "visitando el interior de algunos de los templos, para conocer las joyas del mudéjar sevillano");
 		event15.setOrganizators("Engranajes Culturales");
 		event15.setPrice(14.0);
-		event15.setTransport(Transport.TRAIN);
-		event15.setType(Types.CULTURAL);
 		event15.setWebsite("www.engranajesculturales.com");
 		
 		Event event16 = new Event();
@@ -200,8 +168,6 @@ public class EventData {
 				+ "DE TEATRO DAMAS DE COMEDIA DIRIGIDA POR NIEVES ZAMORA Y ALICIA MORENO");
 		event16.setOrganizators("Távora Teatro Abierto");
 		event16.setPrice(9.0);
-		event16.setTransport(Transport.BICYCLE);
-		event16.setType(Types.THEATRE);
 		event16.setWebsite("https://tavorateatroabierto.com");
 		
 		
@@ -213,8 +179,6 @@ public class EventData {
 				+ "previos al inicio de la guerra civil arrastrada por el amor desbocado hacia un hombre a quien apenas conoce. ");
 		event17.setOrganizators("Cartuja Center");
 		event17.setPrice(59.0);
-		event17.setTransport(Transport.BUS);
-		event17.setType(Types.THEATRE);
 		event17.setWebsite("https://cartujacenter.janto.es/espectaculo/el-tiempo-entre-costuras-el-musical/COSTURAS");
 		
 		Event event18 = new Event();
@@ -227,8 +191,6 @@ public class EventData {
 				+ "el programa de radio que presentan y en el que los chistes disparan la rabia parriba Segur");
 		event18.setOrganizators("GUADALMEDIA EVENTS, S.L.");
 		event18.setPrice(20.0);
-		event18.setTransport(Transport.BUS);
-		event18.setType(Types.THEATRE);
 		event18.setWebsite("https://www.elcorteingles.es/entradas/teatro/entradas-buenismo-show-sevilla/");
 		
 		Event event19 = new Event();
@@ -239,8 +201,6 @@ public class EventData {
 				+ "Ante Todo Mucha Calma que tendrá lugar el 29 de octubre de 2022 en el Teatro Los Remedios de Sevilla.");
 		event19.setOrganizators("La Máscara Producciones SL");
 		event19.setPrice((double)24);
-		event19.setTransport(Transport.TRAIN);
-		event19.setType(Types.THEATRE);
 		event19.setWebsite("https://www.elcorteingles.es/entradas/teatro/entradas-jose-corbacho-ante-todo-mucha-calma-sevilla/?performance_url=entradas-jose-corbacho-ante-todo-mucha-calma-sevilla/&awc=13034_1653257513_be177e92927ac92122b00888a81bbe8a");
 		
 		Event event20 = new Event();
@@ -251,8 +211,6 @@ public class EventData {
 				+ "en situaciones del día a día analizadas desde el punto de vista humorístico.");
 		event20.setOrganizators("GUADALMEDIA EVENTS, S.L");
 		event20.setPrice((double)16);
-		event20.setTransport(Transport.BUS);
-		event20.setType(Types.THEATRE);
 		event20.setWebsite("https://www.elcorteingles.es/entradas/teatro/entradas-como-conoci-a-mi-suegra-sevilla/?performance_url=entradas-como-conoci-a-mi-suegra-sevilla/");
 		
 		events.add(event1);
