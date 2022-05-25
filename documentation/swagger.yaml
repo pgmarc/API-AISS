@@ -95,7 +95,7 @@ paths:
           Multiple filters:
             description: "It will filter by bar, congress and supermarket"
             value: congress;bar;supermarket
-          User puts extra comma:
+          User puts extra semicolon:
             description: "It will filter by congress, bar, supermarket and undefined"
             value: congress; ;bar;supermarket
           All semicolons:
