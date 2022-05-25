@@ -61,7 +61,7 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
-			@QueryParam("filter") String filter,
+			@QueryParam("category") String category,
 			@QueryParam("order") String orderValue,
 			@QueryParam("placeId") Integer placeId,
 			@QueryParam("minRadius") Double minRadius,
@@ -76,17 +76,14 @@ public class PlaceResource {
 		
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		
-		if (placeId != null && (minRadius != null || maxRadius != null)) {
+		if (placeId != null && (minRadius != null || maxRadius != null))
 			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
-		}
 		
-		if (filter != null) {
-			places = PlacesUtil.filterPlaces(places, filter);
-		}
+		if (category != null)
+			places = PlacesUtil.filterPlaces(places, category);
 		
-		if (orderValue != null) {
+		if (orderValue != null)
 			places.sort(Sorting.parsePlaceSort(orderValue));
-		}
 		
 		places = PlacesUtil.getPagination(places, limit, offset);
 		return Response.status(Status.OK).entity(places).build();
@@ -448,7 +445,7 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getAllReviews(@PathParam("placeId") Integer placeId,
 			@QueryParam("filter") String filter, @QueryParam("sort") String sort) {
-		List<Review> reviews= placeRepository.getAllReviews(placeId);
+		List<Review> reviews= (List<Review>) placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
 		
 		if (place == null)

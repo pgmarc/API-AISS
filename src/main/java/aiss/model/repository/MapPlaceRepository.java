@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+import aiss.exceptions.EntityNotFoundException;
 import aiss.model.Accomodation;
 import aiss.model.AccomodationPayment;
 import aiss.model.Coordinates;
@@ -105,6 +105,9 @@ public class MapPlaceRepository implements PlaceRepository{
 	@Override
 	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius,
 			Double maxRadius) {
+		Place currentPlace = placesMap.get(placeId);
+		if (currentPlace == null)
+			throw new EntityNotFoundException("The place with id=" + placeId + "not found");
 		
 		List<Place> places = this.placesWithoutLocation(placeId);
 		Coordinates currentLocation = this.getPlace(placeId).getLocation();

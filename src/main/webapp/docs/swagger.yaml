@@ -45,7 +45,7 @@ paths:
     get:
       tags:
       - places
-      summary: Get places by diferent criteria
+      summary: Get places filtering by category, get nearby places given a location
       description: Get all the places given some criteria
       operationId: getAllPlaces
       parameters:
@@ -66,7 +66,7 @@ paths:
         style: form
         explode: true
         schema:
-          minimum: 0
+          minimum: 1
           type: integer
           default: 10
       - name: order
@@ -88,7 +88,7 @@ paths:
             description: It will filter by place name ascending and then by place
               rating descending
             value: +name;-rating
-      - name: categories
+      - name: category
         in: query
         description: This field filter places by its CATEGORY CASE INSENSITIVE. You
           can specify one value by giving only one string. In case that you want to
@@ -167,27 +167,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Places'
         "400":
-          description: Request body was not well formed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Bad request
-                  code: 400
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/BadRequest'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Place with id not found
-                  code: 404
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/NotFound'
     post:
       tags:
       - places
@@ -218,6 +200,8 @@ paths:
                   $ref: '#/components/examples/CatedralSevilla'
                 Test Place:
                   $ref: '#/components/examples/TestPlace'
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /places/{placeId}:
     get:
       tags:
@@ -254,16 +238,7 @@ paths:
                 Estanislao:
                   $ref: '#/components/examples/Estanislao'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Place with id not found
-                  code: 404
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/NotFound'
     put:
       tags:
       - places
@@ -292,7 +267,7 @@ paths:
               Test:
                 $ref: '#/components/examples/TestPlace'
       responses:
-        "204":
+        "200":
           description: Place was updated sucessfully
           content:
             application/json:
@@ -306,27 +281,9 @@ paths:
                 Estanislao:
                   $ref: '#/components/examples/Estanislao'
         "400":
-          description: Request body was not well formed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Bad request
-                  code: 400
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/BadRequest'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Place with id not found
-                  code: 404
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/NotFound'
     delete:
       tags:
       - places
@@ -342,21 +299,12 @@ paths:
         explode: false
         schema:
           type: integer
-          example: 1
+          example: 4
       responses:
         "204":
           description: The resource was succesfully deleted.
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Place with id not found
-                  code: 404
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/NotFound'
   /places/{placeId}/reviews:
     get:
       tags:
@@ -381,19 +329,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reviews'
-              example: 
-                
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Place with id not found
-                  code: 404
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/NotFound'
     post:
       tags:
       - reviews
@@ -425,27 +362,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Place'
         "400":
-          description: Request body was not well formed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Bad request
-                  code: 400
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
-        "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                value:
-                  errorMessage: Place with id not found
-                  code: 404
-                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+          $ref: '#/components/responses/BadRequest'
   /places/{placeId}/reviews/{reviewId}:
     get:
       tags:
@@ -485,11 +402,7 @@ paths:
                 Review 5:
                  $ref: '#/components/examples/review5'
         "404":
-          description: The given resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     put:
       tags:
       - reviews
@@ -534,13 +447,9 @@ paths:
                 Review 2:
                  $ref: '#/components/examples/review2'
         "400":
-          description: Any parameter is not correct.
+          $ref: '#/components/responses/BadRequest'
         "404":
-          description: The given resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     delete:
       tags:
       - reviews
@@ -569,14 +478,8 @@ paths:
       responses:
         "204":
           description: Review successfully deleted
-        "400":
-          description: Any parameter is not correct
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
   /events:
     get:
       tags:
@@ -602,7 +505,6 @@ paths:
             type: string
             pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
           example: 2022-09-10 10:00
-            
       responses:
         "200":
           description: Returns a list of events
@@ -612,18 +514,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Events'
         "400":
-          description: Request body was not well formed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-                  
+          $ref: '#/components/responses/BadRequest'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/BadRequest'
     post:
       tags:
       - events
@@ -650,13 +543,7 @@ paths:
                 Event2:
                   $ref: '#/components/examples/Event2'
         "400":
-          description: One or more parameters are not correct
-        "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/BadRequest'
   /events/{eventId}:
     get:
       tags:
@@ -687,11 +574,7 @@ paths:
                 Event2:
                   $ref: '#/components/examples/Event2'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     put:
       tags:
       - events
@@ -715,16 +598,12 @@ paths:
             schema:
               $ref: '#/components/schemas/Event'
       responses:
-        "204":
-          description: Review successfully deleted
+        "200":
+          description: Event was succesfully updated
         "400":
-          description: Any parameter is not correct
+          $ref: '#/components/responses/BadRequest'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     delete:
       tags:
       - events
@@ -744,14 +623,8 @@ paths:
       responses:
         "204":
           description: Event successfully deleted
-        "400":
-          description: Any parameter is not correct
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
   /events/{eventId}/reviews:
     get:
       tags:
@@ -777,11 +650,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Reviews'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     post:
       tags:
       - reviews
@@ -813,13 +682,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Event'
         "400":
-          description: Any of the parameters are not correct
-        "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/BadRequest' 
   /events/{eventId}/reviews/{reviewId}:
     get:
       tags:
@@ -859,11 +722,7 @@ paths:
                 Review 2:
                  $ref: '#/components/examples/review2'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     put:
       tags:
       - reviews
@@ -908,13 +767,9 @@ paths:
                 Review 2:
                  $ref: '#/components/examples/review2'
         "400":
-          description: Any parameter is not correct
+          $ref: '#/components/responses/BadRequest'
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
     delete:
       tags:
       - reviews
@@ -943,14 +798,8 @@ paths:
       responses:
         "204":
           description: Review successfully deleted
-        "400":
-          description: Any parameter is not correct
         "404":
-          description: The given resource was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/NotFound'
 components:
   schemas:
     Accomodations:
@@ -1153,17 +1002,6 @@ components:
   responses:
     ResourceDeleted:
       description: The resource was succesfully deleted
-    NotFound:
-      description: The given resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            value:
-              errorMessage: Place with id not found
-              code: 404
-              documentation: https://student-compass-350106.appspot.com/api/docs/index.html
     BadRequest:
       description: Request body was not well formed
       content:
@@ -1174,6 +1012,17 @@ components:
             value:
               errorMessage: Bad request
               code: 400
+              documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+    NotFound:
+      description: The given resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            value:
+              errorMessage: Place with id not found
+              code: 404
               documentation: https://student-compass-350106.appspot.com/api/docs/index.html
   examples:
     Event1:

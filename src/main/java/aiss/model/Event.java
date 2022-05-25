@@ -79,8 +79,6 @@ public class Event {
 		return id;
 	}
 
-	
-
 	@JsonProperty("id")
 	public void setId(Integer id) {
 		this.id = id;
@@ -191,6 +189,7 @@ public class Event {
 		this.reviews = reviews;
 	}
 
+	@JsonIgnore
 	public void addReview(Review review) {
 		review.setId(reviewIndex);
 		this.reviews.put(reviewIndex, review);
