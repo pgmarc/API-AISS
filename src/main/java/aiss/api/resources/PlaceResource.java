@@ -58,7 +58,7 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
-			@QueryParam("categories") String categories,
+			@QueryParam("filter") String filter,
 			@QueryParam("order") String orderValue,
 			@QueryParam("placeId") Integer placeId,
 			@QueryParam("minRadius") Double minRadius,
@@ -77,11 +77,10 @@ public class PlaceResource {
 			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
 		}
 		
-		if (categories != null) {
-			places = PlacesUtil.filterPlacesByCategory(places, categories);
+		if (filter != null) {
+			places = PlacesUtil.filterPlaces(places, filter);
 		}
 		
-		System.out.println(orderValue);
 		if (orderValue != null) {
 			places.sort(PlacesUtil.parseSort(orderValue));
 		}
