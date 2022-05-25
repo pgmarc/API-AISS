@@ -1111,7 +1111,7 @@ components:
         name: This is an updated place
         email: updaetedTest@updatedtesting.com
         address: C.Update Test s/n
-        web: https://updatedfoobar.com
+        website: https://updatedfoobar.com
     Estanislao:
       description: Example of a Place with Accomodation
       value:
