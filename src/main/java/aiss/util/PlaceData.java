@@ -240,6 +240,109 @@ public class PlaceData {
 		place1.setCategory(PlaceCategory.GYM);
 		place1.setLocation(Coordinates.of(37.3460189387598, -5.981073975326615));
 		
+		Place place28 = new Place();
+		place28.setName("Sánchez-Pizjuán");
+		place28.setEmail("fundacion@sevillafc.es");
+		place28.setAddress("C. Sevilla Fútbol Club, 41005 Sevilla");
+		place28.setWebsite("https://sevillafc.es/el-club/ramon-sanchez-pizjuan");
+		place28.setCategory(PlaceCategory.STADIUM);
+		place28.setLocation(Coordinates.of(37.38397029952987, -5.971065147154966));
+		
+		Place place29 = new Place();
+		place29.setName("Fibes - Palacio de Congresos y Exposiciones Sevilla");
+		place29.setEmail("info@sevillacityoffice.es");
+		place29.setAddress("Av. Alcalde Luis Uruñuela, 1, 41020 Sevilla");
+		place29.setWebsite("https://home.fibes.es/");
+		place29.setCategory(PlaceCategory.CONGRESS);
+		place29.setLocation(Coordinates.of(37.40404096638718, -5.934864515736523));
+		
+		Place place30 = new Place();
+		place28.setName("Hospital Universitario Virgen del Rocío");
+		place28.setEmail("atencionciudadana.hg.huv.sspa@juntadeandalucia.es.");
+		place28.setAddress("Av. Manuel Siurot, S/n, 41013 Sevilla");
+		place28.setWebsite("https://www.hospitaluvrocio.es/");
+		place28.setCategory(PlaceCategory.HOSPITAL);
+		place28.setLocation(Coordinates.of(37.363610013961534, -5.9775810386218575));
+		
+		Place place31 = new Place();
+		place29.setName("Jefatura de Policía");
+		place29.setEmail("distrito9.pl@sevilla.org");
+		place29.setAddress("C. Clemente Hidalgo, 4, Local, 41005 Sevilla");
+		place29.setWebsite("https://www.sevilla.org/servicios/policia-local");
+		place29.setCategory(PlaceCategory.POLICE);
+		place29.setLocation(Coordinates.of(37.38493806149119, -5.959976375042552));
+		
+		Place place32 = new Place();
+		place28.setName("Catedral de Sevilla");
+		place28.setEmail("info@catedraldesevilla.es");
+		place28.setAddress("Av. de la Constitución, s/n, 41004 Sevilla");
+		place28.setWebsite("https://www.catedraldesevilla.es/");
+		place28.setCategory(PlaceCategory.TOURIST_ATTRACTION);
+		place28.setLocation(Coordinates.of(37.38310380725238, -5.990379038596782));
+		
+		Place place33 = new Place();
+		place29.setName("Galp - Estación de Servicio 24H");
+		place29.setEmail("atencionalcliente@galp.com");
+		place29.setAddress("C. Luis Montoto, 138, 41005 Sevilla");
+		place29.setWebsite("https://galp.com/es/mapa");
+		place29.setCategory(PlaceCategory.GAS_STATION);
+		place29.setLocation(Coordinates.of(37.38712039307478, -5.968592898117942));
+		
+		Place place34 = new Place();
+		place28.setName("Virgen del Rocio");
+		place28.setEmail(null);
+		place28.setAddress("Sevilla-Virgen del Rocio, 41013 Sevilla");
+		place28.setWebsite("https://www.renfe.com/es/es/cercanias/cercanias-sevilla");
+		place28.setCategory(PlaceCategory.TRAIN_STATION);
+		place28.setLocation(Coordinates.of(37.36290042841052, -5.976304607411748));
+		
+		Place place35 = new Place();
+		place29.setName("Sevilla - Estación Prado de San Sebastián");
+		place29.setEmail(null);
+		place29.setAddress("Sevilla - Estación Prado de San Sebastián, 41003 Sevilla");
+		place29.setWebsite("https://www.tussam.es/es");
+		place29.setCategory(PlaceCategory.BUS_STATION);
+		place29.setLocation(Coordinates.of(37.38289970491382, -5.986602043311963));
+		
+		Place place36 = new Place();
+		place28.setName("Parking Paseo de Colón");
+		place28.setEmail("info@parclick.com");
+		place28.setAddress(" P.º de Cristóbal Colón, 10, 41001 Sevilla");
+		place28.setWebsite("https://parclick.es/parking-sevilla/paseo-de-colon");
+		place28.setCategory(PlaceCategory.PARKING);
+		place28.setLocation(Coordinates.of(37.38721632601805, -6.003493612274087));
+		
+		Place place37 = new Place();
+		place29.setName("Taxi Sevilla Aeropuerto");
+		place29.setEmail("taxiaeropuertosevilla@gmail.com");
+		place29.setAddress("C. Antonio Susillo, 6, 41002 Sevilla");
+		place29.setWebsite("https://www.taxissevilla.com/");
+		place29.setCategory(PlaceCategory.TAXI_STAND);
+		place29.setLocation(Coordinates.of(37.40051754627751, -5.985377026393285));
+		
+		Place place38 = new Place();
+		place28.setName("San Bernardo");
+		place28.setEmail("atencion.cliente@metrodesevilla.es");
+		place28.setAddress("41018 Sevilla");
+		place28.setWebsite("https://www.metro-sevilla.es/");
+		place28.setCategory(PlaceCategory.SUBWAY_STATION);
+		place28.setLocation(Coordinates.of(37.37921478508821, -5.982531615934994));
+		
+		Place place39 = new Place();
+		place29.setName("Piscina Tiro De Línea");
+		place29.setEmail("informacion@imd.sevilla.org");
+		place29.setAddress("C. Lora del Río, s/n, 41001 Sevilla");
+		place29.setWebsite("https://imd.sevilla.org/");
+		place29.setCategory(PlaceCategory.UNDEFINED);
+		place29.setLocation(Coordinates.of(37.36858432026401, -5.974291870221682));
+		
+		Place place40 = new Place();
+		place29.setName("Basílica Santuario de María Auxiliadora");
+		place29.setEmail("basilica.trinidad@salesianos.edu");
+		place29.setAddress("C. María Auxiliadora, 41008 Sevilla");
+		place29.setWebsite("https://trinidad.salesianos.edu/basilica-maria-auxiliadora-2/");
+		place29.setCategory(PlaceCategory.CHURCH);
+		place29.setLocation(Coordinates.of(37.404759099886036, -5.981090022414422));
 		
 		
 		
@@ -270,6 +373,21 @@ public class PlaceData {
 		places.add(place25);
 		places.add(place26);
 		places.add(place27);
+		places.add(place28);
+		places.add(place29);
+		places.add(place30);
+		places.add(place31);
+		places.add(place32);
+		places.add(place33);
+		places.add(place34);
+		places.add(place35);
+		places.add(place36);
+		places.add(place37);
+		places.add(place38);
+		places.add(place39);
+		places.add(place40);
+		
+		
 		Accomodation acc1 = new Accomodation(
 				500, 
 				new HashMap<>(),
