@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -239,12 +240,14 @@ public class PlaceResource {
 		if(accommodation.getType() == null)
 			throw new BadEntityRequestException("The accommodation type must be specified");
 		
-		if(!accommodation.getPayments().isEmpty())
+		if(accommodation.getPayments() != null)
 			throw new BadEntityRequestException("Accommodation payments must be added separately");
-			
+		accommodation.setPayments(new HashMap<>());
+		
+		System.out.println("Added with type: " + accommodation.getType());
 		placeRepository.addAccomodation(placeId, accommodation);
 		
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getAccomodation");
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation");
 		URI uri = ub.build(placeId);
 		ResponseBuilder response = Response.created(uri);
 		response.entity(accommodation);			
@@ -255,12 +258,12 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodation(@PathParam("placeId") Integer placeId, Accomodation accommodation) {
+	public Response updateAccomodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, Accomodation accommodation) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
 		if(place == null)
-			throw new BadEntityRequestException("The place with id=" + placeId +" not found");
+			throw new EntityNotFoundException("The place with id=" + placeId +" was not found");
 		
 		Accomodation oldAccommodation = place.getAccomodation();
 		
@@ -281,7 +284,11 @@ public class PlaceResource {
 		if(accommodation.getType() != null)
 			oldAccommodation.setType(accommodation.getType());
 		
-		return Response.status(Status.NO_CONTENT).entity(oldAccommodation).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation");
+		URI uri = ub.build(placeId);
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(place.getAccomodation());			
+		return response.build();
 	}
 	
 	@DELETE
