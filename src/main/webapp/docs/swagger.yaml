@@ -231,6 +231,59 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - places
+      summary: Update a place by id
+      description: Update place information given the place id
+      operationId: updatePlace
+      parameters:
+      - name: placeId
+        in: path
+        description: Id of the place
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 4
+      requestBody:
+        description: Response body of the data that wants to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+            examples:
+              Update Test:
+                $ref: '#/components/examples/UpdateTest'
+              Test:
+                $ref: '#/components/examples/TestPlace'
+      responses:
+        "204":
+          description: Place was updated sucessfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+              examples:
+                Place1:
+                  $ref: '#/components/examples/CatedralSevilla'
+                Place2:
+                  $ref: '#/components/examples/TestPlace'
+                Estanislao:
+                  $ref: '#/components/examples/Estanislao'
+        "400":
+          description: Bad request from the client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       tags:
       - places
@@ -595,7 +648,7 @@ paths:
       - reviews
       summary: Get all reviews from a event by id
       description: Get all reviews from a event by id
-      operationId: getAllReviews
+      operationId: getAllReviewsEvents
       parameters:
       - name: eventId
         in: path
@@ -624,7 +677,7 @@ paths:
       - reviews
       summary: Creates new reviews
       description: Creates new reviews with the given payload to the event
-      operationId: addReviews
+      operationId: addReviewsEvent
       parameters:
       - name: eventId
         in: path
@@ -663,7 +716,7 @@ paths:
       - reviews
       summary: Get the specified review
       description: Get the specified review from a event by id
-      operationId: getReview
+      operationId: getReviewEvent
       parameters:
       - name: eventId
         in: path
@@ -701,7 +754,7 @@ paths:
       - reviews
       summary: Update the specified review
       description: Update the specified review
-      operationId: updateReview
+      operationId: updateReviewEvent
       parameters:
       - name: eventId
         in: path
@@ -743,9 +796,9 @@ paths:
       - reviews
       summary: Deletes a review
       description: Deletes the review with the given id
-      operationId: deleteReview
+      operationId: deleteReviewEvent
       parameters:
-      - name: placeId
+      - name: eventId
         in: path
         description: Id of the place
         required: true
@@ -1045,13 +1098,20 @@ components:
     TestPlace:
       description: Example of Imaginary place
       value:
-        name: Esto es un test de un lugar
+        name: This is a test of place
         email: test@testing.com
         address: C. Test s/n
         web: https://foobar.com
         location:
           latitude: 25.000777231550654
           longitude: -71.00017170317003
+    UpdateTest:
+      description: Example of Imaginary place
+      value:
+        name: This is an updated place
+        email: updaetedTest@updatedtesting.com
+        address: C.Update Test s/n
+        web: https://updatedfoobar.com
     Estanislao:
       description: Example of a Place with Accomodation
       value:

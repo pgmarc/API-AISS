@@ -196,9 +196,9 @@ public class PlaceResource {
 	
 	//Accommodations
 	@GET
-	@Path("{id}/accommodation")
+	@Path("/{placeId}/accommodation")
 	@Produces("application/json")
-	public Response getAccommodation(@PathParam("id") Integer placeId) {
+	public Response getAccommodation(@PathParam("placeId") Integer placeId) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
@@ -214,10 +214,10 @@ public class PlaceResource {
 	}
 	
 	@POST
-	@Path("/{id}/accommodation")
+	@Path("/{placeId}/accommodation")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response addAccommodation(@Context UriInfo uriInfo, @PathParam("id") Integer placeId, 
+	public Response addAccommodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
 			Accomodation accommodation) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -252,10 +252,10 @@ public class PlaceResource {
 	}
 	
 	@PUT
-	@Path("/{id}/accommodation")
+	@Path("/{placeId}/accommodation")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodation(@PathParam("id") Integer placeId, Accomodation accommodation) {
+	public Response updateAccomodation(@PathParam("placeId") Integer placeId, Accomodation accommodation) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
@@ -285,9 +285,9 @@ public class PlaceResource {
 	}
 	
 	@DELETE
-	@Path("/{id}/accommodation")
+	@Path("/{placeId}/accommodation")
 	@Produces("application/json")
-	public Response deleteAccommodation(@PathParam("id") Integer placeId) {
+	public Response deleteAccommodation(@PathParam("placeId") Integer placeId) {
 		Place place = placeRepository.getPlace(placeId);
 		if (place == null)
 			throw new EntityNotFoundException("The place with id=" + placeId + " was not found");
@@ -300,7 +300,7 @@ public class PlaceResource {
 	
 	//PAYMENTS
 	@GET
-	@Path("{placeId}/accommodation/payment/{payId}")
+	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Produces("application/json")
 	public Response getAccommodationPayment(@PathParam("placeId") Integer placeId, 
 			@PathParam("payId") Integer paymentId) {
@@ -321,11 +321,11 @@ public class PlaceResource {
 	}
 	
 	@POST
-	@Path("/{id}/accommodation/payment")
+	@Path("/{placeId}/accommodation/payment")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response addAccommodationPayment(@Context UriInfo uriInfo, @PathParam("id") Integer placeId, 
-			AccomodationPayment payment) {
+	public Response addAccommodationPayment(@Context UriInfo uriInfo, 
+			@PathParam("placeId") Integer placeId, AccomodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
@@ -365,10 +365,10 @@ public class PlaceResource {
 	}
 	
 	@PUT
-	@Path("/{id}/accommodation/payment/{payId}")
+	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodationPayment(@PathParam("id") Integer placeId, 
+	public Response updateAccomodationPayment(@PathParam("placeId") Integer placeId, 
 			@PathParam("payId") Integer paymentId, AccomodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -408,9 +408,9 @@ public class PlaceResource {
 	}
 	
 	@DELETE
-	@Path("/{id}/accommodation/payment/{payId}")
+	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Produces("application/json")
-	public Response deleteAccommodationPayment(@PathParam("id") Integer placeId, 
+	public Response deleteAccommodationPayment(@PathParam("placeId") Integer placeId, 
 			@PathParam("payId") Integer paymentId) {
 		Place place = placeRepository.getPlace(placeId);
 		if (place == null)
@@ -424,9 +424,9 @@ public class PlaceResource {
 	
 	//REVIEWS
 	@GET
-	@Path("/{id}/reviews")
+	@Path("/{placeId}/reviews")
 	@Produces("application/json")
-	public Response getAllReviews(@PathParam("id") Integer placeId,
+	public Response getAllReviews(@PathParam("placeId") Integer placeId,
 			@QueryParam("rating")Double rating,
 			@QueryParam("word")String word) {
 		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
