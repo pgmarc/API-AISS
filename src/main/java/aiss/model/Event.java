@@ -35,6 +35,10 @@ public class Event {
 	private String website;
 	@JsonProperty("price")
 	private Double price;
+	//TODO Change documentation organizers -> organizators (change name?)
+	//TODO Add examples to post events in request body
+	//TODO Add examples to post reviews in request body
+	//TODO Add add place to event in documentation
 	@JsonProperty("organizators")
 	private String organizators;
 	@JsonProperty("place")
