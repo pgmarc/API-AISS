@@ -522,8 +522,17 @@ paths:
             schema:
               $ref: '#/components/schemas/Review'
       responses:
-        "204":
-          description: Review successfully deleted.
+        "200":
+          description: Review successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                Review 3:
+                 $ref: '#/components/examples/review3'
+                Review 2:
+                 $ref: '#/components/examples/review2'
         "400":
           description: Any parameter is not correct.
         "404":
@@ -887,8 +896,17 @@ paths:
             schema:
               $ref: '#/components/schemas/Review'
       responses:
-        "204":
-          description: Review successfully deleted
+        "200":
+          description: Review successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                Review 3:
+                 $ref: '#/components/examples/review3'
+                Review 2:
+                 $ref: '#/components/examples/review2'
         "400":
           description: Any parameter is not correct
         "404":

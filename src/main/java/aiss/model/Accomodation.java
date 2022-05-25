@@ -1,15 +1,15 @@
 package aiss.model;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import aiss.exceptions.BadEntityRequestException;
 import aiss.model.AccomodationPayment.PaymentPeriod;
 import aiss.util.EnumValidator;
 
@@ -56,11 +56,16 @@ public class Accomodation {
 		this.numberOfRooms = numberOfRooms;
 	}
 
-	@JsonProperty("payments")
+	@JsonIgnore
 	public Map<Integer,AccomodationPayment> getPayments() {
 		return payments;
 	}
 
+	@JsonProperty("payments")
+	public Collection<AccomodationPayment> getCollectionPayments() {
+		return payments.values();
+	}
+	
 	@JsonProperty("payment")
 	public void setPayments(Map<Integer,AccomodationPayment> payments) {
 		this.payments = payments;
@@ -113,6 +118,7 @@ public class Accomodation {
 				&& Objects.equals(numberOfRooms, other.numberOfRooms);
 	}
 
+	@JsonIgnore
 	public Double getMinMonthlyPrice() {
 		return this.payments.entrySet().stream()
 				.map(e->e.getValue())
@@ -121,6 +127,7 @@ public class Accomodation {
 				.orElse(null);
 	}
 	
+	@JsonIgnore
 	public Double getMaxMonthlyPrice() {
 		return this.payments.entrySet().stream()
 				.map(e->e.getValue())

@@ -1,5 +1,9 @@
 package aiss.model;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+
+import aiss.util.EnumValidator;
+
 public enum PlaceCategory {
 	SUPERMARKET,
 	PHARMACY,
@@ -28,4 +32,12 @@ public enum PlaceCategory {
 	TAXI_STAND,
 	SUBWAY_STATION,
 	UNDEFINED;
+	
+	@JsonCreator
+	public static PlaceCategory fromString(String key) {
+		
+		String newKey = key.toUpperCase();
+		return key == null || !EnumValidator.isValidEnum(PlaceCategory.class, newKey)?
+				null : PlaceCategory.valueOf(key.toUpperCase());
+	} 
 }

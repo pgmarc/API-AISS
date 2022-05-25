@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,8 @@ import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
 import aiss.util.PlacesUtil;
+import aiss.util.ReviewUtils;
+import aiss.util.Sorting;
 import aiss.util.validation.PlaceCoordinatesValidation;
 
 @Path("/places")
@@ -58,7 +61,7 @@ public class PlaceResource {
 	@Produces("application/json")
 	public Response getAllPlaces(@QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit,
-			@QueryParam("categories") String categories,
+			@QueryParam("filter") String filter,
 			@QueryParam("order") String orderValue,
 			@QueryParam("placeId") Integer placeId,
 			@QueryParam("minRadius") Double minRadius,
@@ -77,13 +80,12 @@ public class PlaceResource {
 			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
 		}
 		
-		if (categories != null) {
-			places = PlacesUtil.filterPlacesByCategory(places, categories);
+		if (filter != null) {
+			places = PlacesUtil.filterPlaces(places, filter);
 		}
 		
-		System.out.println(orderValue);
 		if (orderValue != null) {
-			places.sort(PlacesUtil.parseSort(orderValue));
+			places.sort(Sorting.parsePlaceSort(orderValue));
 		}
 		
 		places = PlacesUtil.getPagination(places, limit, offset);
@@ -124,6 +126,9 @@ public class PlaceResource {
 			throw new BadEntityRequestException("Invalid values for latitude and longitude."
 			+ " Latitude should be within [-90, 90]  and longitude within [-180, 180]");
 		
+		if(place.getCategory() == null)
+			place.setCategory(PlaceCategory.UNDEFINED);
+			
 		placeRepository.addPlace(place);
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getPlace");
@@ -137,7 +142,7 @@ public class PlaceResource {
 	@Path("/{id}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updatePlace(@PathParam("id") Integer placeId, Place place) {
+	public Response updatePlace(@Context UriInfo uriInfo, @PathParam("id") Integer placeId, Place place) {
 		Place oldPlace = placeRepository.getPlace(placeId);
 		
 		if (oldPlace == null)
@@ -179,7 +184,11 @@ public class PlaceResource {
 
 		placeRepository.updatePlace(oldPlace);
 		
-		return Response.status(Status.NO_CONTENT).entity(oldPlace).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+		URI uri = ub.build();
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(oldPlace);			
+		return response.build();
 	}
 	
 	@DELETE
@@ -285,7 +294,7 @@ public class PlaceResource {
 			oldAccommodation.setType(accommodation.getType());
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation");
-		URI uri = ub.build(placeId);
+		URI uri = ub.build();
 		ResponseBuilder response = Response.ok(uri);
 		response.entity(place.getAccomodation());			
 		return response.build();
@@ -375,7 +384,7 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodationPayment(@PathParam("placeId") Integer placeId, 
+	public Response updateAccomodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
 			@PathParam("payId") Integer paymentId, AccomodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -411,7 +420,11 @@ public class PlaceResource {
 		if(payment.getRoomType() != null)
 			oldPayment.setRoomType(payment.getRoomType());
 		
-		return Response.status(Status.NO_CONTENT).entity(payment).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation/{payId}");
+		URI uri = ub.build(oldPayment.getId());
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(oldPayment);			
+		return response.build();
 	}
 	
 	@DELETE
@@ -434,9 +447,8 @@ public class PlaceResource {
 	@Path("/{placeId}/reviews")
 	@Produces("application/json")
 	public Response getAllReviews(@PathParam("placeId") Integer placeId,
-			@QueryParam("rating")Double rating,
-			@QueryParam("word")String word) {
-		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
+			@QueryParam("filter") String filter, @QueryParam("sort") String sort) {
+		List<Review> reviews= placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
 		
 		if (place == null)
@@ -445,6 +457,12 @@ public class PlaceResource {
 		if(reviews == null || reviews.isEmpty())
 			throw new EntityNotFoundException("This place has no reviews yet");
 
+		if(filter != null)
+			reviews = ReviewUtils.filterReviews(reviews, filter);
+		
+		if(sort != null)
+			reviews.sort(Sorting.parseReviewSort(sort));
+		
 		return Response.status(Status.OK).entity(reviews).build();
 	}
 
