@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,8 @@ import aiss.model.Review;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.model.repository.PlaceRepository;
 import aiss.util.PlacesUtil;
+import aiss.util.ReviewUtils;
+import aiss.util.Sorting;
 import aiss.util.validation.PlaceCoordinatesValidation;
 
 @Path("/places")
@@ -82,7 +85,7 @@ public class PlaceResource {
 		}
 		
 		if (orderValue != null) {
-			places.sort(PlacesUtil.parseSort(orderValue));
+			places.sort(Sorting.parsePlaceSort(orderValue));
 		}
 		
 		places = PlacesUtil.getPagination(places, limit, offset);
@@ -444,9 +447,8 @@ public class PlaceResource {
 	@Path("/{placeId}/reviews")
 	@Produces("application/json")
 	public Response getAllReviews(@PathParam("placeId") Integer placeId,
-			@QueryParam("rating")Double rating,
-			@QueryParam("word")String word) {
-		Collection<Review> reviews= placeRepository.getAllReviews(placeId);
+			@QueryParam("filter") String filter, @QueryParam("sort") String sort) {
+		List<Review> reviews= placeRepository.getAllReviews(placeId);
 		Place place= placeRepository.getPlace(placeId);
 		
 		if (place == null)
@@ -455,6 +457,12 @@ public class PlaceResource {
 		if(reviews == null || reviews.isEmpty())
 			throw new EntityNotFoundException("This place has no reviews yet");
 
+		if(filter != null)
+			reviews = ReviewUtils.filterReviews(reviews, filter);
+		
+		if(sort != null)
+			reviews.sort(Sorting.parseReviewSort(sort));
+		
 		return Response.status(Status.OK).entity(reviews).build();
 	}
 

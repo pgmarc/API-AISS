@@ -1,6 +1,7 @@
 package aiss.model.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import aiss.model.Accomodation;
 import aiss.model.AccomodationPayment;
@@ -17,7 +18,7 @@ public interface PlaceRepository {
 	public void deletePlace(Integer placeId);
 	public Collection<Place> getPlacesOnRadius(Integer placeId, Double minRadius, Double maxRadius);
 	
-	public Collection<Review> getAllReviews(Integer placeId);
+	public List<Review> getAllReviews(Integer placeId);
 	public Review getReview(Integer placeId, Integer reviewId);
 	public void addReview(Integer placeId, Review review);
 	public void updateReview(Integer placeId, Review review);
