@@ -480,6 +480,143 @@ paths:
           description: Review successfully deleted
         "404":
           $ref: '#/components/responses/NotFound'
+  /places/{placeId}/accommodation:
+    parameters:
+      - name: placeId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags: 
+        - accommodations
+      summary: Gets the accommodation data from a place with accommodation
+      responses:
+        "200":
+          description: Successfully retrieved accommodation data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accomodations'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    post:
+      tags: 
+        - accommodations
+      summary: Creates accommodation data in place
+      description: Adds the specified accommodation data to the place. Note that payments should be added through their methods and not through this operation.
+      requestBody:
+        $ref: '#/components/requestBodies/Accommodation'
+      responses:
+        "201":
+          description: Successfully added accommodation data to the place
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    put:
+      tags: 
+        - accommodations
+      summary: Updates the accommodation data of a place
+      requestBody:
+        $ref: '#/components/requestBodies/Accommodation'
+      responses:
+        "200":
+          description: Successfully updated the accommodation data of the place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accomodations'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    delete:
+      tags: 
+        - accommodations
+      summary: Deletes the accomodation data of a place
+      responses:
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "204":
+          $ref: '#/components/responses/ResourceDeleted'
+  /places/{placeId}/accommodation/payment:
+    parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema:
+            type: integer
+    get:
+      summary: Gets all payments of the place's accommodation
+      tags:
+        - accommodations
+      responses:
+        "200":
+          description: Successfully returning all payments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+    post:
+      summary: Creates a new payment in the place's accommodation
+      tags:
+        - accommodations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccomodationPayments'
+      responses:
+        "201":
+          description: Successfully created payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+  /places/{placeId}/accommodation/payment/{payId}:
+    parameters:
+      - name: placeId
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: payId
+        in: path
+        required: true
+        schema:
+          type: integer
+    put:
+      tags:
+        - accommodations
+      summary: Updates the specified payment from the place's accommodation
+      responses:
+        "201":
+          description: Successfully updated payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    delete:
+      tags: 
+        - accommodations
+      summary: Deletes a payment from the place's accommodation
+      responses:
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "204":
+          $ref: '#/components/responses/ResourceDeleted'
+      
   /events:
     get:
       tags:
@@ -929,18 +1066,15 @@ paths:
                   $ref: '#/components/examples/Event2'
         "404":
           $ref: '#/components/responses/NotFound'
-          
+       
 components:
   schemas:
     Accomodations:
-      required:
-      - numberOfRooms
-      - payments
-      - type
       type: object
       properties:
         numberOfRooms:
           type: integer
+          example: 500
         type:
           type: string
           enum:
@@ -953,14 +1087,16 @@ components:
       nullable: true
     AccomodationPayments:
       required:
-      - description
-      - mealService
-      - paymentPeriod
-      - price
+        - description
+        - price
+        - paymentPeriod
+        - mealService
+        - roomType
       type: object
       properties:
         description:
           type: string
+          example: Full year stay with gym access, weekly cleaning and full meal service 
         price:
           type: number
           format: double
@@ -976,6 +1112,12 @@ components:
           - ALL_MEALS
           - TWO_MEALS
           - SELF_CATERING
+        roomType:
+          type: string
+          enum:
+          - INDIVIDUAL
+          - DOUBLE
+          - OTHER
     Event:
       required:
       - contactEmail
@@ -1297,3 +1439,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Place'
+    Accommodation:
+      content:
+        application/json:
+          schema:
+            required:
+              - numberOfRooms
+              - type
+            type: object
+            properties:
+              numberOfRooms:
+                type: integer
+                example: 500
+              type:
+                type: string
+                enum:
+                - RESIDENCE
+                - FLAT
