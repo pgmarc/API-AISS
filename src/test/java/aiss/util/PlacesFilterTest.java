@@ -27,9 +27,9 @@ public class PlacesFilterTest {
 
 	@Test
 	public void EmptyListWithOnlyCommas() {
-		String categories = ",,,";
+		String categories = ";;;";
 		Set<PlaceCategory> expected = Set.of(PlaceCategory.UNDEFINED);
-		Set<PlaceCategory> result = PlacesUtil.parseCategoriesToFilter(categories);
+		Set<PlaceCategory> result = PlacesUtil.getCategoriesToFilter(categories);
 		assertEquals(expected, result);
 	}
 	
@@ -43,7 +43,7 @@ public class PlacesFilterTest {
 				
 		Set<PlaceCategory> expected = Set.of(PlaceCategory.values());
 		
-		Set<PlaceCategory> result = PlacesUtil.parseCategoriesToFilter(categories);
+		Set<PlaceCategory> result = PlacesUtil.getCategoriesToFilter(categories);
 		assertEquals(expected, result);
 	}
 	
@@ -57,7 +57,7 @@ public class PlacesFilterTest {
 				
 		Set<PlaceCategory> expected = Set.of(PlaceCategory.values());
 		
-		Set<PlaceCategory> result = PlacesUtil.parseCategoriesToFilter(categories);
+		Set<PlaceCategory> result = PlacesUtil.getCategoriesToFilter(categories);
 		assertEquals(expected, result);
 	}
 	
@@ -71,7 +71,7 @@ public class PlacesFilterTest {
 				
 		Set<PlaceCategory> expected = Set.of(PlaceCategory.values());
 		
-		Set<PlaceCategory> result = PlacesUtil.parseCategoriesToFilter(categories);
+		Set<PlaceCategory> result = PlacesUtil.getCategoriesToFilter(categories);
 		assertEquals(expected, result);
 	}
 	
@@ -81,7 +81,7 @@ public class PlacesFilterTest {
 		
 		Set<PlaceCategory> expected = Set.of(PlaceCategory.UNDEFINED);
 		
-		Set<PlaceCategory> result = PlacesUtil.parseCategoriesToFilter(categories);
+		Set<PlaceCategory> result = PlacesUtil.getCategoriesToFilter(categories);
 		assertEquals(expected, result);
 	}
 	
@@ -93,7 +93,7 @@ public class PlacesFilterTest {
 				PlaceCategory.UNDEFINED,
 				PlaceCategory.UNIVERSITY);
 		
-		Set<PlaceCategory> result = PlacesUtil.parseCategoriesToFilter(categories);
+		Set<PlaceCategory> result = PlacesUtil.getCategoriesToFilter(categories);
 		assertEquals(expected, result);
 	}
 	

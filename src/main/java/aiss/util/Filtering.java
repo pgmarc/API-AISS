@@ -12,7 +12,7 @@ public class Filtering {
 	
 	public static final Map<String, Function<String, Predicate<Place>>> placeFilters = Map.ofEntries(
 		
-			Map.entry("type", toFilter->(p->PlacesUtil.parseCategoriesToFilter(toFilter).contains(p.getCategory()))),
+			Map.entry("type", toFilter->(p->PlacesUtil.getCategoriesToFilter(toFilter).contains(p.getCategory()))),
 			
 			Map.entry("name", toFilter-> (p->p.getName().toLowerCase().contains(toFilter.toLowerCase()))),
 			

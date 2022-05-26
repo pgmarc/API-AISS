@@ -1,15 +1,10 @@
 package aiss.util;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import aiss.model.Accomodation;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
 
@@ -21,41 +16,30 @@ public class PlacesUtil {
  	}
 	
 	public static PlaceCategory getValidPlaceCategory(String categoryName) {
-		String categoryNameUppercased = parseCategoryName(categoryName).toUpperCase();
 		
-		if (categoryNameUppercased.isEmpty() || !isAValidPlaceCategory(categoryNameUppercased)) {
+		if (!EnumValidator.isValidEnum(PlaceCategory.class, categoryName.toUpperCase())) {
 			return  PlaceCategory.UNDEFINED;
 		} 
 		
-		return PlaceCategory.valueOf(categoryNameUppercased);
+		return PlaceCategory.valueOf(categoryName.toUpperCase());
 	}
 	
-	public static Set<PlaceCategory> parseCategoriesToFilter(String categories) {
-		Set<PlaceCategory> categoriesToFilter = new HashSet<>();
+	public static Set<PlaceCategory> getCategoriesToFilter(String categories) {
 		List<String> categoryNames = getListOfCategoryNamesSeparatedBySemicolon(categories);
-		if (categoryNames.isEmpty()) {
-			return Set.of(PlaceCategory.UNDEFINED);
-		}
+		Set<PlaceCategory> placeCategories = categoryNames.stream()
+				.map(categoryName -> getValidPlaceCategory(categoryName))
+				.collect(Collectors.toSet());
 		
-		for (String categoryName : categoryNames) {
-			PlaceCategory category = getValidPlaceCategory(categoryName.trim());
-			categoriesToFilter.add(category);
-		}
+		if (categories == null || categories.isEmpty() || categories.isBlank())
+			return Set.of(PlaceCategory.values());
 		
-		return categoriesToFilter;
-	}
-	
-	private static boolean isAValidPlaceCategory(String categoryName) {
-		return getPlacesCategoriesByName().contains(categoryName);
-	}
-	
-	private static String parseCategoryName(String categoryName) {
-		return Optional.ofNullable(categoryName).orElse("");
-	}
-	
-	private static List<String> getPlacesCategoriesByName() {
-		return Place.getPlaceCategories().stream()
-				.map(category -> category.toString()).collect(Collectors.toList());
+		if (placeCategories.isEmpty())
+			return Set.of(PlaceCategory.values());
+		
+		if (placeCategories.size() == 1 && placeCategories.contains(PlaceCategory.UNDEFINED))
+			return Set.of(PlaceCategory.values());
+		
+		return placeCategories; 
 	}
 	
 	private static List<String> getListOfCategoryNamesSeparatedBySemicolon(String categories) {
@@ -67,10 +51,10 @@ public class PlacesUtil {
 	}
 	
 	public static List<Place> filterPlacesByCategory(List<Place> places, String categories) {
-		Set<PlaceCategory> categoriesToFilter = parseCategoriesToFilter(categories);
+		Set<PlaceCategory> categoriesToFilter = getCategoriesToFilter(categories);
 		return places.stream()
-				.filter(place -> 
-				categoriesToFilter.contains(place.getCategory())).collect(Collectors.toList());
+				.filter(place -> categoriesToFilter.contains(place.getCategory()))
+				.collect(Collectors.toList());
 	}
 	
 	public static List<Place> filterPlaces(List<Place> places, String filters) {

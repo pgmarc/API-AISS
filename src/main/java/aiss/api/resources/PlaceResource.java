@@ -80,7 +80,7 @@ public class PlaceResource {
 			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
 		
 		if (category != null)
-			places = PlacesUtil.filterPlaces(places, category);
+			places = PlacesUtil.filterPlacesByCategory(places, category);
 		
 		if (orderValue != null)
 			places.sort(Sorting.parsePlaceSort(orderValue));
