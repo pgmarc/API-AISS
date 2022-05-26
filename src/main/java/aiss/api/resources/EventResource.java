@@ -71,10 +71,10 @@ public class EventResource {
 		String currentDatePlusMonthString = DateValidation.currentDatePlusMonthFormated();
 		
 		if (initialDateString != null && !DateValidation.validDate(initialDateString))
-			throw new BadEntityRequestException("Bad formated initialDate");
+			throw new BadEntityRequestException("Invalid format for initialDate");
 		
-		if (initialDateString != null && !DateValidation.validDate(finalDateString))
-			throw new BadEntityRequestException("Bad formated initialDate");
+		if (finalDateString != null && !DateValidation.validDate(finalDateString))
+			throw new BadEntityRequestException("Invalid format for finalDate");
 		
 		String initialDate = Optional.ofNullable(initialDateString).orElse(currentDateString);
 		String finalDate = Optional.ofNullable(finalDateString).orElse(currentDatePlusMonthString);
@@ -125,8 +125,8 @@ public class EventResource {
 		if (event.getContactEmail() == null || event.getContactEmail().isEmpty() || event.getContactEmail().isBlank())
 			throw new BadEntityRequestException("The contact email of an event must have a value.");
 		
-		if (event.getOrganizators() == null || event.getOrganizators().isEmpty() || event.getOrganizators().isBlank())
-			throw new BadEntityRequestException("The organizators of an event must not be null,"
+		if (event.getOrganizers() == null || event.getOrganizers().isEmpty() || event.getOrganizers().isBlank())
+			throw new BadEntityRequestException("The organizers of an event must not be null,"
 					+ " has to be managed by someone");
 		
 
@@ -179,12 +179,12 @@ public class EventResource {
 			oldEvent.setDate(event.getLocalDateTime());
 		
 		
-		if (event.getOrganizators() != null || 
-		 (event.getOrganizators().isEmpty() || event.getOrganizators().isBlank()))
+		if (event.getOrganizers() != null || 
+		 (event.getOrganizers().isEmpty() || event.getOrganizers().isBlank()))
 			throw new BadEntityRequestException("An event must have someone that manages the event");
 		
-		if (event.getOrganizators() != null)
-			oldEvent.setOrganizators(event.getOrganizators());
+		if (event.getOrganizers() != null)
+			oldEvent.setOrganizers(event.getOrganizers());
 		
 		
 		eventRepository.updateEvent(oldEvent);

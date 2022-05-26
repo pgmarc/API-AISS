@@ -39,8 +39,8 @@ public class Event {
 	//TODO Add examples to post events in request body
 	//TODO Add examples to post reviews in request body
 	//TODO Add add place to event in documentation
-	@JsonProperty("organizators")
-	private String organizators;
+	@JsonProperty("organizers")
+	private String organizers;
 	@JsonProperty("place")
 	private Place place;
 	@JsonProperty("reviews")
@@ -53,7 +53,7 @@ public class Event {
 		this.price = price;
 		this.date = date;
 		this.contactEmail = contactEmail;
-		this.organizators = organizators;
+		this.organizers = organizators;
 	}
 	
 	public Event(String name, Double price, String contactEmail, String organizators) {
@@ -61,7 +61,7 @@ public class Event {
 		this.name = name;
 		this.price = price;
 		this.contactEmail = contactEmail;
-		this.organizators = organizators;
+		this.organizers = organizators;
 	}
 	
 	public Event() {
@@ -158,14 +158,14 @@ public class Event {
 		this.price = price;
 	}
 	
-	@JsonProperty("organizators")
-	public String getOrganizators() {
-		return organizators;
+	@JsonProperty("organizers")
+	public String getOrganizers() {
+		return organizers;
 	}
 	
-	@JsonProperty("organizators")
-	public void setOrganizators(String organizators) {
-		this.organizators = organizators;
+	@JsonProperty("organizers")
+	public void setOrganizers(String organizers) {
+		this.organizers = organizers;
 	}
 	
 	@JsonProperty("place")
@@ -219,7 +219,7 @@ public class Event {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, name, organizators, website);
+		return Objects.hash(date, name, organizers, website);
 	}
 
 	@Override
@@ -232,13 +232,13 @@ public class Event {
 			return false;
 		Event other = (Event) obj;
 		return Objects.equals(date, other.date) && Objects.equals(name, other.name)
-				&& Objects.equals(organizators, other.organizators) && Objects.equals(website, other.website);
+				&& Objects.equals(organizers, other.organizers) && Objects.equals(website, other.website);
 	}
 
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date=" + date + ", email="
 				+ contactEmail + ", website=" + website + "price=" + price + ", organizators="
-				+ organizators + "]";
+				+ organizers + "]";
 	}
 }

@@ -798,6 +798,138 @@ paths:
           description: Review successfully deleted
         "404":
           $ref: '#/components/responses/NotFound'
+  /events/{eventId}/place:
+    get:
+      tags: 
+        - events
+      summary: Get a place of an event
+      description: Get a place of an event given the event id
+      operationId: getEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Values retrieved of a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+              examples:
+                Place 1:
+                  $ref: '#/components/examples/Estanislao'
+                Event2:
+                  $ref: '#/components/examples/CatedralSevilla'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: 
+        - events
+      summary: Delete a place of an event
+      description: Get a place of an event given the event id
+      operationId: deleteEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "204":
+          $ref: '#/components/responses/ResourceDeleted'
+        "404":
+          $ref: '#/components/responses/NotFound'
+  /events/{eventId}/place/{placeId}:
+    post:
+      tags: 
+        - events
+      summary: Add a place to an event
+      description: Add a place to an event given the event id and a place id
+      operationId: addEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+        - name: placeId
+          in: path
+          description: Id of the place
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "201":
+          description: Place succesfully added to the event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event 1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: 
+        - events
+      summary: Update the place holding event
+      description: Update the place of an event given the event id and a place id
+      operationId: updateEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+        - name: placeId
+          in: path
+          description: Id of the place
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Place succesfully added to the event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event 1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "404":
+          $ref: '#/components/responses/NotFound'
+          
 components:
   schemas:
     Accomodations:
@@ -851,6 +983,7 @@ components:
       - name
       - organizators
       - price
+      - organizers
       type: object
       properties:
         name:
@@ -858,7 +991,8 @@ components:
         description:
           type: string
         price:
-          type: integer
+          type: number
+          format: double
         date:
           type: string
           format: date-time
@@ -868,6 +1002,12 @@ components:
           type: string 
         organizers:
           type: string
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+        place:
+          $ref: '#/components/schemas/Place'
     Events:
       type: array
       items:
@@ -944,12 +1084,19 @@ components:
           nullable: true
         accomodation:
           $ref: '#/components/schemas/Accomodations'
-        location:
-          $ref: '#/components/schemas/Coordinates'
+        rating:
+          type: number
+          format: double
+          description: Average rating of a place
+          readOnly: true
         reviews:
           type: array
           items:
-            $ref: '#/components/schemas/Reviews'
+            $ref: '#/components/schemas/Review'
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        accommodation:
+          $ref: '#/components/schemas/Accomodations'
     Places:
       type: array
       items:
@@ -991,7 +1138,8 @@ components:
           type: string
           description: Cause of the error
         code:
-          type: number
+          type: integer
+          format: int32
           description: HTTP status code of the response
         documentation:
           type: string
@@ -1033,9 +1181,9 @@ components:
         date: 2022-09-17 21:30
         website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
         contactEmail: taquilla@teatrodelamaestranza.es
-        types: music
-        transport: bus
         organizers: La Maestranza
+        reviews: []
+        place: null
     Event2:
       summary: Segio Dalma's Concert
       description: Example the concert of Sergio Dalma
@@ -1046,9 +1194,9 @@ components:
         date: 2022-05-21 21:00
         website: https://www.sergiodalma.es/event/sevilla/
         contactEmail: info.cite@eulen.com
-        types: music
-        transport: bus
         organizers: Cartuja Center
+        reviews: []
+        place: null
     CatedralSevilla:
       summary: La catedral de sevilla
       description: Example the seville cathedral
@@ -1128,17 +1276,15 @@ components:
     review4: 
       description: Example of a review
       value:
-        username: Beni123
-        description: Increible relación calidad/precio en la comida, 
-          aunque un poco lento el servicio.
-        rating: 4.0
+        username: SpacialSaucer02
+        description: Ha sido una experiencia de otro mundo
+        rating: 4.1
     review5: 
       description: Example of a review
       value:
-        username: Beni123
-        description: Increible relación calidad/precio en la comida, 
-          aunque un poco lento el servicio.
-        rating: 4.0
+        username: IlustreSevillano
+        description: El evento no ha cumplido con mis expectativas
+        rating: 2.3
   requestBodies:
     Coordinates:
       content:
