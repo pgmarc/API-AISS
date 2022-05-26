@@ -143,7 +143,8 @@ public class EventResource {
 	@Path("/{id}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateEvent(@PathParam("id") Integer eventId, Event event) {
+	public Response updateEvent(@Context UriInfo uriInfo,
+			@PathParam("id") Integer eventId, Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
 		
 		if (oldEvent == null)
@@ -189,7 +190,11 @@ public class EventResource {
 		
 		eventRepository.updateEvent(oldEvent);
 		
-		return Response.status(Status.NO_CONTENT).entity(oldEvent).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getEvent");
+		URI uri = ub.build(eventId);
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(event);			
+		return response.build();
 	}
 	
 	@DELETE
@@ -221,6 +226,7 @@ public class EventResource {
 
 		return Response.status(Status.OK).entity(reviews).build();
 	}
+	
 	@GET
 	@Path("/{id}/reviews/{reviewId}")
 	@Produces("application/json")
@@ -279,7 +285,7 @@ public class EventResource {
 	@Path("/{id}/reviews/{reviewId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateReview(@PathParam("id") Integer eventId,
+	public Response updateReview(@Context UriInfo uriInfo,@PathParam("id") Integer eventId,
 			@PathParam("reviewId") Integer reviewId, Review review) {
 		
 		Event event = eventRepository.getEvent(eventId);
@@ -305,7 +311,11 @@ public class EventResource {
 		oldReview.setDate(LocalDateTime.now());
 		eventRepository.updateReview(eventId, oldReview);
 		
-		return Response.status(Status.OK).entity(oldReview).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getReview");
+		URI uri = ub.build(eventId);
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(event);			
+		return response.build();
 	}
 	
 	@DELETE

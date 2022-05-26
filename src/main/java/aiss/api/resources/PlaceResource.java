@@ -520,7 +520,7 @@ public class PlaceResource {
 	@Path("/{id}/reviews/{reviewId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateReview(@PathParam("id") Integer placeId,
+	public Response updateReview(@Context UriInfo uriInfo, @PathParam("id") Integer placeId,
 			@PathParam("reviewId") Integer reviewId, Review review) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -548,8 +548,12 @@ public class PlaceResource {
 		oldReview.setDate(LocalDateTime.now());
 	
 		placeRepository.updateReview(placeId, oldReview);
-	
-		return Response.status(Status.NO_CONTENT).entity(oldReview).build();
+		
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getReview");
+		URI uri = ub.build(placeId, reviewId);
+		ResponseBuilder resp = Response.ok(uri);
+		resp.entity(review);			
+		return resp.build();
 	}
 	
 	@DELETE
