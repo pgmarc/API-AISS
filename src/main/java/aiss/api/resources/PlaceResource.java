@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -77,7 +78,8 @@ public class PlaceResource {
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		
 		if (placeId != null && (minRadius != null || maxRadius != null))
-			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
+			places = placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius)
+			.stream().collect(Collectors.toList());
 		
 		if (category != null)
 			places = PlacesUtil.filterPlacesByCategory(places, category);
@@ -159,7 +161,7 @@ public class PlaceResource {
 		if (place.getCategory() != null)
 			oldPlace.setCategory(place.getCategory());
 		
-		if (place.getName() != null && (place.getName().isEmpty() || place.getName().isBlank()))
+		if (place.getName() != null && (place.getName().isEmpty() || place.getName().equals(" ")))
 			throw new BadEntityRequestException("A place must have a name."
 					+ " a place name MUST NOT be empty or blank");
 			

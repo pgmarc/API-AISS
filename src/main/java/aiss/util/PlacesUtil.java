@@ -30,7 +30,7 @@ public class PlacesUtil {
 				.map(categoryName -> getValidPlaceCategory(categoryName))
 				.collect(Collectors.toSet());
 		
-		if (categories == null || categories.isEmpty() || categories.isBlank())
+		if (categories == null || categories.isEmpty() || categories.equals(" "))
 			return Set.of(PlaceCategory.values());
 		
 		if (placeCategories.isEmpty())
