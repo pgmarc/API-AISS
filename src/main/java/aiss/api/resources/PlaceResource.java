@@ -313,6 +313,25 @@ public class PlaceResource {
 	
 	//PAYMENTS
 	@GET
+	@Path("/{placeId}/accommodation/payment")
+	@Produces("application/json")
+	public Response getAllAccommodationPayments(@PathParam("placeId") Integer placeId) {
+		
+		Place place = placeRepository.getPlace(placeId);
+		
+		if(place == null)
+			throw new EntityNotFoundException("The place with id=" + placeId +" not found");
+		
+		Accomodation accommodation = place.getAccomodation();
+		
+		if(accommodation == null)
+			throw new BadEntityRequestException("The place does not have an associated accommodation");
+		
+		return Response.status(Status.OK).entity(accommodation.getPayments()).build();
+	}
+	
+	
+	@GET
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Produces("application/json")
 	public Response getAccommodationPayment(@PathParam("placeId") Integer placeId, 
@@ -329,6 +348,9 @@ public class PlaceResource {
 			throw new BadEntityRequestException("The place does not have an associated accommodation");
 		
 		AccomodationPayment payment = accommodation.getPayment(paymentId);
+		
+		if(payment == null)
+			throw new EntityNotFoundException("The specified payment was not found");
 		
 		return Response.status(Status.OK).entity(payment).build();
 	}
