@@ -26,9 +26,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
-  description: SwaggerHub API Auto Mocking
-- url: https://student-compass-350106.appspot.com/api
+- url: https://student-compass-350106.ew.r.appspot.com/api
   description: AppEngine server
 - url: "http://localhost:{port}/api"
   description: Development server
