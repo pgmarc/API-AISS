@@ -107,7 +107,7 @@ public class EventResource {
 		if (event.getId() != null)
 			throw new BadEntityRequestException("The event id must not been given as a parameter.");
 		
-		if (event.getName() == null || event.getName().isEmpty() || event.getName().isBlank())
+		if (event.getName() == null || event.getName().isEmpty())
 			throw new BadEntityRequestException("An event must have a name");
 		
 		if (event.getPrice() == null)
@@ -122,10 +122,10 @@ public class EventResource {
 		if (DateValidation.isBeforeCurrentDate(event.getLocalDateTime()))
 			throw new BadEntityRequestException("Cannot create events before the current date");
 		
-		if (event.getContactEmail() == null || event.getContactEmail().isEmpty() || event.getContactEmail().isBlank())
+		if (event.getContactEmail() == null || event.getContactEmail().isEmpty())
 			throw new BadEntityRequestException("The contact email of an event must have a value.");
 		
-		if (event.getOrganizers() == null || event.getOrganizers().isEmpty() || event.getOrganizers().isBlank())
+		if (event.getOrganizers() == null || event.getOrganizers().isEmpty())
 			throw new BadEntityRequestException("The organizers of an event must not be null,"
 					+ " has to be managed by someone");
 		
@@ -150,7 +150,7 @@ public class EventResource {
 		if (oldEvent == null)
 			throw new EntityNotFoundException("The event with id="+ event.getId() +" was not found");			
 		
-		if (event.getName() != null || (event.getName().isEmpty() || event.getName().isBlank()))
+		if (event.getName() != null || (event.getName().isEmpty()))
 			throw new BadEntityRequestException("An event must have a name");
 		
 		if (event.getName() != null)
@@ -158,7 +158,7 @@ public class EventResource {
 		
 		
 		if (event.getContactEmail() != null ||
-		 (event.getContactEmail().isEmpty() ||event.getContactEmail().isBlank()))
+		 (event.getContactEmail().isEmpty()))
 			throw new BadEntityRequestException("An event must have a contact email");
 		
 		if (event.getContactEmail() != null)
@@ -181,7 +181,7 @@ public class EventResource {
 		
 		
 		if (event.getOrganizers() != null || 
-		 (event.getOrganizers().isEmpty() || event.getOrganizers().isBlank()))
+		 (event.getOrganizers().isEmpty()))
 			throw new BadEntityRequestException("An event must have someone that manages the event");
 		
 		if (event.getOrganizers() != null)
