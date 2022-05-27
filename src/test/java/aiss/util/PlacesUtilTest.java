@@ -10,7 +10,7 @@
 //import org.junit.BeforeClass;
 //import org.junit.Test;
 //
-//import aiss.model.Accomodation;
+//import aiss.model.accommodation;
 //import aiss.model.Coordinates;
 //import aiss.model.Place;
 //import aiss.model.repository.MapPlaceRepository;
@@ -116,13 +116,13 @@
 //	}
 //	
 //	@Test
-//	public void sortByAccomodationType() {
+//	public void sortByaccommodationType() {
 //		List<Place> placesToSort = new ArrayList<>(places);
 //		List<Place> expectedSorting = new ArrayList<>(places);
-//		placesToSort.sort(Sorting.parsePlaceSort("accomodationType"));
+//		placesToSort.sort(Sorting.parsePlaceSort("accommodationType"));
 //		expectedSorting.sort((p1,p2)->
-//					Comparator.nullsLast((ac1,ac2)->((Accomodation) ac1).getType().compareTo(((Accomodation) ac2).getType()))
-//						.compare(p1.getAccomodation(), p2.getAccomodation()));
+//					Comparator.nullsLast((ac1,ac2)->((accommodation) ac1).getType().compareTo(((accommodation) ac2).getType()))
+//						.compare(p1.getaccommodation(), p2.getaccommodation()));
 //		assertEquals(expectedSorting, placesToSort);
 //	}
 //}

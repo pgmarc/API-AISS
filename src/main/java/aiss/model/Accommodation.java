@@ -10,36 +10,36 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import aiss.model.AccomodationPayment.PaymentPeriod;
+import aiss.model.AccommodationPayment.PaymentPeriod;
 import aiss.util.EnumValidator;
 
-public class Accomodation {
+public class Accommodation {
 	
-	public enum AccomodationType {RESIDENCE, FLAT;
+	public enum accommodationType {RESIDENCE, FLAT;
 		@JsonCreator
-		public static AccomodationType fromString(String key) {
+		public static accommodationType fromString(String key) {
 			
 			String newKey = key.toUpperCase();
 			
-			return key == null || !EnumValidator.isValidEnum(AccomodationType.class, newKey)?
-					null : AccomodationType.valueOf(key.toUpperCase());
+			return key == null || !EnumValidator.isValidEnum(accommodationType.class, newKey)?
+					null : accommodationType.valueOf(key.toUpperCase());
 		} 
 	}
 	
 	@JsonProperty("numberOfRooms")
 	private Integer numberOfRooms;
 	
-	@JsonProperty("payments")
-	private Map<Integer,AccomodationPayment> payments;
-	
 	@JsonProperty("type")
-	private AccomodationType type;
+	private accommodationType type;
+
+	@JsonProperty("payments")
+	private Map<Integer,AccommodationPayment> payments;
 	
 	private Integer idCounter = 0;
 	
-	public Accomodation() {}
+	public Accommodation() {}
 
-	public Accomodation(Integer roomsNumber, Map<Integer,AccomodationPayment> payments, AccomodationType type) {
+	public Accommodation(Integer roomsNumber, Map<Integer,AccommodationPayment> payments, accommodationType type) {
 		this.numberOfRooms = roomsNumber;
 		this.payments = payments;
 		this.type = type;
@@ -56,30 +56,40 @@ public class Accomodation {
 		this.numberOfRooms = numberOfRooms;
 	}
 
+	@JsonProperty("type")
+	public accommodationType getType() {
+		return this.type;
+	}
+
+	@JsonProperty("type")
+	public void setType(accommodationType type) {
+		this.type = type;
+	}
+
 	@JsonIgnore
-	public Map<Integer,AccomodationPayment> getPayments() {
+	public Map<Integer,AccommodationPayment> getPayments() {
 		return payments;
 	}
 
 	@JsonProperty("payments")
-	public Collection<AccomodationPayment> getCollectionPayments() {
+	public Collection<AccommodationPayment> getCollectionPayments() {
 		return payments.values();
 	}
 	
-	@JsonProperty("payment")
-	public void setPayments(Map<Integer,AccomodationPayment> payments) {
+	@JsonProperty("payments")
+	public void setPayments(Map<Integer,AccommodationPayment> payments) {
 		this.payments = payments;
 	}
 	
-	public AccomodationPayment getPayment(Integer index) {
+	public AccommodationPayment getPayment(Integer index) {
 		return this.payments.get(index);
 	}
 	
-	public void setPayment(Integer index, AccomodationPayment payment) {
+	public void setPayment(Integer index, AccommodationPayment payment) {
 		this.payments.put(index, payment);
 	}
 	
-	public void addPayment(AccomodationPayment payment) {
+	public void addPayment(AccommodationPayment payment) {
 		Integer id = getNewPaymentId();
 		payment.setId(id);
 		this.payments.put(id, payment);
@@ -89,16 +99,6 @@ public class Accomodation {
 		this.payments.remove(index);
 	}
 	
-	
-	@JsonProperty("type")
-	public AccomodationType getType() {
-		return this.type;
-	}
-	
-	@JsonProperty("type")
-	public void setType(AccomodationType type) {
-		this.type = type;
-	}
 	
 	@Override
 	public int hashCode() {
@@ -113,7 +113,7 @@ public class Accomodation {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Accomodation other = (Accomodation) obj;
+		Accommodation other = (Accommodation) obj;
 		return Objects.equals(type, other.type) && payments == other.payments
 				&& Objects.equals(numberOfRooms, other.numberOfRooms);
 	}
@@ -136,7 +136,7 @@ public class Accomodation {
 				.orElse(null);
 	}
 	
-	public boolean anyPaymentsMatch(Predicate<AccomodationPayment> predicate) {
+	public boolean anyPaymentsMatch(Predicate<AccommodationPayment> predicate) {
 		return this.payments.entrySet().stream()
 			.anyMatch(e->predicate.test(e.getValue()));
 	}
@@ -149,7 +149,7 @@ public class Accomodation {
 	
 	@Override
 	public String toString() {
-		return "Accomodation [roomsNumber=" + numberOfRooms
+		return "accommodation [roomsNumber=" + numberOfRooms
 				+ ", payments=" + payments + "]";
 	}	
 }

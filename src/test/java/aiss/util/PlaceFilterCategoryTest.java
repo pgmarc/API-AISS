@@ -36,7 +36,7 @@ public class PlaceFilterCategoryTest {
 	public void ShouldGetCategoriesToFilterUpperCased() {
 		String categories = "";
 		categories += "SUPERMARKET;PHARMACY;ATM;BUSINESS;BAR;RESTAURANT;CHURCH;CINEMA;PARK;NIGHT_CLUB;MUSEUM;UNIVERSITY;GYM;CONGRESS;HOSPITAL;";
-		categories += "POLICE;TOURIST_ATTRACTION;ACCOMODATION;STADIUM;GAS_STATION;TRAIN_STATION;BUS_STATION;AIRPORT;PARKING;";
+		categories += "POLICE;TOURIST_ATTRACTION;accommodation;STADIUM;GAS_STATION;TRAIN_STATION;BUS_STATION;AIRPORT;PARKING;";
 		categories+= "TAXI_STAND;SUBWAY_STATION;UNDEFINED";
 
 				
@@ -50,7 +50,7 @@ public class PlaceFilterCategoryTest {
 	public void ShouldGetCategoriesToFilterLowerCased() {
 		String categories = "";
 		categories += "supermarket;pharmacy;atm;business;bar;restaurant;church;cinema;park;night_club;museum;university;gym;hospital;";
-		categories += "police;tourist_attraction;congress;accomodation;stadium;gas_station;train_station;bus_station;airport;parking;";
+		categories += "police;tourist_attraction;congress;accommodation;stadium;gas_station;train_station;bus_station;airport;parking;";
 		categories+= "taxi_stand;subway_station;undefined";
 
 				
@@ -64,7 +64,7 @@ public class PlaceFilterCategoryTest {
 	public void ShouldGetCategoriesToFilterLowerCasedSpaced() {
 		String categories = "";
 		categories += "supermarket ;pharmacy; atm; congress; business; bar; restaurant; church; cinema;park; night_club; museum; university; gym; hospital;";
-		categories += "police; tourist_attraction; accomodation; stadium;  gas_station; train_station; bus_station; airport; parking;";
+		categories += "police; tourist_attraction; accommodation; stadium;  gas_station; train_station; bus_station; airport; parking;";
 		categories+= "taxi_stand;  subway_station;  undefined";
 
 				
