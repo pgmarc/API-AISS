@@ -75,6 +75,8 @@ public class PlaceResource {
 			throw new BadEntityRequestException("Invalid values for limit, offset. "
 					+ "limit must be positive and greater than zero and offset must be postive");
 		
+		//TODO Cambiar regex documentacion
+		//TODO Class Def Not found Error
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		
 		if (placeId != null && (minRadius != null || maxRadius != null))
