@@ -266,7 +266,7 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateaccommodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, Accommodation accommodation) {
+	public Response updateAccommodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, Accommodation accommodation) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
@@ -405,7 +405,7 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateaccommodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
+	public Response updateAccommodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
 			@PathParam("payId") Integer paymentId, AccommodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
