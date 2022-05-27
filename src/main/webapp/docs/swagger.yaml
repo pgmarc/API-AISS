@@ -490,21 +490,21 @@ paths:
       parameters:
         - name: initialDate
           in: query
-          description: This field sets the initial date for events to be returned. You can specify it by giving one string whith the following format dd-MM-yyyy HH:mm. Anyway, it doesn't need to be filled. If you don´t fill the initial date it will show you all the events since the current date.
+          description: This field sets the initial date for events to be returned. You can specify it by giving one string whith the following format yyyy-MM-dd. Anyway, it doesn't need to be filled. If you don´t fill the initial date it will show you all the events since the current date.
           required: false
           schema:
             type: string
-            pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
-          example: 2022-08-10 10:00
+            pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])$"
+          example: 2022-08-10
         
         - name: finalDate
           in: query
-          description: This field sets final date for events to be returned. You can specify it by giving one string whith the following format dd-MM-yyyy HH:mm. Anyway, it doesn't need to be filled. If you don´t fill the final date it shows you all the events that are hold for a month since the actual date.
+          description: This field sets final date for events to be returned. You can specify it by giving one string whith the following format yyyy-MM-dd. Anyway, it doesn't need to be filled. If you don´t fill the final date it shows you all the events that are hold for a month since the actual date.
           required: false
           schema:
             type: string
-            pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
-          example: 2022-09-10 10:00
+            pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])$"
+          example: 2022-09-10
       responses:
         "200":
           description: Returns a list of events
