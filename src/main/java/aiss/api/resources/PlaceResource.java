@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -77,10 +78,11 @@ public class PlaceResource {
 		List<Place> places = new ArrayList<Place>(placeRepository.getAllPlaces());
 		
 		if (placeId != null && (minRadius != null || maxRadius != null))
-			places = List.copyOf(placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius));
+			places = placeRepository.getPlacesOnRadius(placeId, minRadius, maxRadius)
+			.stream().collect(Collectors.toList());
 		
 		if (category != null)
-			places = PlacesUtil.filterPlaces(places, category);
+			places = PlacesUtil.filterPlacesByCategory(places, category);
 		
 		if (orderValue != null)
 			places.sort(Sorting.parsePlaceSort(orderValue));
@@ -159,7 +161,7 @@ public class PlaceResource {
 		if (place.getCategory() != null)
 			oldPlace.setCategory(place.getCategory());
 		
-		if (place.getName() != null && (place.getName().isEmpty() || place.getName().isBlank()))
+		if (place.getName() != null && (place.getName().isEmpty() || place.getName().equals(" ")))
 			throw new BadEntityRequestException("A place must have a name."
 					+ " a place name MUST NOT be empty or blank");
 			
@@ -313,6 +315,25 @@ public class PlaceResource {
 	
 	//PAYMENTS
 	@GET
+	@Path("/{placeId}/accommodation/payment")
+	@Produces("application/json")
+	public Response getAllAccommodationPayments(@PathParam("placeId") Integer placeId) {
+		
+		Place place = placeRepository.getPlace(placeId);
+		
+		if(place == null)
+			throw new EntityNotFoundException("The place with id=" + placeId +" not found");
+		
+		Accomodation accommodation = place.getAccomodation();
+		
+		if(accommodation == null)
+			throw new BadEntityRequestException("The place does not have an associated accommodation");
+		
+		return Response.status(Status.OK).entity(accommodation.getPayments()).build();
+	}
+	
+	
+	@GET
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Produces("application/json")
 	public Response getAccommodationPayment(@PathParam("placeId") Integer placeId, 
@@ -329,6 +350,9 @@ public class PlaceResource {
 			throw new BadEntityRequestException("The place does not have an associated accommodation");
 		
 		AccomodationPayment payment = accommodation.getPayment(paymentId);
+		
+		if(payment == null)
+			throw new EntityNotFoundException("The specified payment was not found");
 		
 		return Response.status(Status.OK).entity(payment).build();
 	}
@@ -520,7 +544,7 @@ public class PlaceResource {
 	@Path("/{id}/reviews/{reviewId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateReview(@PathParam("id") Integer placeId,
+	public Response updateReview(@Context UriInfo uriInfo, @PathParam("id") Integer placeId,
 			@PathParam("reviewId") Integer reviewId, Review review) {
 		
 		Place place = placeRepository.getPlace(placeId);
@@ -548,8 +572,12 @@ public class PlaceResource {
 		oldReview.setDate(LocalDateTime.now());
 	
 		placeRepository.updateReview(placeId, oldReview);
-	
-		return Response.status(Status.NO_CONTENT).entity(oldReview).build();
+		
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getReview");
+		URI uri = ub.build(placeId, reviewId);
+		ResponseBuilder resp = Response.ok(uri);
+		resp.entity(review);			
+		return resp.build();
 	}
 	
 	@DELETE

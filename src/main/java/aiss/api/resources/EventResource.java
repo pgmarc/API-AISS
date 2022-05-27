@@ -71,10 +71,10 @@ public class EventResource {
 		String currentDatePlusMonthString = DateValidation.currentDatePlusMonthFormated();
 		
 		if (initialDateString != null && !DateValidation.validDate(initialDateString))
-			throw new BadEntityRequestException("Bad formated initialDate");
+			throw new BadEntityRequestException("Invalid format for initialDate");
 		
-		if (initialDateString != null && !DateValidation.validDate(finalDateString))
-			throw new BadEntityRequestException("Bad formated initialDate");
+		if (finalDateString != null && !DateValidation.validDate(finalDateString))
+			throw new BadEntityRequestException("Invalid format for finalDate");
 		
 		String initialDate = Optional.ofNullable(initialDateString).orElse(currentDateString);
 		String finalDate = Optional.ofNullable(finalDateString).orElse(currentDatePlusMonthString);
@@ -125,8 +125,8 @@ public class EventResource {
 		if (event.getContactEmail() == null || event.getContactEmail().isEmpty() || event.getContactEmail().isBlank())
 			throw new BadEntityRequestException("The contact email of an event must have a value.");
 		
-		if (event.getOrganizators() == null || event.getOrganizators().isEmpty() || event.getOrganizators().isBlank())
-			throw new BadEntityRequestException("The organizators of an event must not be null,"
+		if (event.getOrganizers() == null || event.getOrganizers().isEmpty() || event.getOrganizers().isBlank())
+			throw new BadEntityRequestException("The organizers of an event must not be null,"
 					+ " has to be managed by someone");
 		
 
@@ -143,7 +143,8 @@ public class EventResource {
 	@Path("/{id}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateEvent(@PathParam("id") Integer eventId, Event event) {
+	public Response updateEvent(@Context UriInfo uriInfo,
+			@PathParam("id") Integer eventId, Event event) {
 		Event oldEvent = eventRepository.getEvent(eventId);
 		
 		if (oldEvent == null)
@@ -179,17 +180,21 @@ public class EventResource {
 			oldEvent.setDate(event.getLocalDateTime());
 		
 		
-		if (event.getOrganizators() != null || 
-		 (event.getOrganizators().isEmpty() || event.getOrganizators().isBlank()))
+		if (event.getOrganizers() != null || 
+		 (event.getOrganizers().isEmpty() || event.getOrganizers().isBlank()))
 			throw new BadEntityRequestException("An event must have someone that manages the event");
 		
-		if (event.getOrganizators() != null)
-			oldEvent.setOrganizators(event.getOrganizators());
+		if (event.getOrganizers() != null)
+			oldEvent.setOrganizers(event.getOrganizers());
 		
 		
 		eventRepository.updateEvent(oldEvent);
 		
-		return Response.status(Status.NO_CONTENT).entity(oldEvent).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getEvent");
+		URI uri = ub.build(eventId);
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(event);			
+		return response.build();
 	}
 	
 	@DELETE
@@ -221,6 +226,7 @@ public class EventResource {
 
 		return Response.status(Status.OK).entity(reviews).build();
 	}
+	
 	@GET
 	@Path("/{id}/reviews/{reviewId}")
 	@Produces("application/json")
@@ -279,7 +285,7 @@ public class EventResource {
 	@Path("/{id}/reviews/{reviewId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateReview(@PathParam("id") Integer eventId,
+	public Response updateReview(@Context UriInfo uriInfo,@PathParam("id") Integer eventId,
 			@PathParam("reviewId") Integer reviewId, Review review) {
 		
 		Event event = eventRepository.getEvent(eventId);
@@ -305,7 +311,11 @@ public class EventResource {
 		oldReview.setDate(LocalDateTime.now());
 		eventRepository.updateReview(eventId, oldReview);
 		
-		return Response.status(Status.OK).entity(oldReview).build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getReview");
+		URI uri = ub.build(eventId);
+		ResponseBuilder response = Response.ok(uri);
+		response.entity(event);			
+		return response.build();
 	}
 	
 	@DELETE

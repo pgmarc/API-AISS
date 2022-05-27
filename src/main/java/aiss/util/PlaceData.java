@@ -13,8 +13,6 @@ import aiss.model.AccomodationPayment.RoomType;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
-import aiss.model.Review;
-import aiss.model.repository.MapPlaceRepository;
 
 public class PlaceData {
 
@@ -145,100 +143,100 @@ public class PlaceData {
 		place15.setLocation(Coordinates.of(21.34567, -21.34567));
 		
 		Place place16 = new Place();
-		place1.setName("Aeropuerto de Sevilla");
-		place1.setEmail("svqcas@aena.es");
-		place1.setAddress("Carretera N-IV Madrid-Cádiz, kilómetro 532");
-		place1.setWebsite("https://www.aena.es");
-		place1.setCategory(PlaceCategory.AIRPORT);
-		place1.setLocation(Coordinates.of(37.418056, -5.898889));
+		place16.setName("Aeropuerto de Sevilla");
+		place16.setEmail("svqcas@aena.es");
+		place16.setAddress("Carretera N-IV Madrid-Cádiz, kilómetro 532");
+		place16.setWebsite("https://www.aena.es");
+		place16.setCategory(PlaceCategory.AIRPORT);
+		place16.setLocation(Coordinates.of(37.418056, -5.898889));
 		
 		Place place17 = new Place();
-		place1.setName("Supermercado el Jamón");
-		place1.setEmail("hola@supermercadoseljamon.com");
-		place1.setAddress("C. Bami, 21");
-		place1.setWebsite("https://www.supermercadoseljamon.com");
-		place1.setCategory(PlaceCategory.SUPERMARKET);
-		place1.setLocation(Coordinates.of(37.418056, -5.898889));
+		place17.setName("Supermercado el Jamón");
+		place17.setEmail("hola@supermercadoseljamon.com");
+		place17.setAddress("C. Bami, 21");
+		place17.setWebsite("https://www.supermercadoseljamon.com");
+		place17.setCategory(PlaceCategory.SUPERMARKET);
+		place17.setLocation(Coordinates.of(37.418056, -5.898889));
 		
 		Place place18 = new Place();
-		place1.setName("Farmacia los Bermejales");
-		place1.setEmail("josearafael@hotmail.com");
-		place1.setAddress("Avenida Paseo de Europa , 2");
-		place1.setWebsite("https://www.sensafarma.es/farmacia/farmacia-los-bermejales--003519");
-		place1.setCategory(PlaceCategory.PHARMACY);
-		place1.setLocation(Coordinates.of(37.347413443216624, -5.977527613329705));
+		place18.setName("Farmacia los Bermejales");
+		place18.setEmail("josearafael@hotmail.com");
+		place18.setAddress("Avenida Paseo de Europa , 2");
+		place18.setWebsite("https://www.sensafarma.es/farmacia/farmacia-los-bermejales--003519");
+		place18.setCategory(PlaceCategory.PHARMACY);
+		place18.setLocation(Coordinates.of(37.347413443216624, -5.977527613329705));
 		
 		Place place19 = new Place();
-		place1.setName("Cajero Automático Caja Rural");
-		place1.setEmail("cajarural@hotmail.com");
-		place1.setAddress("AV. REINO UNIDO , esq, C. Dresde, 1");
-		place1.setWebsite("https://www.grupocajarural.es/en");
-		place1.setCategory(PlaceCategory.ATM);
-		place1.setLocation(Coordinates.of(37.347805781771854, -5.97701262919528));
+		place19.setName("Cajero Automático Caja Rural");
+		place19.setEmail("cajarural@hotmail.com");
+		place19.setAddress("AV. REINO UNIDO , esq, C. Dresde, 1");
+		place19.setWebsite("https://www.grupocajarural.es/en");
+		place19.setCategory(PlaceCategory.ATM);
+		place19.setLocation(Coordinates.of(37.347805781771854, -5.97701262919528));
 		
 		Place place20 = new Place();
-		place1.setName("Silken Al-Andalus Palace");
-		place1.setEmail("hotelsilken@silken.es");
-		place1.setAddress("Avenida de la Palmera, S/N, esq. calle Paraná.");
-		place1.setWebsite("https://www.hoteles-silken.com/en/hotel-al-andalus-seville");
-		place1.setCategory(PlaceCategory.BUSINESS);
-		place1.setLocation(Coordinates.of(37.354232, -5.980253));
+		place20.setName("Silken Al-Andalus Palace");
+		place20.setEmail("hotelsilken@silken.es");
+		place20.setAddress("Avenida de la Palmera, S/N, esq. calle Paraná.");
+		place20.setWebsite("https://www.hoteles-silken.com/en/hotel-al-andalus-seville");
+		place20.setCategory(PlaceCategory.BUSINESS);
+		place20.setLocation(Coordinates.of(37.354232, -5.980253));
 		
 		Place place21 = new Place();
-		place1.setName("Casa Félix");
-		place1.setEmail("hola@casafelix.com");
-		place1.setAddress("Av. de la Reina Mercedes, 51");
-		place1.setWebsite("https://www.casafelix.com");
-		place1.setCategory(PlaceCategory.RESTAURANT);
-		place1.setLocation(Coordinates.of(37.3582028488584, -5.986044012031853));
+		place21.setName("Casa Félix");
+		place21.setEmail("hola@casafelix.com");
+		place21.setAddress("Av. de la Reina Mercedes, 51");
+		place21.setWebsite("https://www.casafelix.com");
+		place21.setCategory(PlaceCategory.RESTAURANT);
+		place21.setLocation(Coordinates.of(37.3582028488584, -5.986044012031853));
 		
 		Place place22 = new Place();
-		place1.setName("Iglesia De La Virgen Del Carmen Los Bermejales");
-		place1.setEmail("parroquiamar@gmail.com");
-		place1.setAddress("Calle de la Corbeta, s/n; ");
-		place1.setWebsite("http://www.parroquiamar.com");
-		place1.setCategory(PlaceCategory.CHURCH);
-		place1.setLocation(Coordinates.of(37.35027112578121, -5.978104559623624));
+		place22.setName("Iglesia De La Virgen Del Carmen Los Bermejales");
+		place22.setEmail("parroquiamar@gmail.com");
+		place22.setAddress("Calle de la Corbeta, s/n; ");
+		place22.setWebsite("http://www.parroquiamar.com");
+		place22.setCategory(PlaceCategory.CHURCH);
+		place22.setLocation(Coordinates.of(37.35027112578121, -5.978104559623624));
 		
 		Place place23 = new Place();
-		place1.setName("Cine Yelmo Premium Lagoh");
-		place1.setEmail("cineslagoh@hotmail.com");
-		place1.setAddress(" Centro Comercial Lagoh, Av. de Palmas Altas, S/N,");
-		place1.setWebsite("https://yelmocines.es/cartelera/sevilla/-premium-lagoh");
-		place1.setCategory(PlaceCategory.CINEMA);
-		place1.setLocation(Coordinates.of(37.34125068226267, -5.98645935566553));
+		place23.setName("Cine Yelmo Premium Lagoh");
+		place23.setEmail("cineslagoh@hotmail.com");
+		place23.setAddress(" Centro Comercial Lagoh, Av. de Palmas Altas, S/N,");
+		place23.setWebsite("https://yelmocines.es/cartelera/sevilla/-premium-lagoh");
+		place23.setCategory(PlaceCategory.CINEMA);
+		place23.setLocation(Coordinates.of(37.34125068226267, -5.98645935566553));
 		
 		Place place24 = new Place();
-		place1.setName("Parque de María Luisa");
-		place1.setEmail("parquemarialuisas@sevilla.es");
-		place1.setAddress("P.º de las Delicias, s/n, 41013 Sevilla");
-		place1.setWebsite("https://www.sevilla.org");
-		place1.setCategory(PlaceCategory.PARK);
-		place1.setLocation(Coordinates.of(37.374748653723486, -5.988248783469929));
+		place24.setName("Parque de María Luisa");
+		place24.setEmail("parquemarialuisas@sevilla.es");
+		place24.setAddress("P.º de las Delicias, s/n, 41013 Sevilla");
+		place24.setWebsite("https://www.sevilla.org");
+		place24.setCategory(PlaceCategory.PARK);
+		place24.setLocation(Coordinates.of(37.374748653723486, -5.988248783469929));
 		
 		Place place25 = new Place();
-		place1.setName("KOKO");
-		place1.setEmail("hola@koko.com");
-		place1.setAddress("Pl. de la Encarnación, 38");
-		place1.setWebsite("https://www.koko.com");
-		place1.setCategory(PlaceCategory.NIGHT_CLUB);
-		place1.setLocation(Coordinates.of(37.39347634268463, -5.991833855581043));
+		place25.setName("KOKO");
+		place25.setEmail("hola@koko.com");
+		place25.setAddress("Pl. de la Encarnación, 38");
+		place25.setWebsite("https://www.koko.com");
+		place25.setCategory(PlaceCategory.NIGHT_CLUB);
+		place25.setLocation(Coordinates.of(37.39347634268463, -5.991833855581043));
 		
 		Place place26 = new Place();
-		place1.setName("Museo Bellas Artes Sevilla");
-		place1.setEmail("museobellasartessevilla.ccul@juntadeandalucia.es");
-		place1.setAddress("Pl. del Museo, 9");
-		place1.setWebsite("https://www.museosdeandalucia.es/web/museodebellasartesdesevilla");
-		place1.setCategory(PlaceCategory.MUSEUM);
-		place1.setLocation(Coordinates.of(37.39347634268463, -5.991833855581043));
+		place26.setName("Museo Bellas Artes Sevilla");
+		place26.setEmail("museobellasartessevilla.ccul@juntadeandalucia.es");
+		place26.setAddress("Pl. del Museo, 9");
+		place26.setWebsite("https://www.museosdeandalucia.es/web/museodebellasartesdesevilla");
+		place26.setCategory(PlaceCategory.MUSEUM);
+		place26.setLocation(Coordinates.of(37.39347634268463, -5.991833855581043));
 		
 		Place place27 = new Place();
-		place1.setName("Freedom Fitness");
-		place1.setEmail("info@freedomfitness.es");
-		place1.setAddress("Calle Luxemburgo 5");
-		place1.setWebsite("https://freedomfitness.es");
-		place1.setCategory(PlaceCategory.GYM);
-		place1.setLocation(Coordinates.of(37.3460189387598, -5.981073975326615));
+		place27.setName("Freedom Fitness");
+		place27.setEmail("info@freedomfitness.es");
+		place27.setAddress("Calle Luxemburgo 5");
+		place27.setWebsite("https://freedomfitness.es");
+		place27.setCategory(PlaceCategory.GYM);
+		place27.setLocation(Coordinates.of(37.3460189387598, -5.981073975326615));
 		
 		Place place28 = new Place();
 		place28.setName("Sánchez-Pizjuán");
@@ -257,93 +255,100 @@ public class PlaceData {
 		place29.setLocation(Coordinates.of(37.40404096638718, -5.934864515736523));
 		
 		Place place30 = new Place();
-		place28.setName("Hospital Universitario Virgen del Rocío");
-		place28.setEmail("atencionciudadana.hg.huv.sspa@juntadeandalucia.es.");
-		place28.setAddress("Av. Manuel Siurot, S/n, 41013 Sevilla");
-		place28.setWebsite("https://www.hospitaluvrocio.es/");
-		place28.setCategory(PlaceCategory.HOSPITAL);
-		place28.setLocation(Coordinates.of(37.363610013961534, -5.9775810386218575));
+		place30.setName("Hospital Universitario Virgen del Rocío");
+		place30.setEmail("atencionciudadana.hg.huv.sspa@juntadeandalucia.es.");
+		place30.setAddress("Av. Manuel Siurot, S/n, 41013 Sevilla");
+		place30.setWebsite("https://www.hospitaluvrocio.es/");
+		place30.setCategory(PlaceCategory.HOSPITAL);
+		place30.setLocation(Coordinates.of(37.363610013961534, -5.9775810386218575));
 		
 		Place place31 = new Place();
-		place29.setName("Jefatura de Policía");
-		place29.setEmail("distrito9.pl@sevilla.org");
-		place29.setAddress("C. Clemente Hidalgo, 4, Local, 41005 Sevilla");
-		place29.setWebsite("https://www.sevilla.org/servicios/policia-local");
-		place29.setCategory(PlaceCategory.POLICE);
-		place29.setLocation(Coordinates.of(37.38493806149119, -5.959976375042552));
+		place31.setName("Jefatura de Policía");
+		place31.setEmail("distrito9.pl@sevilla.org");
+		place31.setAddress("C. Clemente Hidalgo, 4, Local, 41005 Sevilla");
+		place31.setWebsite("https://www.sevilla.org/servicios/policia-local");
+		place31.setCategory(PlaceCategory.POLICE);
+		place31.setLocation(Coordinates.of(37.38493806149119, -5.959976375042552));
 		
 		Place place32 = new Place();
-		place28.setName("Catedral de Sevilla");
-		place28.setEmail("info@catedraldesevilla.es");
-		place28.setAddress("Av. de la Constitución, s/n, 41004 Sevilla");
-		place28.setWebsite("https://www.catedraldesevilla.es/");
-		place28.setCategory(PlaceCategory.TOURIST_ATTRACTION);
-		place28.setLocation(Coordinates.of(37.38310380725238, -5.990379038596782));
+		place32.setName("Catedral de Sevilla");
+		place32.setEmail("info@catedraldesevilla.es");
+		place32.setAddress("Av. de la Constitución, s/n, 41004 Sevilla");
+		place32.setWebsite("https://www.catedraldesevilla.es/");
+		place32.setCategory(PlaceCategory.TOURIST_ATTRACTION);
+		place32.setLocation(Coordinates.of(37.38310380725238, -5.990379038596782));
 		
 		Place place33 = new Place();
-		place29.setName("Galp - Estación de Servicio 24H");
-		place29.setEmail("atencionalcliente@galp.com");
-		place29.setAddress("C. Luis Montoto, 138, 41005 Sevilla");
-		place29.setWebsite("https://galp.com/es/mapa");
-		place29.setCategory(PlaceCategory.GAS_STATION);
-		place29.setLocation(Coordinates.of(37.38712039307478, -5.968592898117942));
+		place33.setName("Galp - Estación de Servicio 24H");
+		place33.setEmail("atencionalcliente@galp.com");
+		place33.setAddress("C. Luis Montoto, 138, 41005 Sevilla");
+		place33.setWebsite("https://galp.com/es/mapa");
+		place33.setCategory(PlaceCategory.GAS_STATION);
+		place33.setLocation(Coordinates.of(37.38712039307478, -5.968592898117942));
 		
 		Place place34 = new Place();
-		place28.setName("Virgen del Rocio");
-		place28.setEmail(null);
-		place28.setAddress("Sevilla-Virgen del Rocio, 41013 Sevilla");
-		place28.setWebsite("https://www.renfe.com/es/es/cercanias/cercanias-sevilla");
-		place28.setCategory(PlaceCategory.TRAIN_STATION);
-		place28.setLocation(Coordinates.of(37.36290042841052, -5.976304607411748));
+		place34.setName("Estacion Cercanias Virgen del Rocio");
+		place34.setEmail(null);
+		place34.setAddress("Sevilla-Virgen del Rocio, 41013 Sevilla");
+		place34.setWebsite("https://www.renfe.com/es/es/cercanias/cercanias-sevilla");
+		place34.setCategory(PlaceCategory.TRAIN_STATION);
+		place34.setLocation(Coordinates.of(37.36290042841052, -5.976304607411748));
 		
 		Place place35 = new Place();
-		place29.setName("Sevilla - Estación Prado de San Sebastián");
-		place29.setEmail(null);
-		place29.setAddress("Sevilla - Estación Prado de San Sebastián, 41003 Sevilla");
-		place29.setWebsite("https://www.tussam.es/es");
-		place29.setCategory(PlaceCategory.BUS_STATION);
-		place29.setLocation(Coordinates.of(37.38289970491382, -5.986602043311963));
+		place35.setName("Sevilla - Estación Prado de San Sebastián");
+		place35.setEmail(null);
+		place35.setAddress("Sevilla - Estación Prado de San Sebastián, 41003 Sevilla");
+		place35.setWebsite("https://www.tussam.es/es");
+		place35.setCategory(PlaceCategory.BUS_STATION);
+		place35.setLocation(Coordinates.of(37.38289970491382, -5.986602043311963));
 		
 		Place place36 = new Place();
-		place28.setName("Parking Paseo de Colón");
-		place28.setEmail("info@parclick.com");
-		place28.setAddress(" P.º de Cristóbal Colón, 10, 41001 Sevilla");
-		place28.setWebsite("https://parclick.es/parking-sevilla/paseo-de-colon");
-		place28.setCategory(PlaceCategory.PARKING);
-		place28.setLocation(Coordinates.of(37.38721632601805, -6.003493612274087));
+		place36.setName("Parking Paseo de Colón");
+		place36.setEmail("info@parclick.com");
+		place36.setAddress(" P.º de Cristóbal Colón, 10, 41001 Sevilla");
+		place36.setWebsite("https://parclick.es/parking-sevilla/paseo-de-colon");
+		place36.setCategory(PlaceCategory.PARKING);
+		place36.setLocation(Coordinates.of(37.38721632601805, -6.003493612274087));
 		
 		Place place37 = new Place();
-		place29.setName("Taxi Sevilla Aeropuerto");
-		place29.setEmail("taxiaeropuertosevilla@gmail.com");
-		place29.setAddress("C. Antonio Susillo, 6, 41002 Sevilla");
-		place29.setWebsite("https://www.taxissevilla.com/");
-		place29.setCategory(PlaceCategory.TAXI_STAND);
-		place29.setLocation(Coordinates.of(37.40051754627751, -5.985377026393285));
+		place37.setName("Taxi Sevilla Aeropuerto");
+		place37.setEmail("taxiaeropuertosevilla@gmail.com");
+		place37.setAddress("C. Antonio Susillo, 6, 41002 Sevilla");
+		place37.setWebsite("https://www.taxissevilla.com/");
+		place37.setCategory(PlaceCategory.TAXI_STAND);
+		place37.setLocation(Coordinates.of(37.40051754627751, -5.985377026393285));
 		
 		Place place38 = new Place();
-		place28.setName("San Bernardo");
-		place28.setEmail("atencion.cliente@metrodesevilla.es");
-		place28.setAddress("41018 Sevilla");
-		place28.setWebsite("https://www.metro-sevilla.es/");
-		place28.setCategory(PlaceCategory.SUBWAY_STATION);
-		place28.setLocation(Coordinates.of(37.37921478508821, -5.982531615934994));
+		place38.setName("San Bernardo");
+		place38.setEmail("atencion.cliente@metrodesevilla.es");
+		place38.setAddress("41018 Sevilla");
+		place38.setWebsite("https://www.metro-sevilla.es/");
+		place38.setCategory(PlaceCategory.SUBWAY_STATION);
+		place38.setLocation(Coordinates.of(37.37921478508821, -5.982531615934994));
 		
 		Place place39 = new Place();
-		place29.setName("Piscina Tiro De Línea");
-		place29.setEmail("informacion@imd.sevilla.org");
-		place29.setAddress("C. Lora del Río, s/n, 41001 Sevilla");
-		place29.setWebsite("https://imd.sevilla.org/");
-		place29.setCategory(PlaceCategory.UNDEFINED);
-		place29.setLocation(Coordinates.of(37.36858432026401, -5.974291870221682));
+		place39.setName("Piscina Tiro De Línea");
+		place39.setEmail("informacion@imd.sevilla.org");
+		place39.setAddress("C. Lora del Río, s/n, 41001 Sevilla");
+		place39.setWebsite("https://imd.sevilla.org/");
+		place39.setCategory(PlaceCategory.UNDEFINED);
+		place39.setLocation(Coordinates.of(37.36858432026401, -5.974291870221682));
 		
 		Place place40 = new Place();
-		place29.setName("Basílica Santuario de María Auxiliadora");
-		place29.setEmail("basilica.trinidad@salesianos.edu");
-		place29.setAddress("C. María Auxiliadora, 41008 Sevilla");
-		place29.setWebsite("https://trinidad.salesianos.edu/basilica-maria-auxiliadora-2/");
-		place29.setCategory(PlaceCategory.CHURCH);
-		place29.setLocation(Coordinates.of(37.404759099886036, -5.981090022414422));
+		place40.setName("Basílica Santuario de María Auxiliadora");
+		place40.setEmail("basilica.trinidad@salesianos.edu");
+		place40.setAddress("C. María Auxiliadora, 41008 Sevilla");
+		place40.setWebsite("https://trinidad.salesianos.edu/basilica-maria-auxiliadora-2/");
+		place40.setCategory(PlaceCategory.CHURCH);
+		place40.setLocation(Coordinates.of(37.404759099886036, -5.981090022414422));
 		
+		Place place41 = new Place();
+		place41.setName("Estacion Metro Puerta Jerex");
+		place41.setEmail("atencion.cliente@metrodesevilla.es");
+		place41.setAddress("Av Puerta Cristina s/n");
+		place41.setWebsite("https://www.metro-sevilla.es");
+		place41.setCategory(PlaceCategory.SUBWAY_STATION);
+		place41.setLocation(Coordinates.of(37.38198127961003, -5.994129898272375));
 		
 		
 		places.add(place1);
@@ -385,7 +390,7 @@ public class PlaceData {
 		places.add(place37);
 		places.add(place38);
 		places.add(place39);
-		places.add(place40);
+		places.add(place41);
 		
 		
 		Accomodation acc1 = new Accomodation(

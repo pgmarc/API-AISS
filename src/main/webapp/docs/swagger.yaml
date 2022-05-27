@@ -26,9 +26,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
-  description: SwaggerHub API Auto Mocking
-- url: https://student-compass-350106.appspot.com/api
+- url: https://student-compass-350106.ew.r.appspot.com/api
   description: AppEngine server
 - url: "http://localhost:{port}/api"
   description: Development server
@@ -480,6 +478,143 @@ paths:
           description: Review successfully deleted
         "404":
           $ref: '#/components/responses/NotFound'
+  /places/{placeId}/accommodation:
+    parameters:
+      - name: placeId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags: 
+        - accommodations
+      summary: Gets the accommodation data from a place with accommodation
+      responses:
+        "200":
+          description: Successfully retrieved accommodation data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accomodations'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    post:
+      tags: 
+        - accommodations
+      summary: Creates accommodation data in place
+      description: Adds the specified accommodation data to the place. Note that payments should be added through their methods and not through this operation.
+      requestBody:
+        $ref: '#/components/requestBodies/Accommodation'
+      responses:
+        "201":
+          description: Successfully added accommodation data to the place
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    put:
+      tags: 
+        - accommodations
+      summary: Updates the accommodation data of a place
+      requestBody:
+        $ref: '#/components/requestBodies/Accommodation'
+      responses:
+        "200":
+          description: Successfully updated the accommodation data of the place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accomodations'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    delete:
+      tags: 
+        - accommodations
+      summary: Deletes the accomodation data of a place
+      responses:
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "204":
+          $ref: '#/components/responses/ResourceDeleted'
+  /places/{placeId}/accommodation/payment:
+    parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema:
+            type: integer
+    get:
+      summary: Gets all payments of the place's accommodation
+      tags:
+        - accommodations
+      responses:
+        "200":
+          description: Successfully returning all payments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+    post:
+      summary: Creates a new payment in the place's accommodation
+      tags:
+        - accommodations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccomodationPayments'
+      responses:
+        "201":
+          description: Successfully created payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+  /places/{placeId}/accommodation/payment/{payId}:
+    parameters:
+      - name: placeId
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: payId
+        in: path
+        required: true
+        schema:
+          type: integer
+    put:
+      tags:
+        - accommodations
+      summary: Updates the specified payment from the place's accommodation
+      responses:
+        "201":
+          description: Successfully updated payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+    delete:
+      tags: 
+        - accommodations
+      summary: Deletes a payment from the place's accommodation
+      responses:
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "204":
+          $ref: '#/components/responses/ResourceDeleted'
+      
   /events:
     get:
       tags:
@@ -798,17 +933,146 @@ paths:
           description: Review successfully deleted
         "404":
           $ref: '#/components/responses/NotFound'
+  /events/{eventId}/place:
+    get:
+      tags: 
+        - events
+      summary: Get a place of an event
+      description: Get a place of an event given the event id
+      operationId: getEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Values retrieved of a particular place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+              examples:
+                Place 1:
+                  $ref: '#/components/examples/Estanislao'
+                Event2:
+                  $ref: '#/components/examples/CatedralSevilla'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: 
+        - events
+      summary: Delete a place of an event
+      description: Get a place of an event given the event id
+      operationId: deleteEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "204":
+          $ref: '#/components/responses/ResourceDeleted'
+        "404":
+          $ref: '#/components/responses/NotFound'
+  /events/{eventId}/place/{placeId}:
+    post:
+      tags: 
+        - events
+      summary: Add a place to an event
+      description: Add a place to an event given the event id and a place id
+      operationId: addEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+        - name: placeId
+          in: path
+          description: Id of the place
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "201":
+          description: Place succesfully added to the event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event 1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: 
+        - events
+      summary: Update the place holding event
+      description: Update the place of an event given the event id and a place id
+      operationId: updateEventPlace
+      parameters:
+        - name: eventId
+          in: path
+          description: Id of the event
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+        - name: placeId
+          in: path
+          description: Id of the place
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Place succesfully added to the event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event 1:
+                  $ref: '#/components/examples/Event1'
+                Event2:
+                  $ref: '#/components/examples/Event2'
+        "404":
+          $ref: '#/components/responses/NotFound'
+       
 components:
   schemas:
     Accomodations:
-      required:
-      - numberOfRooms
-      - payments
-      - type
       type: object
       properties:
         numberOfRooms:
           type: integer
+          example: 500
         type:
           type: string
           enum:
@@ -821,14 +1085,16 @@ components:
       nullable: true
     AccomodationPayments:
       required:
-      - description
-      - mealService
-      - paymentPeriod
-      - price
+        - description
+        - price
+        - paymentPeriod
+        - mealService
+        - roomType
       type: object
       properties:
         description:
           type: string
+          example: Full year stay with gym access, weekly cleaning and full meal service 
         price:
           type: number
           format: double
@@ -844,6 +1110,12 @@ components:
           - ALL_MEALS
           - TWO_MEALS
           - SELF_CATERING
+        roomType:
+          type: string
+          enum:
+          - INDIVIDUAL
+          - DOUBLE
+          - OTHER
     Event:
       required:
       - contactEmail
@@ -851,6 +1123,7 @@ components:
       - name
       - organizators
       - price
+      - organizers
       type: object
       properties:
         name:
@@ -858,7 +1131,8 @@ components:
         description:
           type: string
         price:
-          type: integer
+          type: number
+          format: double
         date:
           type: string
           format: date-time
@@ -868,6 +1142,12 @@ components:
           type: string 
         organizers:
           type: string
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+        place:
+          $ref: '#/components/schemas/Place'
     Events:
       type: array
       items:
@@ -944,12 +1224,19 @@ components:
           nullable: true
         accomodation:
           $ref: '#/components/schemas/Accomodations'
-        location:
-          $ref: '#/components/schemas/Coordinates'
+        rating:
+          type: number
+          format: double
+          description: Average rating of a place
+          readOnly: true
         reviews:
           type: array
           items:
-            $ref: '#/components/schemas/Reviews'
+            $ref: '#/components/schemas/Review'
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        accommodation:
+          $ref: '#/components/schemas/Accomodations'
     Places:
       type: array
       items:
@@ -991,7 +1278,8 @@ components:
           type: string
           description: Cause of the error
         code:
-          type: number
+          type: integer
+          format: int32
           description: HTTP status code of the response
         documentation:
           type: string
@@ -1033,9 +1321,9 @@ components:
         date: 2022-09-17 21:30
         website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
         contactEmail: taquilla@teatrodelamaestranza.es
-        types: music
-        transport: bus
         organizers: La Maestranza
+        reviews: []
+        place: null
     Event2:
       summary: Segio Dalma's Concert
       description: Example the concert of Sergio Dalma
@@ -1046,9 +1334,9 @@ components:
         date: 2022-05-21 21:00
         website: https://www.sergiodalma.es/event/sevilla/
         contactEmail: info.cite@eulen.com
-        types: music
-        transport: bus
         organizers: Cartuja Center
+        reviews: []
+        place: null
     CatedralSevilla:
       summary: La catedral de sevilla
       description: Example the seville cathedral
@@ -1128,17 +1416,15 @@ components:
     review4: 
       description: Example of a review
       value:
-        username: Beni123
-        description: Increible relación calidad/precio en la comida, 
-          aunque un poco lento el servicio.
-        rating: 4.0
+        username: SpacialSaucer02
+        description: Ha sido una experiencia de otro mundo
+        rating: 4.1
     review5: 
       description: Example of a review
       value:
-        username: Beni123
-        description: Increible relación calidad/precio en la comida, 
-          aunque un poco lento el servicio.
-        rating: 4.0
+        username: IlustreSevillano
+        description: El evento no ha cumplido con mis expectativas
+        rating: 2.3
   requestBodies:
     Coordinates:
       content:
@@ -1151,3 +1437,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Place'
+    Accommodation:
+      content:
+        application/json:
+          schema:
+            required:
+              - numberOfRooms
+              - type
+            type: object
+            properties:
+              numberOfRooms:
+                type: integer
+                example: 500
+              type:
+                type: string
+                enum:
+                - RESIDENCE
+                - FLAT

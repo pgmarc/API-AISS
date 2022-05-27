@@ -12,10 +12,10 @@ public class DateValidationTest {
 
 	@Test
 	public void ShouldGetValidDate() {
-		String date = "2022-7-7 15:30:00";
+		String date = "2022-7-7 15:30";
 		LocalDateTime expected = LocalDateTime.of(2022, 7, 7, 15, 30);
-		LocalDateTime resutl = DateValidation.parseLocalDateTime(date);
-		assertEquals(expected, resutl);
+		LocalDateTime result = DateValidation.parseLocalDateTime(date);
+		assertEquals(expected, result);
 	}
 
 }
