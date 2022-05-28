@@ -662,6 +662,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Event'
+              examples:
+                Add event:
+                $ref: '#/components/examples/Event1'
+              Add another event:
+                $ref: '#/components/examples/Event2'
         required: true
       responses:
         "201":
