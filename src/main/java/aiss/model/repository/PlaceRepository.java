@@ -3,8 +3,8 @@ package aiss.model.repository;
 import java.util.Collection;
 import java.util.List;
 
-import aiss.model.Accomodation;
-import aiss.model.AccomodationPayment;
+import aiss.model.Accommodation;
+import aiss.model.AccommodationPayment;
 import aiss.model.Place;
 import aiss.model.Review;
 
@@ -24,13 +24,13 @@ public interface PlaceRepository {
 	public void updateReview(Integer placeId, Review review);
 	public void deleteReview(Integer placeId, Integer reviewId);
 	
-	public Accomodation getAccomodation(Integer placeId);
-	public void addAccomodation(Integer placeId, Accomodation accomodation);
-	public void updateAccomodation(Integer placeId, Accomodation accomodation);
-	public void deleteAccomodation(Integer placeId);
+	public Accommodation getAccommodation(Integer placeId);
+	public void addAccommodation(Integer placeId, Accommodation accommodation);
+	public void updateAccommodation(Integer placeId, Accommodation accommodation);
+	public void deleteAccommodation(Integer placeId);
 	
-	public AccomodationPayment getAccommodationPayment(Integer placeId, Integer paymentId);
-	public void addAccommodationPayment(Integer placeId, AccomodationPayment payment);
-	public void updateAccommodationPayment(Integer placeId, Integer paymentId, AccomodationPayment payment);
+	public AccommodationPayment getAccommodationPayment(Integer placeId, Integer paymentId);
+	public void addAccommodationPayment(Integer placeId, AccommodationPayment payment);
+	public void updateAccommodationPayment(Integer placeId, Integer paymentId, AccommodationPayment payment);
 	public void deleteAccommodationPayment(Integer placeId, Integer paymentId);
 }

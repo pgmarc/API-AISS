@@ -15,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 
 @JsonPropertyOrder({"id", "name", "address", "category", "email", "website",
-	"rating", "reviews", "location", "accomodation"})
+	"rating", "reviews", "location", "accommodation"})
 public class Place {
 
 	private Integer reviewIndex = 0;
@@ -33,8 +33,8 @@ public class Place {
 	private Coordinates location;
 	@JsonProperty("reviews")
 	private Map<Integer, Review> reviews;
-	@JsonProperty("accomodation")
-	private Accomodation accomodation = null;
+	@JsonProperty("accommodation")
+	private Accommodation accommodation = null;
 	@JsonProperty("category")
 	private PlaceCategory category;
 	
@@ -134,14 +134,14 @@ public class Place {
 		this.reviews = reviews;
 	}
 
-	@JsonProperty("accomodation")
-	public Accomodation getAccomodation() {
-		return this.accomodation;
+	@JsonProperty("accommodation")
+	public Accommodation getaccommodation() {
+		return this.accommodation;
 	}
 	
-	@JsonProperty("accomodation")
-	public void setAccomodation(Accomodation accomodation) {
-		this.accomodation = accomodation;
+	@JsonProperty("accommodation")
+	public void setaccommodation(Accommodation accommodation) {
+		this.accommodation = accommodation;
 	}
 	
 	
@@ -190,11 +190,11 @@ public class Place {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, id, location, name, accomodation);
+		return Objects.hash(address, id, location, name, accommodation);
 	}
 
-	public boolean accomodationMatches(Predicate<Accomodation> pred) {
-		return this.accomodation != null && pred.test(this.getAccomodation());
+	public boolean accommodationMatches(Predicate<Accommodation> pred) {
+		return this.accommodation != null && pred.test(this.getaccommodation());
 	}
 	
 	@Override
@@ -213,6 +213,6 @@ public class Place {
 	@Override
 	public String toString() {
 		return "Place [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address
-				+ ", website=" + website + ", location=" + location + ", accomodation=" + accomodation + "]";
+				+ ", website=" + website + ", location=" + location + ", accommodation=" + accommodation + "]";
 	}
 }

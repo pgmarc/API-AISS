@@ -534,7 +534,7 @@ paths:
     delete:
       tags: 
         - accommodations
-      summary: Deletes the accomodation data of a place
+      summary: Deletes the accommodation data of a place
       responses:
         "404":
           $ref: '#/components/responses/NotFound'
@@ -1227,7 +1227,7 @@ components:
           type: string
           description: Website of the place
           nullable: true
-        accomodation:
+        accommodation:
           $ref: '#/components/schemas/Accomodations'
         rating:
           type: number
@@ -1240,8 +1240,6 @@ components:
             $ref: '#/components/schemas/Review'
         location:
           $ref: '#/components/schemas/Coordinates'
-        accommodation:
-          $ref: '#/components/schemas/Accomodations'
     Places:
       type: array
       items:
@@ -1370,7 +1368,7 @@ components:
         address: C.Update Test s/n
         web: https://updatedfoobar.com
     Estanislao:
-      description: Example of a Place with Accomodation
+      description: Example of a Place with Accommodation
       value:
         name: Residencia universitaria Estanislao del Campo
         email: estanislao@micampusliving.com
@@ -1385,7 +1383,7 @@ components:
           description: "Muy buen sitio y bien mantenido, pero las comidas se podrí\
             an mejorar."
           rating: 4.0
-        accomodation:
+        accommodation:
           numberOfRooms: 500
           payments:
           - description: Habitación individual con cocina compartida

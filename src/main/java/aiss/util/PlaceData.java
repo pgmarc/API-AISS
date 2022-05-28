@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import aiss.model.Accomodation;
-import aiss.model.Accomodation.AccomodationType;
-import aiss.model.AccomodationPayment;
-import aiss.model.AccomodationPayment.MealService;
-import aiss.model.AccomodationPayment.PaymentPeriod;
-import aiss.model.AccomodationPayment.RoomType;
+import aiss.model.Accommodation;
+import aiss.model.Accommodation.accommodationType;
+import aiss.model.AccommodationPayment;
+import aiss.model.AccommodationPayment.MealService;
+import aiss.model.AccommodationPayment.PaymentPeriod;
+import aiss.model.AccommodationPayment.RoomType;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
@@ -70,7 +70,7 @@ public class PlaceData {
 		place6.setEmail("estanislao@micampusliving.com");
 		place6.setAddress("Ctra. Su Eminencia, 2A, 41013 Sevilla");
 		place6.setWebsite("https://micampusresidencias.com/micampus-estanislao");
-		place6.setCategory(PlaceCategory.ACCOMODATION);
+		place6.setCategory(PlaceCategory.ACCOMMODATION);
 		place6.setLocation(Coordinates.of(37.35649060120476, -5.9781261663374625));
 		
 		Place place7 = new Place();
@@ -115,7 +115,7 @@ public class PlaceData {
 		place12.setEmail("armendariz@micampusliving.com");
 		place12.setAddress("Ctra. Su Eminencia 15, 41013 Sevilla");
 		place12.setWebsite("https://micampusresidencias.com/sevilla-armendariz/");
-		place12.setCategory(PlaceCategory.ACCOMODATION);
+		place12.setCategory(PlaceCategory.ACCOMMODATION);
 		place12.setLocation(Coordinates.of(37.1237613670735, -6.12381094104));
 		
 		Place place13 = new Place();
@@ -123,7 +123,7 @@ public class PlaceData {
 		place13.setEmail("elmejorpisitodelmundo@localshadybusiness.es");
 		place13.setAddress("El callejón ese oscuro y sospechoso, 2, 41001 Sevilla");
 		place13.setWebsite("http://www.localshadybusiness.es");
-		place13.setCategory(PlaceCategory.ACCOMODATION);
+		place13.setCategory(PlaceCategory.ACCOMMODATION);
 		place13.setLocation(Coordinates.of(37.1237613670735, -6.12381094104));
 		
 		Place place14 = new Place();
@@ -131,7 +131,7 @@ public class PlaceData {
 		place14.setEmail("testing@gmail.com");
 		place14.setAddress("Calle test, 2, 41001 Sevilla");
 		place14.setWebsite("http://www.testing.es");
-		place14.setCategory(PlaceCategory.ACCOMODATION);
+		place14.setCategory(PlaceCategory.ACCOMMODATION);
 		place14.setLocation(Coordinates.of(12.34567, -12.34567));
 		
 		Place place15 = new Place();
@@ -139,7 +139,7 @@ public class PlaceData {
 		place15.setEmail("testing2@gmail.com");
 		place15.setAddress("Calle test 2, 2, 41001 Sevilla");
 		place15.setWebsite("http://www.testing2.es");
-		place15.setCategory(PlaceCategory.ACCOMODATION);
+		place15.setCategory(PlaceCategory.ACCOMMODATION);
 		place15.setLocation(Coordinates.of(21.34567, -21.34567));
 		
 		Place place16 = new Place();
@@ -393,29 +393,29 @@ public class PlaceData {
 		places.add(place41);
 		
 		
-		Accomodation acc1 = new Accomodation(
+		Accommodation acc1 = new Accommodation(
 				500, 
 				new HashMap<>(),
-				AccomodationType.RESIDENCE);
-				AccomodationPayment pay1 = new AccomodationPayment(
+				accommodationType.RESIDENCE);
+				AccommodationPayment pay1 = new AccommodationPayment(
 								"Individual con servicios extra",
 								1500.1,
 								PaymentPeriod.YEARLY,
 								MealService.ALL_MEALS,
 								RoomType.INDIVIDUAL);
-				AccomodationPayment pay2 = new AccomodationPayment(
+				AccommodationPayment pay2 = new AccommodationPayment(
 								"Doble con servicios extra",
 								1050.1,
 								PaymentPeriod.YEARLY,
 								MealService.ALL_MEALS,
 								RoomType.INDIVIDUAL);
-				AccomodationPayment pay3 = new AccomodationPayment(
+				AccommodationPayment pay3 = new AccommodationPayment(
 								"Individual con limpieza semanal",
 								1200.1,
 								PaymentPeriod.YEARLY,
 								MealService.TWO_MEALS,
 								RoomType.INDIVIDUAL);
-				AccomodationPayment pay4 = new AccomodationPayment(
+				AccommodationPayment pay4 = new AccommodationPayment(
 								"Doble con limpieza semanal",
 								900.1,
 								PaymentPeriod.YEARLY,
@@ -425,27 +425,27 @@ public class PlaceData {
 		acc1.addPayment(pay2);
 		acc1.addPayment(pay3);
 		acc1.addPayment(pay4);
-		place14.setAccomodation(acc1);
+		place14.setaccommodation(acc1);
 		
 		
-		Accomodation acc2 = new Accomodation(
+		Accommodation acc2 = new Accommodation(
 				600, 
 				new HashMap<>(),
-				AccomodationType.RESIDENCE);
-		AccomodationPayment pay5 = new AccomodationPayment(
+				accommodationType.RESIDENCE);
+		AccommodationPayment pay5 = new AccommodationPayment(
 								"Dos habitaciones y un cuarto de baño, cocina pequeña",
 								500.,
 								PaymentPeriod.MONTHLY,
 								MealService.SELF_CATERING,
 								RoomType.OTHER);
 		acc2.addPayment(pay5);
-		place15.setAccomodation(acc2);
+		place15.setaccommodation(acc2);
 		
-		Accomodation acc3 = new Accomodation(
+		Accommodation acc3 = new Accommodation(
 				800, 
 				new HashMap<>(),
-				AccomodationType.RESIDENCE);
-		AccomodationPayment pay6 = new AccomodationPayment(
+				accommodationType.RESIDENCE);
+		AccommodationPayment pay6 = new AccommodationPayment(
 						"Pensión completa, limpieza de habitación semanal, cambio"
 						+ " de sábanas y toallas semanal, salón, cocina, baño completo, mesa de estudio,"
 						+ " armario, climatización,"
@@ -454,7 +454,7 @@ public class PlaceData {
 						PaymentPeriod.MONTHLY,
 						MealService.ALL_MEALS,
 						RoomType.DOUBLE);
-		AccomodationPayment pay7 = new AccomodationPayment(
+		AccommodationPayment pay7 = new AccommodationPayment(
 						"Pensión completa, limpieza de habitación semanal, cambio de sábanas y toallas semanal,"
 						+ " salón grande, cocina, baño completo, mesa de estudio, armario, WIFI, "
 						+ "climatización y todos los beneficios de micampus Club.",
@@ -462,7 +462,7 @@ public class PlaceData {
 						PaymentPeriod.MONTHLY,
 						MealService.ALL_MEALS,
 						RoomType.INDIVIDUAL);
-		AccomodationPayment pay8 = new AccomodationPayment(
+		AccommodationPayment pay8 = new AccommodationPayment(
 						"Limpieza de habitación semanal, "
 						+ "cambio de sábanas y toallas semanal, 2 amplias "
 						+ "habitaciones, salón grande, baño  y cocina completos, mesa "
@@ -472,7 +472,7 @@ public class PlaceData {
 						PaymentPeriod.MONTHLY,
 						MealService.SELF_CATERING,
 						RoomType.DOUBLE);
-		AccomodationPayment pay9 = new AccomodationPayment(
+		AccommodationPayment pay9 = new AccommodationPayment(
 						"Limpieza de habitación semanal, "
 						+ "cambio de sábanas y toallas semanal, amplia "
 						+ "habitación, salón grande, baño y cocina completos, mesa "
@@ -487,20 +487,20 @@ public class PlaceData {
 		acc3.addPayment(pay7);
 		acc3.addPayment(pay8);
 		acc3.addPayment(pay9);
-		place12.setAccomodation(acc3);
+		place12.setaccommodation(acc3);
 		
-		Accomodation ac4 = new Accomodation(
+		Accommodation ac4 = new Accommodation(
 				1200,
 				new HashMap<>(),
-				AccomodationType.FLAT);
-		AccomodationPayment pay10 = new AccomodationPayment(
+				accommodationType.FLAT);
+		AccommodationPayment pay10 = new AccommodationPayment(
 						"3 literas dobles y un baño compartido"
 						+ " para nada en malas condiciones",
 						199.99,
 						PaymentPeriod.MONTHLY,
 						MealService.TWO_MEALS,
 						RoomType.OTHER);
-		AccomodationPayment pay11 = new AccomodationPayment(
+		AccommodationPayment pay11 = new AccommodationPayment(
 						"4 literas dobles en una habitación muy muy espaciosa y con"
 						+ " cocina y baños de la máxima calidad",
 						149.99,
@@ -510,13 +510,13 @@ public class PlaceData {
 		
 		ac4.addPayment(pay10);
 		ac4.addPayment(pay11);
-		place13.setAccomodation(ac4);
+		place13.setaccommodation(ac4);
 		
-		Accomodation ac5 = new Accomodation(
+		Accommodation ac5 = new Accommodation(
 				850,
 				new HashMap<>(),
-				AccomodationType.RESIDENCE);
-		AccomodationPayment pay12 = new AccomodationPayment(
+				accommodationType.RESIDENCE);
+		AccommodationPayment pay12 = new AccommodationPayment(
 								"Media pensión (con opción de pensión completa), "
 								+ "limpieza semanal incluida, baño propio, cocina "
 								+ "equipada, escritorio, agua, climatización, WIFI, "
@@ -527,7 +527,7 @@ public class PlaceData {
 								MealService.TWO_MEALS,
 								RoomType.DOUBLE
 								);
-		AccomodationPayment pay13 = new AccomodationPayment(
+		AccommodationPayment pay13 = new AccommodationPayment(
 								"Media pensión (con opción de pensión completa), "
 								+ "limpieza semanal incluida, baño propio, cocina "
 								+ "equipada compartida, escritorio, agua, climatización, WIFI, "
@@ -539,7 +539,7 @@ public class PlaceData {
 								RoomType.INDIVIDUAL);
 		ac5.addPayment(pay12);
 		ac5.addPayment(pay13);
-		place6.setAccomodation(ac5);
+		place6.setaccommodation(ac5);
 		
 		return places;
 	}

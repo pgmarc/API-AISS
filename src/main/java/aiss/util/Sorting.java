@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 
-import aiss.model.Accomodation;
+import aiss.model.Accommodation;
 import aiss.model.Event;
 import aiss.model.Place;
 import aiss.model.Review;
@@ -45,17 +45,17 @@ public class Sorting {
 			
 			Map.entry("type", (p1,p2)->p1.getCategory().compareTo(p2.getCategory())),
 			
-			Map.entry("accomodationType", (p1,p2)->
-					Comparator.nullsLast((ac1,ac2)->((Accomodation) ac1).getType().compareTo(((Accomodation) ac2).getType()))
-						.compare(p1.getAccomodation(), p2.getAccomodation())),
+			Map.entry("accommodationType", (p1,p2)->
+					Comparator.nullsLast((ac1,ac2)->((Accommodation) ac1).getType().compareTo(((Accommodation) ac2).getType()))
+						.compare(p1.getaccommodation(), p2.getaccommodation())),
 			
-			Map.entry("+accomodationPrice", (p1,p2)->
-					Comparator.nullsLast((ac1,ac2)->((Accomodation) ac2).getMaxMonthlyPrice().compareTo(((Accomodation) ac1).getMaxMonthlyPrice()))
-						.compare(p1.getAccomodation(), p2.getAccomodation())),
+			Map.entry("+accommodationPrice", (p1,p2)->
+					Comparator.nullsLast((ac1,ac2)->((Accommodation) ac2).getMaxMonthlyPrice().compareTo(((Accommodation) ac1).getMaxMonthlyPrice()))
+						.compare(p1.getaccommodation(), p2.getaccommodation())),
 			
-			Map.entry("-accomodationPrice", (p1,p2)->
-			Comparator.nullsLast((ac1,ac2)->((Accomodation) ac1).getMinMonthlyPrice().compareTo(((Accomodation) ac2).getMinMonthlyPrice()))
-				.compare(p1.getAccomodation(), p2.getAccomodation()))
+			Map.entry("-accommodationPrice", (p1,p2)->
+			Comparator.nullsLast((ac1,ac2)->((Accommodation) ac1).getMinMonthlyPrice().compareTo(((Accommodation) ac2).getMinMonthlyPrice()))
+				.compare(p1.getaccommodation(), p2.getaccommodation()))
 		);
 	
 	public static Comparator<Place> parsePlaceSort(String sort) {
