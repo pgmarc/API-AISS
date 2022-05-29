@@ -31,10 +31,13 @@ public class DateValidation {
 	public static LocalDateTime parseLocalDateTime(String dateTime) {
 		Matcher matcher = dateTimePattern.matcher(dateTime);
 		matcher.find();
+		Integer year = Integer.valueOf(dateTime.substring(0, 4));
+		Integer month = Integer.valueOf(matcher.group(1));
+		Integer day = Integer.valueOf(matcher.group(2));
 		Integer hour = Integer.valueOf(matcher.group(3));
 		Integer minutes = Integer.valueOf(matcher.group(4));
 
-		LocalDate eventDate = parseLocalDate(dateTime);
+		LocalDate eventDate = LocalDate.of(year, month, day);
 		LocalTime eventHour = LocalTime.of(hour, minutes);
 		LocalDateTime dateAndHour = LocalDateTime.of(eventDate, eventHour);
 
