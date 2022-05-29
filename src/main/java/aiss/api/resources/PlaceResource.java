@@ -403,8 +403,10 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccommodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
-			@PathParam("payId") Integer paymentId, AccommodationPayment payment) {
+	public Response updateAccommodationPayment(@Context UriInfo uriInfo,
+			@PathParam("placeId") Integer placeId, 
+			@PathParam("payId") Integer paymentId,
+			AccommodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
@@ -438,6 +440,8 @@ public class PlaceResource {
 		
 		if(payment.getRoomType() != null)
 			oldPayment.setRoomType(payment.getRoomType());
+		
+		placeRepository.updateAccommodationPayment(placeId, paymentId, oldPayment);
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation/{payId}");
 		URI uri = ub.build(oldPayment.getId());

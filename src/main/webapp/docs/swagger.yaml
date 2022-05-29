@@ -26,9 +26,6 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-# Added by API Auto Mocking Plugin
-- description: SwaggerHub API Auto Mocking
-  url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
 - url: https://student-compass-350106.ew.r.appspot.com/api
   description: AppEngine server
 - url: "http://localhost:{port}/api"
@@ -1345,8 +1342,6 @@ components:
         website: https://www.entradas.com/event/placido-domingo-noches-de-la-maestranza-plaza-de-toros-de-la-maestranza-14621134/
         contactEmail: taquilla@teatrodelamaestranza.es
         organizers: La Maestranza
-        reviews: []
-        place: null
     Event2:
       summary: Segio Dalma's Concert
       description: Example the concert of Sergio Dalma
@@ -1358,8 +1353,6 @@ components:
         website: https://www.sergiodalma.es/event/sevilla/
         contactEmail: info.cite@eulen.com
         organizers: Cartuja Center
-        reviews: []
-        place: null
     EventTest:
       summary: Event test
       description: Example an imaginary test
@@ -1371,8 +1364,6 @@ components:
         website: https://foobar.com
         contactEmail: fooBar@foobar.com
         organizers: Foo & Bar company
-        reviews: []
-        place: null
     CatedralSevilla:
       summary: La catedral de sevilla
       description: Example the seville cathedral

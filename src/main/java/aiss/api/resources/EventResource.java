@@ -150,20 +150,20 @@ public class EventResource {
 	@Produces("application/json")
 	public Response updateEvent(@Context UriInfo uriInfo,
 			@PathParam("id") Integer eventId, Event event) {
+		
 		Event oldEvent = eventRepository.getEvent(eventId);
 		
 		if (oldEvent == null)
-			throw new EntityNotFoundException("The event with id="+ event.getId() +" was not found");			
+			throw new EntityNotFoundException("The event with id="+ eventId +" was not found");			
 		
-		if (event.getName() != null || (event.getName().isEmpty()))
+		if (event.getName() != null && event.getName().isEmpty())
 			throw new BadEntityRequestException("An event must have a name");
 		
 		if (event.getName() != null)
 			oldEvent.setName(event.getName());
 		
 		
-		if (event.getContactEmail() != null ||
-		 (event.getContactEmail().isEmpty()))
+		if (event.getContactEmail() != null && event.getContactEmail().isEmpty())
 			throw new BadEntityRequestException("An event must have a contact email");
 		
 		if (event.getContactEmail() != null)
@@ -185,8 +185,7 @@ public class EventResource {
 			oldEvent.setDate(event.getLocalDateTime());
 		
 		
-		if (event.getOrganizers() != null || 
-		 (event.getOrganizers().isEmpty()))
+		if (event.getOrganizers() != null && event.getOrganizers().isEmpty())
 			throw new BadEntityRequestException("An event must have someone that manages the event");
 		
 		if (event.getOrganizers() != null)
@@ -195,10 +194,10 @@ public class EventResource {
 		
 		eventRepository.updateEvent(oldEvent);
 		
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getEvent");
-		URI uri = ub.build(eventId);
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+		URI uri = ub.build();
 		ResponseBuilder response = Response.ok(uri);
-		response.entity(event);			
+		response.entity(oldEvent);			
 		return response.build();
 	}
 	
@@ -404,8 +403,8 @@ public class EventResource {
 		
 		eventRepository.updatePlace(eventId, placeId);
 		
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getPlace");
-		URI uri = ub.build(eventId);
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+		URI uri = ub.build();
 		ResponseBuilder response = Response.ok(uri);
 		response.entity(event);			
 		return response.build();		
