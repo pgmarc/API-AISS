@@ -6,7 +6,6 @@ import org.codehaus.jackson.annotate.JsonCreator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import aiss.model.Accommodation.accommodationType;
 import aiss.util.EnumValidator;
 
 public class AccommodationPayment {

@@ -12,6 +12,5 @@ public class ReviewUtils {
 		return reviews.stream()
 				.filter(Filtering.parseReviewFilter(filter))
 				.collect(Collectors.toList());
-	}
-	
+	}	
 }
