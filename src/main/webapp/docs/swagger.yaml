@@ -138,10 +138,10 @@ paths:
           type: number
           format: double
         examples:
-          "500 metres":
+          "200 meters":
+            value: 200
+          "500 meters":
             value: 500
-          "1 kilometer":
-            value: 1000
       - name: maxRadius
         in: query
         description: Set the maximum radius (in meters) when looking nearby places.
@@ -629,17 +629,25 @@ paths:
           required: false
           schema:
             type: string
+            format: date
             pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])$"
-          example: 2022-08-10
-        
+            example: "2022-08-10"
         - name: finalDate
           in: query
           description: This field sets final date for events to be returned. You can specify it by giving one string whith the following format yyyy-MM-dd. Anyway, it doesn't need to be filled. If you don´t fill the final date it shows you all the events that are hold for a month since the actual date.
           required: false
           schema:
             type: string
+            format: date
             pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])$"
-          example: 2022-09-10
+            example: "2022-09-10"
+        - name: order
+          in: query
+          description: This parameter sort the events by date ascending (+date) or descending order (-date).
+          required: false
+          schema:
+            type: string
+            example: "+date"
       responses:
         "200":
           description: Returns a list of events
@@ -662,8 +670,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Event'
-              examples:
-                Add event:
+            examples:
+              Add event:
                 $ref: '#/components/examples/Event1'
               Add another event:
                 $ref: '#/components/examples/Event2'
@@ -735,6 +743,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Event'
+            examples:
+              Event Update Test:
+                $ref: '#/components/examples/EventTest'
+                
       responses:
         "200":
           description: Event was succesfully updated
@@ -1338,6 +1350,19 @@ components:
         website: https://www.sergiodalma.es/event/sevilla/
         contactEmail: info.cite@eulen.com
         organizers: Cartuja Center
+        reviews: []
+        place: null
+    EventTest:
+      summary: Event test
+      description: Example an imaginary test
+      value:
+        name: Foobar event
+        description: Tipical description of foobar
+        price: 3.5
+        date: 2022-06-15 22:00
+        website: https://foobar.com
+        contactEmail: fooBar@foobar.com
+        organizers: Foo & Bar company
         reviews: []
         place: null
     CatedralSevilla:
