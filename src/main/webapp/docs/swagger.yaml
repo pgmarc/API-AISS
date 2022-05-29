@@ -596,9 +596,14 @@ paths:
     put:
       tags:
         - accommodations
-      summary: Updates the specified payment from the place's accommodation
+      summary: Updates the specified payment method from the place's accommodation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccomodationPayments'
       responses:
-        "201":
+        "200":
           description: Successfully updated payment
           content:
             application/json:
