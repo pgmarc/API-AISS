@@ -28,7 +28,7 @@ info:
 servers:
 - url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
   description: SwaggerHub API Auto Mocking
-- url: https://student-compass-350106.appspot.com/api
+- url: https://student-compass-350106.ew.r.appspot.com/api
   description: AppEngine server
 - url: "http://localhost:{port}/api"
   description: Development server
@@ -140,10 +140,10 @@ paths:
           type: number
           format: double
         examples:
-          "500 metres":
+          "200 meters":
+            value: 200
+          "500 meters":
             value: 500
-          "1 kilometer":
-            value: 1000
       - name: maxRadius
         in: query
         description: Set the maximum radius (in meters) when looking nearby places.
@@ -597,6 +597,306 @@ paths:
                   errorMessage: Place with id not found
                   code: 404
                   documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+  /places/{placeId}/accommodation:
+    get:
+      tags:
+      - accommodations
+      summary: Gets the accommodation data from a place with accommodation
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully retrieved accommodation data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accomodations'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Bad request
+                  code: 400
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+    put:
+      tags:
+      - accommodations
+      summary: Updates the accommodation data of a place
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/Accommodation'
+      responses:
+        "200":
+          description: Successfully updated the accommodation data of the place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accomodations'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Bad request
+                  code: 400
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+    post:
+      tags:
+      - accommodations
+      summary: Creates accommodation data in place
+      description: Adds the specified accommodation data to the place. Note that payments
+        should be added through their methods and not through this operation.
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/Accommodation'
+      responses:
+        "201":
+          description: Successfully added accommodation data to the place
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Bad request
+                  code: 400
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+    delete:
+      tags:
+      - accommodations
+      summary: Deletes the accommodation data of a place
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "204":
+          description: The resource was succesfully deleted
+  /places/{placeId}/accommodation/payment:
+    get:
+      tags:
+      - accommodations
+      summary: Gets all payments of the place's accommodation
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successfully returning all payments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+    post:
+      tags:
+      - accommodations
+      summary: Creates a new payment in the place's accommodation
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccomodationPayments'
+      responses:
+        "201":
+          description: Successfully created payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Bad request
+                  code: 400
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+  /places/{placeId}/accommodation/payment/{payId}:
+    put:
+      tags:
+      - accommodations
+      summary: Updates the specified payment from the place's accommodation
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: payId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "201":
+          description: Successfully updated payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccomodationPayments'
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "400":
+          description: Request body was not well formed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Bad request
+                  code: 400
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+    delete:
+      tags:
+      - accommodations
+      summary: Deletes a payment from the place's accommodation
+      parameters:
+      - name: placeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: payId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "404":
+          description: The given resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                value:
+                  errorMessage: Place with id not found
+                  code: 404
+                  documentation: https://student-compass-350106.appspot.com/api/docs/index.html
+        "204":
+          description: The resource was succesfully deleted
   /events:
     get:
       tags:
@@ -608,30 +908,42 @@ paths:
       - name: initialDate
         in: query
         description: "This field sets the initial date for events to be returned.\
-          \ You can specify it by giving one string whith the following format dd-MM-yyyy\
-          \ HH:mm. Anyway, it doesn't need to be filled. If you don´t fill the initial\
-          \ date it will show you all the events since the current date."
+          \ You can specify it by giving one string whith the following format yyyy-MM-dd.\
+          \ Anyway, it doesn't need to be filled. If you don´t fill the initial date\
+          \ it will show you all the events since the current date."
         required: false
         style: form
         explode: true
         schema:
-          pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
+          pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])$"
           type: string
-        example: 2022-08-10 10:00
+          format: date
+          example: 2022-08-10
       - name: finalDate
         in: query
         description: "This field sets final date for events to be returned. You can\
-          \ specify it by giving one string whith the following format dd-MM-yyyy\
-          \ HH:mm. Anyway, it doesn't need to be filled. If you don´t fill the final\
-          \ date it shows you all the events that are hold for a month since the actual\
+          \ specify it by giving one string whith the following format yyyy-MM-dd.\
+          \ Anyway, it doesn't need to be filled. If you don´t fill the final date\
+          \ it shows you all the events that are hold for a month since the actual\
           \ date."
         required: false
         style: form
         explode: true
         schema:
-          pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$"
+          pattern: "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])$"
           type: string
-        example: 2022-09-10 10:00
+          format: date
+          example: 2022-09-10
+      - name: order
+        in: query
+        description: This parameter sort the events by date ascending (+date) or descending
+          order (-date).
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: +date
       responses:
         "200":
           description: Returns a list of events
@@ -664,6 +976,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Event'
+            examples:
+              Add event:
+                $ref: '#/components/examples/Event1'
+              Add another event:
+                $ref: '#/components/examples/Event2'
         required: true
       responses:
         "201":
@@ -750,6 +1067,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Event'
+            examples:
+              Event Update Test:
+                $ref: '#/components/examples/EventTest'
       responses:
         "200":
           description: Event was succesfully updated
@@ -1204,14 +1524,11 @@ paths:
 components:
   schemas:
     Accomodations:
-      required:
-      - numberOfRooms
-      - payments
-      - type
       type: object
       properties:
         numberOfRooms:
           type: integer
+          example: 500
         type:
           type: string
           enum:
@@ -1228,10 +1545,13 @@ components:
       - mealService
       - paymentPeriod
       - price
+      - roomType
       type: object
       properties:
         description:
           type: string
+          example: "Full year stay with gym access, weekly cleaning and full meal\
+            \ service"
         price:
           type: number
           format: double
@@ -1247,6 +1567,12 @@ components:
           - ALL_MEALS
           - TWO_MEALS
           - SELF_CATERING
+        roomType:
+          type: string
+          enum:
+          - INDIVIDUAL
+          - DOUBLE
+          - OTHER
     Event:
       required:
       - contactEmail
@@ -1353,7 +1679,7 @@ components:
           type: string
           description: Website of the place
           nullable: true
-        accomodation:
+        accommodation:
           $ref: '#/components/schemas/Accomodations'
         rating:
           type: number
@@ -1366,8 +1692,6 @@ components:
             $ref: '#/components/schemas/Review'
         location:
           $ref: '#/components/schemas/Coordinates'
-        accommodation:
-          $ref: '#/components/schemas/Accomodations'
     Places:
       type: array
       items:
@@ -1466,6 +1790,18 @@ components:
         contactEmail: info.cite@eulen.com
         organizers: Cartuja Center
         reviews: []
+    EventTest:
+      summary: Event test
+      description: Example an imaginary test
+      value:
+        name: Foobar event
+        description: Tipical description of foobar
+        price: 3.5
+        date: 2022-06-15 22:00
+        website: https://foobar.com
+        contactEmail: fooBar@foobar.com
+        organizers: Foo & Bar company
+        reviews: []
     CatedralSevilla:
       summary: La catedral de sevilla
       description: Example the seville cathedral
@@ -1494,7 +1830,7 @@ components:
         address: C.Update Test s/n
         web: https://updatedfoobar.com
     Estanislao:
-      description: Example of a Place with Accomodation
+      description: Example of a Place with Accommodation
       value:
         name: Residencia universitaria Estanislao del Campo
         email: estanislao@micampusliving.com
@@ -1509,7 +1845,7 @@ components:
           description: "Muy buen sitio y bien mantenido, pero las comidas se podrí\
             an mejorar."
           rating: 4.0
-        accomodation:
+        accommodation:
           numberOfRooms: 500
           payments:
           - description: Habitación individual con cocina compartida
@@ -1568,3 +1904,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Place'
+    Accommodation:
+      content:
+        application/json:
+          schema:
+            required:
+            - numberOfRooms
+            - type
+            type: object
+            properties:
+              numberOfRooms:
+                type: integer
+                example: 500
+              type:
+                type: string
+                enum:
+                - RESIDENCE
+                - FLAT
