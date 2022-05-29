@@ -8,7 +8,7 @@ import aiss.model.Event;
 
 public class EventsUtil {
 	
-	public static List<Event> sortEvent(List<Event> events, LocalDate initialDate,
+	public static List<Event> getEventsInDateRange(List<Event> events, LocalDate initialDate,
 			LocalDate finalDate) {
 		return events.stream().filter(event -> event.getLocalDateTime() != null)
 				.filter(event -> event.getLocalDate().isAfter(initialDate) 

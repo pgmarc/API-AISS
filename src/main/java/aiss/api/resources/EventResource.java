@@ -32,6 +32,7 @@ import aiss.model.repository.EventRepository;
 import aiss.model.repository.MapEventRepository;
 import aiss.model.repository.MapPlaceRepository;
 import aiss.util.EventsUtil;
+import aiss.util.Sorting;
 import aiss.util.validation.DateValidation;
 
 
@@ -63,7 +64,8 @@ public class EventResource {
 	@GET
 	@Produces("application/json")
 	public Response getAllEvents(@QueryParam("initialDate") String initialDateString,
-			@QueryParam("finalDate") String finalDateString ) {
+			@QueryParam("finalDate") String finalDateString,
+			@QueryParam("order") String orderValue) {
 		
 		List<Event> events = new ArrayList<Event>(eventRepository.getAllEvents());
 		
@@ -82,7 +84,10 @@ public class EventResource {
 		LocalDate minDate = DateValidation.parseLocalDate(initialDate);  
 		LocalDate maxDate = DateValidation.parseLocalDate(finalDate); 
 	
-		events = EventsUtil.sortEvent(events, minDate, maxDate);
+		events = EventsUtil.getEventsInDateRange(events, minDate, maxDate);
+		
+		if (orderValue != null)
+			events.sort(Sorting.parseEventSort(orderValue));
 		
 		return Response.status(Status.OK).entity(events).build(); 
 	}
