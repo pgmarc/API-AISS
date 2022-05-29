@@ -554,7 +554,6 @@ public class PlaceResource {
 		if (oldReview == null)
 			throw new EntityNotFoundException("The review with id=" +reviewId+ " was not found");
 
-		
 		if(review.getRating() < 0 || review.getRating() > 5)
 			throw new BadEntityRequestException("The rating must be between 0 and 5");
 		
@@ -571,10 +570,10 @@ public class PlaceResource {
 	
 		placeRepository.updateReview(placeId, oldReview);
 		
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getReview");
-		URI uri = ub.build(placeId, reviewId);
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+		URI uri = ub.build();
 		ResponseBuilder resp = Response.ok(uri);
-		resp.entity(review);			
+		resp.entity(oldReview);			
 		return resp.build();
 	}
 	

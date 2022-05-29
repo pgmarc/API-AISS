@@ -316,10 +316,10 @@ public class EventResource {
 		oldReview.setDate(LocalDateTime.now());
 		eventRepository.updateReview(eventId, oldReview);
 		
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder(). path(this.getClass(), "getReview");
-		URI uri = ub.build(eventId);
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+		URI uri = ub.build();
 		ResponseBuilder response = Response.ok(uri);
-		response.entity(event);			
+		response.entity(oldReview);			
 		return response.build();
 	}
 	
