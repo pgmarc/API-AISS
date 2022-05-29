@@ -26,6 +26,9 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
+# Added by API Auto Mocking Plugin
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/pgmarc/Students-Compass/1.0.0
 - url: https://student-compass-350106.ew.r.appspot.com/api
   description: AppEngine server
 - url: "http://localhost:{port}/api"
@@ -1371,7 +1374,7 @@ components:
       value:
         name: Catedral de Sevilla
         address: "Av. de la Constitución, s/n, 41004 Sevilla"
-        web: https://www.catedraldesevilla.es
+        website: https://www.catedraldesevilla.es
         location:
           latitude: 37.38586299856296
           longitude: -5.993103877606445
@@ -1381,7 +1384,7 @@ components:
         name: This is a test of place
         email: test@testing.com
         address: C. Test s/n
-        web: https://foobar.com
+        website: https://foobar.com
         location:
           latitude: 25.000777231550654
           longitude: -71.00017170317003
@@ -1391,7 +1394,7 @@ components:
         name: This is an updated place
         email: updaetedTest@updatedtesting.com
         address: C.Update Test s/n
-        web: https://updatedfoobar.com
+        website: https://updatedfoobar.com
     Estanislao:
       description: Example of a Place with Accommodation
       value:
