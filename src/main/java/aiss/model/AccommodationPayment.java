@@ -6,10 +6,10 @@ import org.codehaus.jackson.annotate.JsonCreator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import aiss.model.Accomodation.AccomodationType;
+import aiss.model.Accommodation.accommodationType;
 import aiss.util.EnumValidator;
 
-public class AccomodationPayment {
+public class AccommodationPayment {
 	
 	public enum PaymentPeriod {YEARLY, MONTHLY;
 		@JsonCreator
@@ -55,9 +55,9 @@ public class AccomodationPayment {
 	@JsonProperty("roomType")
 	private RoomType roomType;
 	
-	public AccomodationPayment() {}
+	public AccommodationPayment() {}
 	
-	public AccomodationPayment(String description, Double price, PaymentPeriod paymentPeriod, MealService mealService, RoomType roomType) {
+	public AccommodationPayment(String description, Double price, PaymentPeriod paymentPeriod, MealService mealService, RoomType roomType) {
 		this.description = description;
 		this.price = price;
 		this.paymentPeriod = paymentPeriod;
@@ -138,14 +138,14 @@ public class AccomodationPayment {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AccomodationPayment other = (AccomodationPayment) obj;
+		AccommodationPayment other = (AccommodationPayment) obj;
 		return Objects.equals(description, other.description) && mealService == other.mealService
 				&& paymentPeriod == other.paymentPeriod && Objects.equals(price, other.price);
 	}
 	
 	@Override
 	public String toString() {
-		return "AccomodationPayment [description=" + description + ", price=" + price + ", paymentPeriod="
+		return "accommodationPayment [description=" + description + ", price=" + price + ", paymentPeriod="
 				+ paymentPeriod + ", mealService=" + mealService + "]";
 	}
 }

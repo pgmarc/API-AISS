@@ -10,7 +10,7 @@
 //import org.junit.BeforeClass;
 //import org.junit.Test;
 //
-//import aiss.model.Accomodation.AccomodationType;
+//import aiss.model.accommodation.accommodationType;
 //import aiss.model.Place;
 //import aiss.model.PlaceCategory;
 //import aiss.model.repository.MapPlaceRepository;
@@ -57,10 +57,10 @@
 //	}
 //	
 //	@Test 
-//	public void searchByAccomodationType() {
-//		String filters = "accomodationType = flat";
+//	public void searchByaccommodationType() {
+//		String filters = "accommodationType = flat";
 //		List<Place> expected = places.stream()
-//				.filter(place->place.accomodationMatches(ac->ac.getType().equals(AccomodationType.FLAT)))
+//				.filter(place->place.accommodationMatches(ac->ac.getType().equals(accommodationType.FLAT)))
 //				.collect(Collectors.toList());
 //		List<Place> result = PlacesUtil.filterPlaces(places, filters);
 //		assertEquals(expected, result);

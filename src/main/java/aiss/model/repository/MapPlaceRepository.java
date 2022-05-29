@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import aiss.exceptions.EntityNotFoundException;
-import aiss.model.Accomodation;
-import aiss.model.AccomodationPayment;
+import aiss.model.Accommodation;
+import aiss.model.AccommodationPayment;
 import aiss.model.Coordinates;
 import aiss.model.Place;
 import aiss.model.Review;
@@ -152,53 +152,53 @@ public class MapPlaceRepository implements PlaceRepository{
 		placesMap.get(placeId).getReviews().remove(reviewId);
 	}
 
-	//ACCOMODATION
+	//accommodation
 	@Override
-	public Accomodation getAccomodation(Integer placeId) {
-		return placesMap.get(placeId).getAccomodation();
+	public Accommodation getAccommodation(Integer placeId) {
+		return placesMap.get(placeId).getaccommodation();
 	}
 
 	@Override
-	public void addAccomodation(Integer placeId, Accomodation accomodation) {
-		accomodation.setPayments(new HashMap<>());
-		placesMap.get(placeId).setAccomodation(accomodation);
+	public void addAccommodation(Integer placeId, Accommodation accommodation) {
+		accommodation.setPayments(new HashMap<>());
+		placesMap.get(placeId).setaccommodation(accommodation);
 		
 	}
 
 	@Override
-	public void updateAccomodation(Integer placeId, Accomodation accomodation) {
-		placesMap.get(placeId).setAccomodation(accomodation);
+	public void updateAccommodation(Integer placeId, Accommodation accommodation) {
+		placesMap.get(placeId).setaccommodation(accommodation);
 	}
 
 	@Override
-	public void deleteAccomodation(Integer placeId) {
-		placesMap.get(placeId).setAccomodation(null);
+	public void deleteAccommodation(Integer placeId) {
+		placesMap.get(placeId).setaccommodation(null);
 	}
 
 	@Override
-	public AccomodationPayment getAccommodationPayment(Integer placeId, Integer paymentId) {
-		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+	public AccommodationPayment getAccommodationPayment(Integer placeId, Integer paymentId) {
+		Accommodation accommodation = placesMap.get(placeId).getaccommodation();
 		return accommodation == null ? null : accommodation.getPayment(paymentId);
 	}
 
 	@Override
-	public void addAccommodationPayment(Integer placeId, AccomodationPayment payment) {
-		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+	public void addAccommodationPayment(Integer placeId, AccommodationPayment payment) {
+		Accommodation accommodation = placesMap.get(placeId).getaccommodation();
 		if(accommodation != null)
 			accommodation.addPayment(payment);
 	}
 
 	@Override
 	public void updateAccommodationPayment(Integer placeId, Integer paymentId,
-			AccomodationPayment payment) {
-		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+			AccommodationPayment payment) {
+		Accommodation accommodation = placesMap.get(placeId).getaccommodation();
 		if(accommodation != null)
 			accommodation.setPayment(paymentId, payment);
 	}
 
 	@Override
 	public void deleteAccommodationPayment(Integer placeId, Integer paymentId) {
-		Accomodation accommodation = placesMap.get(placeId).getAccomodation();
+		Accommodation accommodation = placesMap.get(placeId).getaccommodation();
 		if(accommodation != null)
 			accommodation.removePayment(paymentId);
 	}

@@ -26,8 +26,8 @@ import javax.ws.rs.core.UriInfo;
 
 import aiss.exceptions.BadEntityRequestException;
 import aiss.exceptions.EntityNotFoundException;
-import aiss.model.Accomodation;
-import aiss.model.AccomodationPayment;
+import aiss.model.Accommodation;
+import aiss.model.AccommodationPayment;
 import aiss.model.Place;
 import aiss.model.PlaceCategory;
 import aiss.model.Review;
@@ -176,8 +176,8 @@ public class PlaceResource {
 					+ " when updating a place. "
 					+ "If you want to add reviews to a place GO TO POST /places/{placeId}/reviews");
 				
-		if (place.getAccomodation() != null)
-			throw new BadEntityRequestException("Accomodation must not be initialized"
+		if (place.getaccommodation() != null)
+			throw new BadEntityRequestException("accommodation must not be initialized"
 					+ " when creating a place (Not the right operation)");
 		
 
@@ -214,12 +214,12 @@ public class PlaceResource {
 		if(place == null)
 			throw new BadEntityRequestException("The place with id=" + placeId +" not found");
 		
-		Accomodation accomodation = place.getAccomodation();
+		Accommodation accommodation = place.getaccommodation();
 		
-		if(accomodation == null)
+		if(accommodation == null)
 			throw new BadEntityRequestException("The place does not have an associated accommodation");
 		
-		return Response.status(Status.OK).entity(accomodation).build();
+		return Response.status(Status.OK).entity(accommodation).build();
 	}
 	
 	@POST
@@ -227,19 +227,19 @@ public class PlaceResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addAccommodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
-			Accomodation accommodation) {
+			Accommodation accommodation) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
 		if(place == null)
 			throw new BadEntityRequestException("The place with id=" + placeId +" not found");
 		
-		if(!place.getCategory().equals(PlaceCategory.ACCOMODATION))
+		if(!place.getCategory().equals(PlaceCategory.ACCOMMODATION))
 			throw new BadEntityRequestException("Cannot add accommodation data to a place not classified "
-					+ "as an accomodation");
+					+ "as an accommodation");
 		
 		if(accommodation.getNumberOfRooms() == null)
-			throw new BadEntityRequestException("An accomodation must have a number of rooms");
+			throw new BadEntityRequestException("An accommodation must have a number of rooms");
 		
 		if(accommodation.getNumberOfRooms() < 0)
 			throw new BadEntityRequestException("The number of rooms in an accommodation must be "
@@ -253,7 +253,7 @@ public class PlaceResource {
 		accommodation.setPayments(new HashMap<>());
 		
 		System.out.println("Added with type: " + accommodation.getType());
-		placeRepository.addAccomodation(placeId, accommodation);
+		placeRepository.addAccommodation(placeId, accommodation);
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation");
 		URI uri = ub.build(placeId);
@@ -266,17 +266,17 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, Accomodation accommodation) {
+	public Response updateAccommodation(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, Accommodation accommodation) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
 		if(place == null)
 			throw new EntityNotFoundException("The place with id=" + placeId +" was not found");
 		
-		Accomodation oldAccommodation = place.getAccomodation();
+		Accommodation oldAccommodation = place.getaccommodation();
 		
 		if(oldAccommodation == null)
-			throw new BadEntityRequestException("Cannot update a nonexistent accomodation, please create "
+			throw new BadEntityRequestException("Cannot update a nonexistent accommodation, please create "
 					+ "an accommodation in the place first");
 		
 		if(accommodation.getPayments() != null)
@@ -295,7 +295,7 @@ public class PlaceResource {
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("accommodation");
 		URI uri = ub.build();
 		ResponseBuilder response = Response.ok(uri);
-		response.entity(place.getAccomodation());			
+		response.entity(place.getaccommodation());			
 		return response.build();
 	}
 	
@@ -307,7 +307,7 @@ public class PlaceResource {
 		if (place == null)
 			throw new EntityNotFoundException("The place with id=" + placeId + " was not found");
 		
-		placeRepository.deleteAccomodation(placeId);
+		placeRepository.deleteAccommodation(placeId);
 		
 		return Response.noContent().build();
 	}
@@ -324,7 +324,7 @@ public class PlaceResource {
 		if(place == null)
 			throw new EntityNotFoundException("The place with id=" + placeId +" not found");
 		
-		Accomodation accommodation = place.getAccomodation();
+		Accommodation accommodation = place.getaccommodation();
 		
 		if(accommodation == null)
 			throw new BadEntityRequestException("The place does not have an associated accommodation");
@@ -344,12 +344,12 @@ public class PlaceResource {
 		if(place == null)
 			throw new BadEntityRequestException("The place with id=" + placeId +" not found");
 		
-		Accomodation accommodation = place.getAccomodation();
+		Accommodation accommodation = place.getaccommodation();
 		
 		if(accommodation == null)
 			throw new BadEntityRequestException("The place does not have an associated accommodation");
 		
-		AccomodationPayment payment = accommodation.getPayment(paymentId);
+		AccommodationPayment payment = accommodation.getPayment(paymentId);
 		
 		if(payment == null)
 			throw new EntityNotFoundException("The specified payment was not found");
@@ -362,14 +362,14 @@ public class PlaceResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addAccommodationPayment(@Context UriInfo uriInfo, 
-			@PathParam("placeId") Integer placeId, AccomodationPayment payment) {
+			@PathParam("placeId") Integer placeId, AccommodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
 		if(place == null)
 			throw new BadEntityRequestException("The place with id=" + placeId +" not found");
 		
-		Accomodation accommodation = place.getAccomodation();
+		Accommodation accommodation = place.getaccommodation();
 			
 		if(accommodation == null)
 			throw new BadEntityRequestException("The place does not have any accommodation data to modify");
@@ -405,20 +405,20 @@ public class PlaceResource {
 	@Path("/{placeId}/accommodation/payment/{payId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response updateAccomodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
-			@PathParam("payId") Integer paymentId, AccomodationPayment payment) {
+	public Response updateAccommodationPayment(@Context UriInfo uriInfo, @PathParam("placeId") Integer placeId, 
+			@PathParam("payId") Integer paymentId, AccommodationPayment payment) {
 		
 		Place place = placeRepository.getPlace(placeId);
 		
 		if(place == null)
 			throw new BadEntityRequestException("The place with id=" + placeId +" not found");
 		
-		Accomodation accommodation = place.getAccomodation();
+		Accommodation accommodation = place.getaccommodation();
 		
 		if(accommodation == null)
 			throw new BadEntityRequestException("The place does not have any accommodation data to modify");
 		
-		AccomodationPayment oldPayment = accommodation.getPayment(paymentId);
+		AccommodationPayment oldPayment = accommodation.getPayment(paymentId);
 		
 		if(oldPayment == null)
 			throw new BadEntityRequestException("Payment with id " + paymentId + " not found");

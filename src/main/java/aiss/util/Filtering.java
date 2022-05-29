@@ -12,26 +12,24 @@ public class Filtering {
 	
 	public static final Map<String, Function<String, Predicate<Place>>> placeFilters = Map.ofEntries(
 		
-			Map.entry("type", toFilter->(p->PlacesUtil.getCategoriesToFilter(toFilter).contains(p.getCategory()))),
-			
 			Map.entry("name", toFilter-> (p->p.getName().toLowerCase().contains(toFilter.toLowerCase()))),
 			
-			Map.entry("accomodationType", toFilter-> (p->p.accomodationMatches(
+			Map.entry("accommodationType", toFilter-> (p->p.accommodationMatches(
 					ac-> PlacesUtil.stringMatchesEnum(ac.getType(), toFilter)))),
 			
-			Map.entry("paymentPeriod", toFilter-> (p->p.accomodationMatches(
+			Map.entry("paymentPeriod", toFilter-> (p->p.accommodationMatches(
 					ac-> ac.anyPaymentsMatch(pay->PlacesUtil.stringMatchesEnum(pay.getPaymentPeriod(),toFilter))))),
 			
-			Map.entry("mealService", toFilter -> (p->p.accomodationMatches(
+			Map.entry("mealService", toFilter -> (p->p.accommodationMatches(
 					ac-> ac.anyPaymentsMatch(pay->PlacesUtil.stringMatchesEnum(pay.getMealService(),toFilter))))),
 			
-			Map.entry("roomType", toFilter -> (p->p.accomodationMatches(
+			Map.entry("roomType", toFilter -> (p->p.accommodationMatches(
 					ac-> ac.anyPaymentsMatch(pay->PlacesUtil.stringMatchesEnum(pay.getRoomType(),toFilter))))),
 			
-			Map.entry("minAccomodationPrice", toFilter->(p->p.accomodationMatches(
+			Map.entry("minaccommodationPrice", toFilter->(p->p.accommodationMatches(
 					ac -> ac.getMaxMonthlyPrice() >= PlacesUtil.safeParseDouble(toFilter)))),
 			
-			Map.entry("maxAccomodationPrice", toFilter->(p->p.accomodationMatches(
+			Map.entry("maxaccommodationPrice", toFilter->(p->p.accommodationMatches(
 					ac -> ac.getMinMonthlyPrice() <= PlacesUtil.safeParseDouble(toFilter)))),
 			
 			Map.entry("minRating", toFilter->(p->p.getRating() >= PlacesUtil.safeParseDouble(toFilter))),
