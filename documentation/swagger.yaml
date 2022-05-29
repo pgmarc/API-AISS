@@ -819,7 +819,7 @@ paths:
     put:
       tags:
       - accommodations
-      summary: Updates the specified payment from the place's accommodation
+      summary: Updates the specified payment method from the place's accommodation
       parameters:
       - name: placeId
         in: path
@@ -835,8 +835,13 @@ paths:
         explode: false
         schema:
           type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccomodationPayments'
       responses:
-        "201":
+        "200":
           description: Successfully updated payment
           content:
             application/json:
@@ -1808,7 +1813,7 @@ components:
       value:
         name: Catedral de Sevilla
         address: "Av. de la Constitución, s/n, 41004 Sevilla"
-        web: https://www.catedraldesevilla.es
+        website: https://www.catedraldesevilla.es
         location:
           latitude: 37.38586299856296
           longitude: -5.993103877606445
@@ -1818,7 +1823,7 @@ components:
         name: This is a test of place
         email: test@testing.com
         address: C. Test s/n
-        web: https://foobar.com
+        website: https://foobar.com
         location:
           latitude: 25.000777231550654
           longitude: -71.00017170317003
@@ -1828,7 +1833,7 @@ components:
         name: This is an updated place
         email: updaetedTest@updatedtesting.com
         address: C.Update Test s/n
-        web: https://updatedfoobar.com
+        website: https://updatedfoobar.com
     Estanislao:
       description: Example of a Place with Accommodation
       value:
